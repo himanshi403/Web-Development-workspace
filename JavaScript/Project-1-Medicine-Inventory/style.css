@@ -1,0 +1,34 @@
+body{
+    font-family: Arial, sans-serif;
+    padding:30px;
+
+}
+
+input{
+    padding:10px;
+    margin:5px;
+}
+button{
+    padding:10px;
+    margin:5px;
+    cursor:pointer;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+}
+
+.card{
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin: 10px;
+    width: 100px;
+    border-radius: 5px;
+    background-color: #e1bacf;
+
+}
+#medicineList {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
