@@ -1,0 +1,41 @@
+body{
+
+    font-family:Arial;
+
+    margin:40px;
+
+}
+
+.form{
+
+    display:flex;
+
+    gap:10px;
+
+    margin-bottom:20px;
+
+}
+
+input,select{
+
+    padding:10px;
+
+}
+
+button{
+
+    padding:10px;
+
+    cursor:pointer;
+
+}
+
+.job{
+
+    border:1px solid gray;
+
+    margin:10px 0;
+
+    padding:15px;
+
+}
