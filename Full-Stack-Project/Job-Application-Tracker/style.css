@@ -25,7 +25,10 @@ input,select{
 button{
 
     padding:10px;
-
+    border:none;
+    background-color:rgb(10, 191, 79);
+    color:white;
+    border-radius:5px;
     cursor:pointer;
 
 }
@@ -38,4 +41,8 @@ button{
 
     padding:15px;
 
+}
+.job button{
+    background-color:rgb(255, 0, 0);
+    margin-top: 10px;
 }
