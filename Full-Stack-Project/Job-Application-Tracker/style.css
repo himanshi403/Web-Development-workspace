@@ -1,24 +1,94 @@
 body{
 
     font-family:Arial;
+    background:#f4f6f9;
+    margin:0;
+    padding: 40px;
 
-    margin:40px;
+}
+/*website will become centered*/
+.container{
+
+max-width:900px;
+
+margin:auto;
+
+}
+h1{
+
+font-size:40px;
+
+margin-bottom:25px;
+
+color:#1d3557;
 
 }
 
-.form{
+.form-row{
 
-    display:flex;
+display:flex;
 
-    gap:10px;
+gap:15px;
 
-    margin-bottom:20px;
+margin-bottom:25px;
 
 }
 
-input,select{
 
-    padding:10px;
+.form-row input,
+.form-row select{
+
+flex:1;
+
+padding:12px;
+
+font-size:16px;
+
+border-radius:8px;
+
+border:1px solid #ccc;
+
+}
+.form-row button:hover{
+
+background:#218838;
+
+}
+
+.stats{
+
+display:grid;
+
+grid-template-columns:repeat(5,1fr);
+
+gap:15px;
+
+margin:25px 0;
+
+}
+
+.stat-card{
+
+background:white;
+
+padding:15px;
+
+border-radius:12px;
+
+text-align:center;
+
+box-shadow:0 5px 15px rgba(0,0,0,.1);
+
+}
+.stat-card p{
+
+font-size:24px;
+
+font-weight:bold;
+
+margin:10px 0 0;
+
+color:#1976d2;
 
 }
 
@@ -56,10 +126,7 @@ transform:translateY(-4px);
 box-shadow:0 10px 20px rgba(0,0,0,.2);
 
 }
-.job button{
-    background-color:rgb(255, 0, 0);
-    margin-top: 10px;
-}
+
 .header{
 
 display:flex;
@@ -82,6 +149,21 @@ border-radius:20px;
 font-size:13px;
 
 }
+.edit-btn{
+
+background:#1976d2;
+
+color:white;
+
+}
+.delete-btn{
+
+background:#e53935;
+
+color:white;
+
+}
+
 .status{
 
 background:#1976d2;

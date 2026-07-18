@@ -101,15 +101,15 @@ return;
 
                <p><strong>Role:</strong> ${job.role}</p>
 
-                                <div class="buttons">
+       <div class="buttons">
 
-                         <button onclick="editJob(${job.id})">
-                                          Edit
-                      </button>
+       <button class="edit-btn" onclick="editJob(${job.id})">
+                Edit
+       </button>
 
-                  <button onclick="deleteJob(${job.id})">
-                                  Delete
-                 </button>
+        <button class="delete-btn" onclick="deleteJob(${job.id})">
+                 Delete
+        </button>
 
                </div>
 
@@ -117,7 +117,7 @@ return;
                 `;
         
         })
-        
+
         updateStats();
     }
 
