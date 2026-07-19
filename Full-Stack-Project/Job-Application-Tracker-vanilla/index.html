@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Application Tracker</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class=""container>
+    <h1>Job Application Tracker</h1>
+    </div>
+
+    <div class="form-row">
+        <input
+        id="company"
+        type="text"
+        placeholder="Company Name">
+
+        <input
+        id="role"
+        type="text"
+        placeholder="Role">
+
+        <select id="status">
+            <option>Applied</option>
+            <option>Interview</option>
+            <option>Rejected</option>
+            <option>Offered</option>
+        </select>
+        <button id="addBtn">
+            Add Job
+        </button>
+
+    </div>
+    <hr>
+    <input id="search" type="text" placeholder="Search company">
+    <select id="filter">
+
+<option>All</option>
+
+<option>Applied</option>
+
+<option>Interview</option>
+
+<option>Offer</option>
+
+<option>Rejected</option>
+
+</select>
+
+<div class="stats">
+    <div class="stat-card">
+    <h3>Total</h3>
+        <p id="totalJobs">0</p>
+    </div>
+
+<div class="stat-card">
+    <h3>Applied</h3>
+<p id="appliedJobs">0</p>
+</div>
+
+<div class="stat-card">
+    <h3>Interview</h3>
+<p id="interviewJobs">0</p>
+</div>
+<div class="stat-card">
+<h3>Offer</h3>
+<p id="offerJobs"></p>
+</div>
+
+<div class="stat-card">
+<h3>Rejected</h3>
+<p id="rejectedJobs"></p>
+</div>
+</div>
+<div id="jobList">
+    </div>
+
+    <script src="script.js"></script>
+
+</body>
+</html>
