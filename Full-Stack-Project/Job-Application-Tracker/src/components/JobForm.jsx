@@ -1,6 +1,61 @@
-function JobForm(){
+import {useState} from "react"
+
+function JobForm({addJob}){
+  const [company, setCompany] = useState("");
+  const [role, setRole] = useState("");
+  const [status, setStatus] = useState("Applied");
     return(
-        <h2>jobForm component</h2>
+        <div className="jobForm">
+        <h2>Add new job</h2>
+        <input
+        type="text"
+        placeholder="company"
+        value={company}
+        onChange={(e)=>setCompany(e.target.value)} />
+
+        <input
+        type="text"
+        placeholder="Role"
+        value={role}
+        onChange={(e)=>setRole(e.target.value)} />
+
+        <select
+        value={status}
+        onChange={(e)=>setStatus(e.target.value)}>
+        <option>Applied</option>
+        <option>Interview</option>
+        <option>Offer</option>
+        <option>Rejected</option>
+        </select>
+
+        <button onClick={handleSubmit}>
+            Add Job </button>
+
+        </div>
+
+    
     );
+
+        function handleSubmit(){
+
+    if(company==="" || role===""){
+
+        alert("Fill all fields");
+
+        return;
+
+    }
+
+    const newJob={
+        id:Date.now(),
+        company,
+        role,
+        status
+    };
+    addJob(newJob);
+    setCompany("");
+    setRole("");
+    setStatus("Applied");
+}
 }
 export default JobForm;

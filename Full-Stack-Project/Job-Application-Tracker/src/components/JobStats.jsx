@@ -1,6 +1,15 @@
-function jobStats(){
+function Stats({jobs}){
+
     return(
-        <h2>jobStats component</h2>
+
+        <div>
+
+            <h2>Total Jobs : {jobs.length}</h2>
+
+        </div>
+
     );
+
 }
-export default jobStats;
+
+export default Stats;
