@@ -2,17 +2,46 @@ function JobList({
 jobs,
 deleteJob,
 editJob,
-search
+search,
+sortBy,
+statusFilter
 })
 
 
 {
 const filteredJobs=
 
-jobs.filter(job=>job.company
-.toLowerCase().includes(search.toLowerCase())
+jobs.filter(job=>{
+const matchesSearch=job.company
+.toLowerCase().includes(search.toLowerCase());
 
-);
+const matchesStatus=statusFilter==="All"||job.status===statusFilter;
+
+return matchesSearch && matchesStatus
+;
+})
+
+.sort((a,b)=>{
+    if(sortBy==="newest"){
+        return b.id-a.id;
+    }
+
+    if(sortBy==="oldest"){
+        return a.id-b.id;
+    }
+    if(sortBy==="az"){
+        return a.company.localeCompare(b.company);
+    }
+
+    if(sortBy==="za"){
+        return b.company.localeCompare(a.company);
+    }
+
+    if(sortBy==="status"){
+        return a.status.localeCompare(b.status);
+    }
+    return 0;
+});
 
 if(filteredJobs.length===0){
 

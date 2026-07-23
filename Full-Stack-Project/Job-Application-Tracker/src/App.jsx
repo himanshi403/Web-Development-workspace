@@ -9,6 +9,8 @@ import JobList from "./components/JobList";
 function App(){
   const[jobs,setJobs]=useState([]);
   const [editingJob, setEditingJob] = useState(null);
+  const[sortBy,setSortBy]=useState("newest");
+  const [statusFilter, setStatusFilter] = useState("All");
 
 useEffect(() => {
 
@@ -61,11 +63,29 @@ job.id===updatedJob.id?updatedJob:job
 setEditingJob(null);
 
 }
+
+
   return(
   <div>
+    <header className="dashboard-header">
+
+<h1>Job Application Tracker</h1>
+
+<p>
+
+Track every application,
+
+interview and offer in one place.
+
+</p>
+
+</header>
   <Navbar 
      search={search}
      setSearch={setSearch}
+     sortBy={sortBy}
+     setSortBy={setSortBy}
+     statusFilter={statusFilter}setStatusFilter={setStatusFilter}
   />
   <JobForm 
   addJob={addJob}
@@ -77,6 +97,8 @@ setEditingJob(null);
            deleteJob={deleteJob}
            editJob={editJob}
            search={search}
+           sortBy={sortBy}
+           statusFilter={statusFilter}
    />
   </div>
   );

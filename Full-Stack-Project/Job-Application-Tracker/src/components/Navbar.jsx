@@ -1,8 +1,11 @@
 function Navbar({
 
 search,
-
-setSearch
+setSearch,
+sortBy,
+setSortBy,
+statusFilter,
+setStatusFilter
 
 }){
 
@@ -27,6 +30,34 @@ value={search}
 onChange={(e)=>setSearch(e.target.value)}
 
 />
+
+<select
+    value={sortBy}
+    onChange={(e)=>setSortBy(e.target.value)}
+>
+
+<option value="newest">Newest</option>
+
+<option value="oldest">Oldest</option>
+
+<option value="az">Company A-Z</option>
+
+<option value="za">Company Z-A</option>
+
+<option value="status">Status</option>
+
+</select>
+
+<select
+    value={statusFilter}
+    onChange={(e)=>setStatusFilter(e.target.value)}
+>
+    <option value="All">All Status</option>
+    <option value="Applied">Applied</option>
+    <option value="Interview">Interview</option>
+    <option value="Offer">Offer</option>
+    <option value="Rejected">Rejected</option>
+</select>
 
 </div>
 
