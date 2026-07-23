@@ -1,9 +1,29 @@
-import {useState} from "react"
+import {useState,useEffect} from "react";
 
-function JobForm({addJob}){
+function JobForm({
+    addJob,
+    editingJob,
+    updateJob
+
+}){
   const [company, setCompany] = useState("");
   const [role, setRole] = useState("");
   const [status, setStatus] = useState("Applied");
+
+useEffect(()=>{
+
+if(editingJob){
+
+setCompany(editingJob.company);
+
+setRole(editingJob.role);
+
+setStatus(editingJob.status);
+
+}
+
+},[editingJob]);
+
     return(
         <div className="jobForm">
         <h2>Add new job</h2>
@@ -29,14 +49,18 @@ function JobForm({addJob}){
         </select>
 
         <button onClick={handleSubmit}>
-            Add Job </button>
+            {
+                editingJob?"UpdateJob":"Add Job"
+            }
+            
+        </button>
 
         </div>
 
     
     );
 
-        function handleSubmit(){
+    function handleSubmit(){
 
     if(company==="" || role===""){
 
@@ -52,7 +76,28 @@ function JobForm({addJob}){
         role,
         status
     };
-    addJob(newJob);
+
+if(editingJob){
+
+updateJob({
+
+id:editingJob.id,
+
+company,
+
+role,
+
+status
+
+});
+
+}else{
+
+addJob(newJob);
+
+}
+
+
     setCompany("");
     setRole("");
     setStatus("Applied");
