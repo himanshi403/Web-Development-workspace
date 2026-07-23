@@ -7,16 +7,28 @@ import JobList from "./components/JobList";
 
 function App(){
   const[jobs,setJobs]=useState([]);
+  const [search,setSearch]=useState("");
 
   function addJob(job){
     setJobs([...jobs,job]);
   }
+  function deleteJob(id){
+    setJobs(
+      jobs.filter(job=>job.id!==id)
+    );
+  }
   return(
   <div>
-  <Navbar />
+  <Navbar 
+     search={search}
+     setSearch={setSearch}
+  />
   <JobForm addJob={addJob}/>
   <JobStats jobs={jobs} />
-  <JobList jobs={jobs} />
+  <JobList jobs={jobs}
+           deleteJob={deleteJob}
+           search={search}
+   />
   </div>
   );
 } 

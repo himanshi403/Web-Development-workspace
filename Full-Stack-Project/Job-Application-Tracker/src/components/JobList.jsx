@@ -1,20 +1,31 @@
-function JobList({jobs}){
-    if(jobs.length===0){
-    return
-        <h2>No jobs Added</h2>;
-}
+function JobList({
+jobs,
+deleteJob,
+search
+})
 
+
+{
+const filteredJobs=
+
+jobs.filter(job=>job.company
+.toLowerCase().includes(search.toLowerCase())
+
+);
 return(
-    <div>
-        {
-            jobs.map((job)=>(
-                <div key={job.id}>
-                    <h3>{job.company}</h3>
-                    <p>{job.role}</p>
-                    <p>{job.status}</p>
-                    </div>
-            ))
-        }
+
+<div>
+{ filteredJobs.map((job)=>(
+    <div className="job-card" key={job.id}>
+    <h3>{job.company}</h3>
+    <p>{job.role}</p>
+    <p>{job.status}</p>
+
+<button onClick={()=>deleteJob(job.id)}>Delete</button>
+
+</div>
+                    
+ ))}
     </div>
 );
 }
