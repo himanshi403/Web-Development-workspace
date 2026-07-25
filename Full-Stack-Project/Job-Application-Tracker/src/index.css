@@ -45,9 +45,7 @@ width:250px;
 
 .status{
 
-display:inline-block;
-
-padding:6px 14px;
+padding:6px 12px;
 
 border-radius:20px;
 
@@ -55,34 +53,34 @@ font-size:14px;
 
 font-weight:bold;
 
-margin-top:8px;
+display:inline-block;
 
-margin-bottom:12px;
+margin-top:8px;
 
 color:white;
 
 }
 .applied{
 
-background:#3b82f6;
+background:#3498db;
 
 }
 
 .interview{
 
-background:#f59e0b;
+background:#f39c12;
 
 }
 
 .offer{
 
-background:#16a34a;
+background:#2ecc71;
 
 }
 
 .rejected{
 
-background:#dc2626;
+background:#e74c3c;
 
 }
 button{
@@ -278,5 +276,30 @@ opacity:1;
 transform:translateY(0);
 
 }
+
+}
+.toast{
+
+display:flex;
+
+align-items:center;
+
+gap:20px;
+
+}
+
+.toast button{
+
+background:none;
+
+border:none;
+
+color:#4da6ff;
+
+font-weight:bold;
+
+cursor:pointer;
+
+font-size:15px;
 
 }

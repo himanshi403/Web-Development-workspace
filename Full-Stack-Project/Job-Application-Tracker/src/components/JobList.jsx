@@ -64,7 +64,7 @@ return(
     <div className="job-card" key={job.id}>
     <h3>{job.company}</h3>
     <p>{job.role}</p>
-    <p className={`status ${job.status.toLowerCase()}`}>{job.status}</p>
+    <span className={`status ${job.status.toLowerCase()}`}>{job.status}</span>
 
 <button onClick={()=>deleteJob(job)}>Delete</button>
 

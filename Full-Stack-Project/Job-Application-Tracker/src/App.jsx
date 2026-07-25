@@ -1,10 +1,21 @@
 import {useState} from "react";
 import {useEffect} from "react";
 
-import Navbar from "./components/Navbar";
-import JobForm from "./components/JobForm";
-import JobStats from "./components/JobStats";
-import JobList from "./components/JobList";
+import {
+
+BrowserRouter,
+
+Routes,
+
+Route
+
+} from "react-router-dom";
+
+
+import Landing from "./pages/Landing";
+import Login from "./pages/Login";
+import SignUp from "./pages/Signup";
+import Dashboard from "./pages/Dashboard";
 
 function App(){
   const[jobs,setJobs]=useState([]);
@@ -62,13 +73,27 @@ job=>job.id!==jobToDelete.id
 )
 
 );
-showToast("🗑 Job deleted successfully");
-
 setJobToDelete(null);
+showToast("🗑 Job deleted successfully");
+const timer=setTimeout(()=>{
+  setLastDeletedJob(null);
+  setToast("");
+},5000);
+
+setUndoTimer(timer);
 
 }
 
-  function editJob(job){
+function undoDelete(){
+  if(lastDeletedJob){
+    setJobs([...jobs,lastDeletedJob]);
+    clearTimeout(undoTimer);
+    setLastDeletedJob(null);
+    setToast("");
+  }
+}
+
+function editJob(job){
 
 setEditingJob(job);
 setShowForm(true);
@@ -102,129 +127,95 @@ function showToast(message){
 
 
   return(
-  <div>
-    <header className="dashboard-header">
 
-<h1>Job Application Tracker</h1>
+<BrowserRouter>
 
-<p>
+<Routes>
 
-Track every application,
+<Route
 
-interview and offer in one place.
+path="/"
 
-</p>
+element={<Landing/>}
 
-</header>
-<button
-onClick={()=>setShowForm(!showForm)}
-className="toggle-btn"
->
+/>
 
-{showForm ? "Close Form" : "+ Add New Job"}
+<Route
 
-</button>
-  <Navbar 
-     search={search}
-     setSearch={setSearch}
-     sortBy={sortBy}
-     setSortBy={setSortBy}
-     statusFilter={statusFilter}setStatusFilter={setStatusFilter}
-  />
+path="/login"
 
-  {
-showForm && (
-  <JobForm 
-  addJob={addJob}
-  closeForm={() => setShowForm(false)}
-  editingJob={editingJob}
-  updateJob={updateJob}
-  />
-)}
+element={<Login/>}
 
-  <JobStats jobs={jobs} />
-  <JobList jobs={jobs}
-           deleteJob={(job)=>setJobToDelete(job)}
-           editJob={editJob}
-           search={search}
-           sortBy={sortBy}
-           statusFilter={statusFilter}
-   />
+/>
 
+<Route
 
-  {
-jobToDelete && (
+path="/signup"
 
-<div className="modal-overlay">
+element={<SignUp/>}
 
-<div className="modal">
+/>
 
-<h2>Delete Job?</h2>
+<Route
 
-<p>
+path="/dashboard"
 
-Are you sure you want to delete
+element={
 
-<strong> {jobToDelete.company} </strong>
+<Dashboard
 
-?
+jobs={jobs}
 
-</p>
+search={search}
 
-<p>
+setSearch={setSearch}
 
-Role :
+sortBy={sortBy}
 
-{jobToDelete.role}
+setSortBy={setSortBy}
 
-</p>
+statusFilter={statusFilter}
 
-<div className="modal-buttons">
+setStatusFilter={setStatusFilter}
 
-<button
+showForm={showForm}
 
-onClick={()=>setJobToDelete(null)}
+setShowForm={setShowForm}
 
->
+editingJob={editingJob}
 
-Cancel
+jobToDelete={jobToDelete}
+lastDeletedJob={lastDeletedJob}
 
-</button>
+undoDelete={undoDelete}
 
-<button
+toast={toast}
 
-onClick={confirmDelete}
+addJob={addJob}
 
->
+deleteJob={(job) => setJobToDelete(job)}
 
-Delete
+confirmDelete={confirmDelete}
 
-</button>
+editJob={editJob}
 
-</div>
+updateJob={updateJob}
 
-</div>
+setJobToDelete={setJobToDelete}
 
-</div>
+closeToast={()=>setToast("")}
 
-)
+/>
+
 }
 
+/>
 
+</Routes>
 
-{
-  toast && (
-    <div className="toast">
-      {toast}
-      </div>
-  )
-}
+</BrowserRouter>
 
-
-
-
-  </div>
-  );
+);
 } 
 
 export default App;
