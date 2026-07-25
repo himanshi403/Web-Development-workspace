@@ -236,3 +236,47 @@ cursor:pointer;
 font-weight:bold;
 
 }
+
+.toast{
+
+position:fixed;
+
+bottom:25px;
+
+right:25px;
+
+background:#222;
+
+color:white;
+
+padding:14px 22px;
+
+border-radius:10px;
+
+font-weight:600;
+
+box-shadow:0 6px 18px rgba(0,0,0,.3);
+
+animation:slideUp .3s ease;
+
+}
+
+@keyframes slideUp{
+
+from{
+
+opacity:0;
+
+transform:translateY(30px);
+
+}
+
+to{
+
+opacity:1;
+
+transform:translateY(0);
+
+}
+
+}

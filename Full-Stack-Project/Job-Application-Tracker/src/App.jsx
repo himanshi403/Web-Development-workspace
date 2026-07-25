@@ -13,6 +13,14 @@ function App(){
   const [statusFilter, setStatusFilter] = useState("All");
   const [showForm,setShowForm]=useState(false);
   const [jobToDelete,setJobToDelete]=useState(null);
+  const[toast,setToast]=useState("");
+   const [search,setSearch]=useState("");
+   const [lastDeletedJob,setLastDeletedJob]=useState(null);
+   const [undoTimer, setUndoTimer] = useState(null);
+
+
+
+
 
 useEffect(() => {
 
@@ -33,18 +41,17 @@ setJobs(savedJobs);
     );
   },[jobs]);
 
-  const [search,setSearch]=useState("");
+ 
 
   function addJob(job){
     setJobs([...jobs,job]);
-  }
-  function deleteJob(id){
-    setJobs(
-      jobs.filter(job=>job.id!==id)
-    );
+    showToast("✅ Job added successfully");
+    setShowForm(false);
   }
 
-  function confirmDelete(){
+
+function confirmDelete(){
+  setLastDeletedJob(jobToDelete);
 
 setJobs(
 
@@ -55,6 +62,7 @@ job=>job.id!==jobToDelete.id
 )
 
 );
+showToast("🗑 Job deleted successfully");
 
 setJobToDelete(null);
 
@@ -63,6 +71,7 @@ setJobToDelete(null);
   function editJob(job){
 
 setEditingJob(job);
+setShowForm(true);
 
 }
 
@@ -77,9 +86,18 @@ job.id===updatedJob.id?updatedJob:job
 )
 
 );
+showToast("✏️ Job updated successfully");
 
 setEditingJob(null);
+setShowForm(false);
 
+}
+
+function showToast(message){
+  setToast(message);//will show job added succesfully!
+  setTimeout(()=>{
+    setToast("");
+  },3000)
 }
 
 
@@ -190,6 +208,16 @@ Delete
 </div>
 
 )
+}
+
+
+
+{
+  toast && (
+    <div className="toast">
+      {toast}
+      </div>
+  )
 }
 
 
