@@ -11,6 +11,8 @@ function App(){
   const [editingJob, setEditingJob] = useState(null);
   const[sortBy,setSortBy]=useState("newest");
   const [statusFilter, setStatusFilter] = useState("All");
+  const [showForm,setShowForm]=useState(false);
+  const [jobToDelete,setJobToDelete]=useState(null);
 
 useEffect(() => {
 
@@ -41,6 +43,22 @@ setJobs(savedJobs);
       jobs.filter(job=>job.id!==id)
     );
   }
+
+  function confirmDelete(){
+
+setJobs(
+
+jobs.filter(
+
+job=>job.id!==jobToDelete.id
+
+)
+
+);
+
+setJobToDelete(null);
+
+}
 
   function editJob(job){
 
@@ -80,6 +98,14 @@ interview and offer in one place.
 </p>
 
 </header>
+<button
+onClick={()=>setShowForm(!showForm)}
+className="toggle-btn"
+>
+
+{showForm ? "Close Form" : "+ Add New Job"}
+
+</button>
   <Navbar 
      search={search}
      setSearch={setSearch}
@@ -87,19 +113,88 @@ interview and offer in one place.
      setSortBy={setSortBy}
      statusFilter={statusFilter}setStatusFilter={setStatusFilter}
   />
+
+  {
+showForm && (
   <JobForm 
   addJob={addJob}
+  closeForm={() => setShowForm(false)}
   editingJob={editingJob}
   updateJob={updateJob}
   />
+)}
+
   <JobStats jobs={jobs} />
   <JobList jobs={jobs}
-           deleteJob={deleteJob}
+           deleteJob={(job)=>setJobToDelete(job)}
            editJob={editJob}
            search={search}
            sortBy={sortBy}
            statusFilter={statusFilter}
    />
+
+
+  {
+jobToDelete && (
+
+<div className="modal-overlay">
+
+<div className="modal">
+
+<h2>Delete Job?</h2>
+
+<p>
+
+Are you sure you want to delete
+
+<strong> {jobToDelete.company} </strong>
+
+?
+
+</p>
+
+<p>
+
+Role :
+
+{jobToDelete.role}
+
+</p>
+
+<div className="modal-buttons">
+
+<button
+
+onClick={()=>setJobToDelete(null)}
+
+>
+
+Cancel
+
+</button>
+
+<button
+
+onClick={confirmDelete}
+
+>
+
+Delete
+
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+)
+}
+
+
+
+
   </div>
   );
 } 

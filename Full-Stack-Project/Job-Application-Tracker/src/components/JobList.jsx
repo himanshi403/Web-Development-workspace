@@ -66,7 +66,7 @@ return(
     <p>{job.role}</p>
     <p className={`status ${job.status.toLowerCase()}`}>{job.status}</p>
 
-<button onClick={()=>deleteJob(job.id)}>Delete</button>
+<button onClick={()=>deleteJob(job)}>Delete</button>
 
 <button onClick={()=>editJob(job)}>Edit</button>
 

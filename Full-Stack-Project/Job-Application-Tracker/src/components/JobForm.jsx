@@ -3,7 +3,8 @@ import {useState,useEffect} from "react";
 function JobForm({
     addJob,
     editingJob,
-    updateJob
+    updateJob,
+    closeForm
 
 }){
   const [company, setCompany] = useState("");
@@ -26,7 +27,7 @@ setStatus(editingJob.status);
 
     return(
         <div className="jobForm">
-        <h2>Add new job</h2>
+        
         <input
         type="text"
         placeholder="company"
@@ -95,7 +96,9 @@ status
 
 addJob(newJob);
 
+
 }
+closeForm();
 
 
     setCompany("");
