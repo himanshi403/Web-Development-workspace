@@ -303,3 +303,116 @@ cursor:pointer;
 font-size:15px;
 
 }
+
+.dashboard-layout{
+display:flex;
+min-height:100vh;
+}
+
+.sidebar{
+width:240px;
+background:#1f2937;
+padding:30px;
+display:flex;
+flex-direction:column;
+gap:20px;
+}
+
+.sidebar h2{
+color:white;
+margin-bottom:20px;
+}
+
+.sidebar a{
+color:#d1d5db;
+text-decoration:none;
+padding:10px;
+border-radius:8px;
+}
+
+.sidebar a.active{
+background:#648ed1;
+color:white;
+}
+
+.dashboard-content{
+flex:1;
+padding:30px;
+}
+
+.profile-page{
+padding:30px;
+}
+
+.profile-card{
+max-width:420px;
+margin:auto;
+background:white;
+padding:30px;
+border-radius:15px;
+box-shadow:0 5px 15px rgba(0,0,0,.1);
+text-align:center;
+}
+
+.profile-card img{
+width:120px;
+height:120px;
+border-radius:50%;
+margin-bottom:20px;
+}
+
+.profile-card button{
+margin-top:20px;
+}
+
+.settings-page{
+padding:30px;
+}
+
+.setting-item{
+background:white;
+padding:20px;
+margin-top:20px;
+border-radius:12px;
+box-shadow:0 5px 10px rgba(0,0,0,.1);
+}
+
+.recent-jobs{
+
+margin-top:40px;
+
+}
+
+.recent-job-card{
+
+background:white;
+
+padding:18px;
+
+border-radius:12px;
+
+margin-top:15px;
+
+box-shadow:0 3px 10px rgba(0,0,0,.08);
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+}
+
+.recent-job-card span{
+
+background:#2563eb;
+
+color:white;
+
+padding:6px 12px;
+
+border-radius:20px;
+
+font-size:14px;
+
+}

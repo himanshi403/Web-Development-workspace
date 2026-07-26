@@ -1,7 +1,11 @@
+
 import Navbar from "../components/Navbar";
 import JobForm from "../components/JobForm";
 import JobStats from "../components/JobStats";
 import JobList from "../components/JobList";
+import Sidebar from "../components/Sidebar";
+import Layout from "../components/Layout";
+import RecentJobs from "../components/RecentJobs";
 
 
 function Dashboard({
@@ -43,9 +47,15 @@ undoDelete})
     
 
   return (
+    
 
     
-      <div>
+      <div className="dashboard-layout">
+
+    <Sidebar />
+
+    <div className="dashboard-content">
+
     <header className="dashboard-header">
 
 <h1>Job Application Tracker</h1>
@@ -86,6 +96,7 @@ showForm && (
 )}
 
   <JobStats jobs={jobs} />
+  <RecentJobs jobs={jobs}/>
   <JobList jobs={jobs}
            deleteJob={(job)=>setJobToDelete(job)}
            editJob={editJob}
@@ -185,7 +196,7 @@ Undo
 }
 
 
-
+</div>
 
   </div>
     

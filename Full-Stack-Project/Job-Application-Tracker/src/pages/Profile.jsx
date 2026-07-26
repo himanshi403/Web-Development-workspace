@@ -1,7 +1,10 @@
+import Layout from "../components/Layout";
+
 function Profile(){
     return(
+        <Layout>
         <div className="page">
-            <h1>profile</h1>
+            <h1>My Profile</h1>
 
             <div className="profile-card">
                 <img
@@ -9,11 +12,13 @@ function Profile(){
           alt="Profile"
         /> 
         <h2>Himanshi</h2>
+        <p>Computer Science Student</p>
         <p>Software Developer</p>
         <p>Ambala,Haryana</p>
         <button>Edit Profile</button>
             </div>
         </div>
+        </Layout>
     );
 }
 export default Profile;
