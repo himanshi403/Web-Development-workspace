@@ -5,36 +5,41 @@ function Stats({jobs}){
      <div className="stats">
 
     <div className="stat-card">
-        <h3>Total</h3>
-        <p>{jobs.length}</p>
+         <h3>📄 Total Applications</h3>
+        <h1>{jobs.length}</h1>
+         <small>All tracked jobs</small>
     </div>
 
     <div className="stat-card">
-        <h3>Applied</h3>
-        <p>
+        <h3>📝 Applied</h3>
+        <h1>
             {jobs.filter(job => job.status === "Applied").length}
-        </p>
+        </h1>
+        <small>Waiting for response</small>
     </div>
 
     <div className="stat-card">
-        <h3>Interview</h3>
-        <p>
+        <h3>💼 Interview</h3>
+        <h1>
             {jobs.filter(job => job.status === "Interview").length}
-        </p>
+        </h1>
+        <small>Interviews scheduled</small>
     </div>
 
     <div className="stat-card">
-        <h3>Offer</h3>
-        <p>
+         <h3>🎉 Offer</h3>
+        <h1>
             {jobs.filter(job => job.status === "Offer").length}
-        </p>
+        </h1>
+         <small>Congratulations!</small>
     </div>
 
     <div className="stat-card">
-        <h3>Rejected</h3>
-        <p>
+        <h3>❌ Rejected</h3>
+        <h1>
             {jobs.filter(job => job.status === "Rejected").length}
-        </p>
+        </h1>
+        <small>Keep applying</small>
     </div>
 
 </div>
