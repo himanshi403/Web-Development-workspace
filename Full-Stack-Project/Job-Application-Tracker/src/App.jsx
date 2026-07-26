@@ -157,6 +157,16 @@ element={<SignUp/>}
 />
 
 <Route
+path="/profile"
+element={<Profile />}
+/>
+
+<Route
+path="/settings"
+element={<Settings />}
+/>
+
+<Route
 
 path="/dashboard"
 
@@ -208,6 +218,7 @@ closeToast={()=>setToast("")}
 />
 
 }
+
 
 />
 

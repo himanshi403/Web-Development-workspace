@@ -19,7 +19,7 @@ function SignUp(){
               placeholder="Password"
 
             />
-            <button>Signup</button>
+             <button onClick={() => navigate("/dashboard")}>Signup</button>
 
             <p>
                 Already have an account?

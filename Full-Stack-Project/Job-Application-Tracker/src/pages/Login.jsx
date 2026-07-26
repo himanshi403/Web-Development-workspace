@@ -1,7 +1,10 @@
 import {Link} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function Login(){
+    const navigate = useNavigate();
     return(
+        
         <div className="auth-page">
             <h1>Login</h1>
             <input
@@ -13,7 +16,7 @@ function Login(){
             placeholder="Password"
             />
 
-            <button>Login</button>
+             <button onClick={() => navigate("/dashboard")}>Login</button>
 
             <p>Don't have an account
             <Link to="/signup">
@@ -21,6 +24,8 @@ function Login(){
             </Link>
             </p>
         </div>
+        
     );
+    
 }
 export default Login;
