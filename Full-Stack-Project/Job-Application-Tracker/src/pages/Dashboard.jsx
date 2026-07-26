@@ -6,6 +6,8 @@ import JobList from "../components/JobList";
 import Sidebar from "../components/Sidebar";
 import Layout from "../components/Layout";
 import RecentJobs from "../components/RecentJobs";
+import QuickActions from "../components/QuickActions";
+
 
 
 function Dashboard({
@@ -42,7 +44,24 @@ setJobToDelete,
 confirmDelete,
 
 undoDelete})
+
 {
+  const filteredJobs = jobs
+.filter(job => {
+
+const matchSearch = job.company
+.toLowerCase()
+.includes(search.toLowerCase());
+
+const matchStatus =
+
+statusFilter === "All" ||
+
+job.status === statusFilter;
+
+return matchSearch && matchStatus;
+
+});
 
     
 
@@ -69,6 +88,9 @@ interview and offer in one place.
 </p>
 
 </header>
+<QuickActions
+    setShowForm={setShowForm}
+/>
 <button
 onClick={()=>setShowForm(!showForm)}
 className="toggle-btn"
@@ -77,27 +99,50 @@ className="toggle-btn"
 {showForm ? "Close Form" : "+ Add New Job"}
 
 </button>
-  <Navbar 
-     search={search}
-     setSearch={setSearch}
-     sortBy={sortBy}
-     setSortBy={setSortBy}
-     statusFilter={statusFilter}setStatusFilter={setStatusFilter}
-  />
+<div className="toolbar">
 
-  {
-showForm && (
-  <JobForm 
-  addJob={addJob}
-  closeForm={() => setShowForm(false)}
-  editingJob={editingJob}
-  updateJob={updateJob}
+  <div className="toolbar-left">
+
+    <Navbar
+      search={search}
+      setSearch={setSearch}
+      sortBy={sortBy}
+      setSortBy={setSortBy}
+      statusFilter={statusFilter}
+      setStatusFilter={setStatusFilter}
+    />
+
+  </div>
+
+  <div className="toolbar-right">
+
+    <button
+      onClick={() => setShowForm(!showForm)}
+      className="toolbar-add-btn"
+    >
+      {showForm ? "Close Form" : "+ Add Job"}
+    </button>
+
+  </div>
+
+</div>
+
+{showForm && (
+  <JobForm
+    addJob={addJob}
+    closeForm={() => setShowForm(false)}
+    editingJob={editingJob}
+    updateJob={updateJob}
   />
 )}
 
   <JobStats jobs={jobs} />
+  
   <RecentJobs jobs={jobs}/>
-  <JobList jobs={jobs}
+<p className="results-info">
+  Showing {filteredJobs.length} of {jobs.length} applications
+</p>
+  <JobList jobs={filteredJobs}
            deleteJob={(job)=>setJobToDelete(job)}
            editJob={editJob}
            search={search}
