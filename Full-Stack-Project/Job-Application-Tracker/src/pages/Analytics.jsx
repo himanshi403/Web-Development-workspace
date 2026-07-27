@@ -49,6 +49,7 @@ function Analytics({jobs}){
 
             </div>
              <StatusPieChart jobs={jobs} />
+             <TopCompaniesChart jobs={jobs} />
 
 
         </div>
