@@ -46,12 +46,17 @@ return matchesSearch && matchesStatus
 if(filteredJobs.length===0){
 
 return(
+    <div className="empty-state">
 
 <h2>
 
-No matching jobs found
+📄 No Jobs Found
 
 </h2>
+<p>
+        Try changing your search or add your first job.
+      </p>
+      </div>
 
 );
 

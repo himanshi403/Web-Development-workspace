@@ -1,5 +1,6 @@
 import {useState} from "react";
 import {useEffect} from "react";
+import Analytics from "./pages/Analytics";
 
 import {
 
@@ -166,6 +167,11 @@ element={<Profile />}
 <Route
 path="/settings"
 element={<Settings />}
+/>
+
+<Route
+path="/analytics"
+element={<Analytics jobs={jobs}/>}
 />
 
 <Route

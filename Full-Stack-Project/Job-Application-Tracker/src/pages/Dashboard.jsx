@@ -1,3 +1,4 @@
+import React, {useState,useEffect} from 'react';
 
 import Navbar from "../components/Navbar";
 import JobForm from "../components/JobForm";
@@ -46,6 +47,9 @@ confirmDelete,
 undoDelete})
 
 {
+    const [loading, setLoading] = useState(true);
+
+
   const filteredJobs = jobs
 .filter(job => {
 
@@ -62,6 +66,30 @@ job.status === statusFilter;
 return matchSearch && matchStatus;
 
 });
+useEffect(() => {
+    const timer = setTimeout(() => {
+        setLoading(false);
+    },1000);
+
+    return () => clearTimeout(timer);
+
+},[]);
+
+if(loading){
+
+    return(
+
+        <div className="loading-screen">
+
+            <div className="loader"></div>
+
+            <p>Loading Dashboard...</p>
+
+        </div>
+
+    );
+
+}
 
     
 

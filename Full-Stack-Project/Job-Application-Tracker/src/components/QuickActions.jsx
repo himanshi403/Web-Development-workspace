@@ -1,4 +1,10 @@
+import { useNavigate } from "react-router-dom";
+
+
+
 function QuickActions({ setShowForm }) {
+    const navigate = useNavigate();
+
   return (
     <div className="quick-actions">
 
@@ -13,7 +19,9 @@ function QuickActions({ setShowForm }) {
         📄 Export Jobs
       </button>
 
-      <button className="action-btn">
+      <button className="action-btn"
+      onClick={() => navigate("/analytics")}
+      >
         📊 Analytics
       </button>
 

@@ -12,6 +12,10 @@ function Sidebar(){
         Profile
         </NavLink>
 
+        <NavLink to="/analytics">
+         📊 Analytics
+        </NavLink>
+
         <NavLink to="/settings">
         Settings
        </NavLink>
