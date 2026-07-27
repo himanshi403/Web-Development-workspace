@@ -665,3 +665,41 @@ color:#666;
 .chart-card h2{
     margin-bottom:20px;
 }
+
+.activity-card{
+
+background:white;
+
+padding:20px;
+
+border-radius:12px;
+
+margin-top:20px;
+
+box-shadow:0 4px 12px rgba(0,0,0,.08);
+
+}
+
+.activity-item{
+
+display:flex;
+
+justify-content:space-between;
+
+padding:10px 0;
+
+border-bottom:1px solid #eee;
+
+}
+
+.activity-item:last-child{
+
+border-bottom:none;
+
+}
+
+.activity-item small{
+
+color:gray;
+
+}

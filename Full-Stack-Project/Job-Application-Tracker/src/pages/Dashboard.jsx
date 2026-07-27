@@ -8,12 +8,14 @@ import Sidebar from "../components/Sidebar";
 import Layout from "../components/Layout";
 import RecentJobs from "../components/RecentJobs";
 import QuickActions from "../components/QuickActions";
+import RecentActivity from "../components/RecentActivity";
 
 
 
 function Dashboard({
 
 jobs,
+activities,
 
 search,
 setSearch,
@@ -166,10 +168,13 @@ className="toggle-btn"
 
   <JobStats jobs={jobs} />
   
+  <RecentActivity activities={activities} />
+  
   <RecentJobs jobs={jobs}/>
 <p className="results-info">
   Showing {filteredJobs.length} of {jobs.length} applications
 </p>
+
   <JobList jobs={filteredJobs}
            deleteJob={(job)=>setJobToDelete(job)}
            editJob={editJob}

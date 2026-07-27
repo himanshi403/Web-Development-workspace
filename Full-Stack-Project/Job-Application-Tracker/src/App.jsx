@@ -31,8 +31,7 @@ function App(){
    const [search,setSearch]=useState("");
    const [lastDeletedJob,setLastDeletedJob]=useState(null);
    const [undoTimer, setUndoTimer] = useState(null);
-
-
+   const [activities, setActivities] = useState([]);
 
 
 
@@ -60,6 +59,7 @@ setJobs(savedJobs);
   function addJob(job){
     setJobs([...jobs,job]);
     showToast("✅ Job added successfully");
+    addActivity(`Added ${job.company}`);
     setShowForm(false);
   }
 
@@ -78,6 +78,7 @@ job=>job.id!==jobToDelete.id
 );
 setJobToDelete(null);
 showToast("🗑 Job deleted successfully");
+addActivity(`Deleted ${jobToDelete.company}`);
 const timer=setTimeout(()=>{
   setLastDeletedJob(null);
   setToast("");
@@ -115,6 +116,7 @@ job.id===updatedJob.id?updatedJob:job
 
 );
 showToast("✏️ Job updated successfully");
+addActivity(`Updated ${updatedJob.company}`);
 
 setEditingJob(null);
 setShowForm(false);
@@ -127,7 +129,19 @@ function showToast(message){
     setToast("");
   },3000)
 }
-
+function addActivity(text) {
+  setActivities(prev => [
+    {
+      id: Date.now(),
+      text,
+      time: new Date().toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit"
+      })
+    },
+    ...prev
+  ]);
+}
 
   return(
 
@@ -183,6 +197,7 @@ element={
 <Dashboard
 
 jobs={jobs}
+activities={activities}
 
 search={search}
 
@@ -222,6 +237,7 @@ updateJob={updateJob}
 setJobToDelete={setJobToDelete}
 
 closeToast={()=>setToast("")}
+
 
 />
 

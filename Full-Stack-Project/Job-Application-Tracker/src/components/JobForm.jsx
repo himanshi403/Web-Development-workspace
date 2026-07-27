@@ -75,7 +75,8 @@ setStatus(editingJob.status);
         id:Date.now(),
         company,
         role,
-        status
+        status,
+        createdAt: new Date().toISOString()
     };
 
 if(editingJob){

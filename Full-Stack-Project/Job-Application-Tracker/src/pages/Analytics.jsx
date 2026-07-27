@@ -2,7 +2,8 @@ import {useMemo} from "react";
 import "../styles/Analytics.css";
 import StatusPieChart from "../components/Charts/StatusPieChart";
 import TopCompaniesChart from "../components/Charts/TopCompaniesChart";
-
+import MonthlyTrendChart from "../components/Charts/MonthlyTrendChart";
+import RecentActivity from "../components/RecentActivity";
 
 function Analytics({jobs}){
     const total=jobs.length;
@@ -50,6 +51,8 @@ function Analytics({jobs}){
             </div>
              <StatusPieChart jobs={jobs} />
              <TopCompaniesChart jobs={jobs} />
+             <MonthlyTrendChart jobs={jobs} />
+             
 
 
         </div>
