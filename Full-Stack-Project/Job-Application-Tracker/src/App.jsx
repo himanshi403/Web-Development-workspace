@@ -1,7 +1,7 @@
 import {useState} from "react";
 import {useEffect} from "react";
 import Analytics from "./pages/Analytics";
-
+import JobDetails from "./pages/JobDetails";
 import {
 
 BrowserRouter,
@@ -142,6 +142,7 @@ function addActivity(text) {
     ...prev
   ]);
 }
+console.log(jobs);
 
   return(
 
@@ -241,9 +242,19 @@ closeToast={()=>setToast("")}
 
 />
 
+
 }
 
 
+
+/>
+<Route
+    path="/job/:id"
+    element={
+        <JobDetails
+            jobs={jobs}
+        />
+    }
 />
 
 </Routes>

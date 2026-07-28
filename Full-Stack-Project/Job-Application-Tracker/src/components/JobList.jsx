@@ -1,3 +1,6 @@
+import { useNavigate } from "react-router-dom";
+
+
 function JobList({
 jobs,
 deleteJob,
@@ -8,7 +11,9 @@ statusFilter
 })
 
 
+
 {
+    const navigate = useNavigate();
 const filteredJobs=
 
 jobs.filter(job=>{
@@ -46,6 +51,7 @@ return matchesSearch && matchesStatus
 if(filteredJobs.length===0){
 
 return(
+    
     <div className="empty-state">
 
 <h2>
@@ -66,14 +72,28 @@ return(
 
 <div>
 { filteredJobs.map((job)=>(
-    <div className="job-card" key={job.id}>
+    <div className="job-card"
+    onClick={() => navigate(`/job/${job.id}`)}
+     key={job.id}>
     <h3>{job.company}</h3>
     <p>{job.role}</p>
     <span className={`status ${job.status.toLowerCase()}`}>{job.status}</span>
 
-<button onClick={()=>deleteJob(job)}>Delete</button>
+<button onClick={(e)=>{
+     e.stopPropagation();
+    deleteJob(job)}}>
+        Delete
+        </button>
 
-<button onClick={()=>editJob(job)}>Edit</button>
+<button onClick={(e) => {
+
+    e.stopPropagation();
+
+    editJob(job);
+
+}}>
+    Edit
+    </button>
 
 </div>
                     
