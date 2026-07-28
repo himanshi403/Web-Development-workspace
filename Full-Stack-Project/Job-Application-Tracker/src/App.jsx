@@ -176,7 +176,7 @@ element={<SignUp/>}
 
 <Route
 path="/profile"
-element={<Profile />}
+element={<Profile jobs={jobs}/>}
 />
 
 <Route

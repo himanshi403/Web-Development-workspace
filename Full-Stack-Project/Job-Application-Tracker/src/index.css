@@ -745,3 +745,42 @@ margin-bottom:20px;
 margin-top:20px;
 
 }
+
+.profile-page{
+    max-width:1000px;
+    margin:auto;
+    padding:30px;
+}
+
+.profile-card{
+    background:white;
+    border-radius:15px;
+    padding:25px;
+    margin-bottom:25px;
+    text-align:center;
+}
+
+.avatar{
+    font-size:70px;
+    margin-bottom:15px;
+}
+
+.profile-stats{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+    gap:20px;
+}
+
+.stat-box{
+    background:white;
+    padding:20px;
+    border-radius:12px;
+    text-align:center;
+}
+
+.resume-card{
+    margin-top:30px;
+    background:white;
+    padding:25px;
+    border-radius:15px;
+}
