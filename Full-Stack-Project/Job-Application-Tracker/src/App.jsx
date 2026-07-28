@@ -181,7 +181,7 @@ element={<Profile jobs={jobs}/>}
 
 <Route
 path="/settings"
-element={<Settings />}
+element={<Settings jobs={jobs}/>}
 />
 
 <Route

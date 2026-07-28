@@ -784,3 +784,52 @@ margin-top:20px;
     padding:25px;
     border-radius:15px;
 }
+
+.settings-page{
+
+max-width:900px;
+
+margin:auto;
+
+padding:30px;
+
+}
+
+.setting-card{
+
+background:white;
+
+padding:25px;
+
+border-radius:15px;
+
+margin-bottom:25px;
+
+}
+
+body.dark{
+
+background:#121212;
+
+color:white;
+
+}
+
+body.dark .setting-card,
+body.dark .profile-card,
+body.dark .stat-box,
+body.dark .resume-card{
+
+background:#1f1f1f;
+
+color:white;
+
+}
+
+.danger-btn{
+
+background:#e53935;
+
+color:white;
+
+}
