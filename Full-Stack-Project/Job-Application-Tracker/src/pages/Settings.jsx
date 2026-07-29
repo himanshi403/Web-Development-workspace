@@ -2,12 +2,14 @@ import {useState} from "react";
 
 function Settings({jobs}){
     function exportJobs(){
+        console.log("Export button clicked");
+console.log(jobs);
         const data=JSON.stringify(
             jobs,
             null,
             2
         );
-        const Blob=new blob(
+        const blob=new Blob(
             [data],
             {
                 type:"application/json"
