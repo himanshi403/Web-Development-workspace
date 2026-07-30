@@ -1,110 +1,158 @@
-import {useState,useEffect} from "react";
+import { useState, useEffect } from "react";
 
 function JobForm({
     addJob,
     editingJob,
     updateJob,
     closeForm
+}) {
 
-}){
-  const [company, setCompany] = useState("");
-  const [role, setRole] = useState("");
-  const [status, setStatus] = useState("Applied");
+    const [company, setCompany] = useState("");
+    const [role, setRole] = useState("");
+    const [status, setStatus] = useState("Applied");
+    const [interviewDate, setInterviewDate] = useState("");
 
-useEffect(()=>{
+    useEffect(() => {
 
-if(editingJob){
+        if (editingJob) {
 
-setCompany(editingJob.company);
+            setCompany(editingJob.company);
+            setRole(editingJob.role);
+            setStatus(editingJob.status);
+            setInterviewDate(editingJob.interviewDate || "");
 
-setRole(editingJob.role);
+        } else {
 
-setStatus(editingJob.status);
+            setCompany("");
+            setRole("");
+            setStatus("Applied");
+            setInterviewDate("");
 
-}
+        }
 
-},[editingJob]);
+    }, [editingJob]);
 
-    return(
-        <div className="jobForm">
-        
-        <input
-        type="text"
-        placeholder="company"
-        value={company}
-        onChange={(e)=>setCompany(e.target.value)} />
+    function handleSubmit() {
 
-        <input
-        type="text"
-        placeholder="Role"
-        value={role}
-        onChange={(e)=>setRole(e.target.value)} />
+        if (company === "" || role === "") {
 
-        <select
-        value={status}
-        onChange={(e)=>setStatus(e.target.value)}>
-        <option>Applied</option>
-        <option>Interview</option>
-        <option>Offer</option>
-        <option>Rejected</option>
-        </select>
+            alert("Fill all fields");
+            return;
 
-        <button onClick={handleSubmit}>
-            {
-                editingJob?"UpdateJob":"Add Job"
-            }
-            
-        </button>
+        }
 
-        </div>
+        if (editingJob) {
 
-    
-    );
+            updateJob({
 
-    function handleSubmit(){
+                id: editingJob.id,
+                company,
+                role,
+                status,
+                interviewDate,
+                createdAt: editingJob.createdAt
 
-    if(company==="" || role===""){
+            });
 
-        alert("Fill all fields");
+        } else {
 
-        return;
+            const newJob = {
+
+                id: Date.now(),
+                company,
+                role,
+                status,
+                interviewDate,
+                createdAt: new Date().toISOString()
+
+            };
+
+            addJob(newJob);
+
+        }
+
+        closeForm();
+
+        setCompany("");
+        setRole("");
+        setStatus("Applied");
 
     }
 
-    const newJob={
-        id:Date.now(),
-        company,
-        role,
-        status,
-        createdAt: new Date().toISOString()
-    };
+    return (
 
-if(editingJob){
+        <div className="jobForm">
 
-updateJob({
+            <h2>
 
-id:editingJob.id,
+                {editingJob ? "✏ Edit Job" : " Add New Job"}
 
-company,
+            </h2>
 
-role,
+            <input
+                type="text"
+                placeholder="Company Name"
+                value={company}
+                onChange={(e) => setCompany(e.target.value)}
+            />
 
-status
+            <input
+                type="text"
+                placeholder="Job Role"
+                value={role}
+                onChange={(e) => setRole(e.target.value)}
+            />
 
-});
+            <select
+                value={status}
+                onChange={(e) => setStatus(e.target.value)}
+            >
 
-}else{
+                <option>Applied</option>
+                <option>Interview</option>
+                <option>Offer</option>
+                <option>Rejected</option>
 
-addJob(newJob);
+            </select>
+            <label className="date-label">
 
+Interview Date
+
+</label>
+
+<input
+
+type="date"
+
+value={interviewDate}
+
+onChange={(e)=>setInterviewDate(e.target.value)}
+
+/>
+
+            <button
+                className="submit-btn"
+                onClick={handleSubmit}
+            >
+
+                {editingJob ? "Save Changes" : "Add Job"}
+
+            </button>
+
+            <button
+                type="button"
+                className="cancel-btn"
+                onClick={closeForm}
+            >
+
+                Cancel
+
+            </button>
+
+        </div>
+
+    );
 
 }
-closeForm();
 
-
-    setCompany("");
-    setRole("");
-    setStatus("Applied");
-}
-}
 export default JobForm;

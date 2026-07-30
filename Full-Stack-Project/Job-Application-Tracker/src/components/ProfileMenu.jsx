@@ -1,5 +1,7 @@
 import {useState} from "react";
+import { useNavigate } from "react-router-dom";
 function ProfileMenu(){
+    const navigate = useNavigate();
     const[open,setOpen]=useState(false);
     return(
         <div className="profile-menu">
@@ -10,12 +12,25 @@ function ProfileMenu(){
 
             {
                 open &&
-                <div className="dropdown-menu">
-                    <p>My Profile</p>
+               <div className="dropdown-menu">
 
-<p>Settings</p>
+<p onClick={() => navigate("/profile")}>
 
-<p>Logout</p>
+My Profile
+
+</p>
+
+<p onClick={() => navigate("/settings")}>
+
+Settings
+
+</p>
+
+<p onClick={() => navigate("/")}>
+
+Logout
+
+</p>
 
 </div>
             }

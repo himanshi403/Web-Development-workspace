@@ -11,6 +11,7 @@ import QuickActions from "../components/QuickActions";
 import RecentActivity from "../components/RecentActivity";
 import NotificationBell from "../components/NotificationBell";
 import ProfileMenu from "../components/ProfileMenu";
+import UpcomingInterviews from "../components/UpcomingInterviews";
 
 
 
@@ -152,14 +153,7 @@ Applications
 <QuickActions
     setShowForm={setShowForm}
 />
-<button
-onClick={()=>setShowForm(!showForm)}
-className="toggle-btn"
->
 
-{showForm ? "Close Form" : "+ Add New Job"}
-
-</button>
 <div className="toolbar">
 
   <div className="toolbar-left">
@@ -189,15 +183,27 @@ className="toggle-btn"
 </div>
 
 {showForm && (
+  <div
+className="modal-overlay"
+onClick={() => setShowForm(false)}
+>
+
+<div
+className="job-modal"
+onClick={(e)=>e.stopPropagation()}
+>
   <JobForm
     addJob={addJob}
     closeForm={() => setShowForm(false)}
     editingJob={editingJob}
     updateJob={updateJob}
   />
+  </div>
+  </div>
 )}
 
   <JobStats jobs={jobs} />
+  <UpcomingInterviews jobs={jobs}/>
   
   <RecentActivity activities={activities} />
   
