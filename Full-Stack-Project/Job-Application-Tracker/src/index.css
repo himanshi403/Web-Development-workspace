@@ -1691,3 +1691,94 @@ padding:12px 0;
 border-bottom:1px solid #eee;
 
 }
+
+@media (max-width:768px){
+
+.dashboard-header{
+
+flex-direction:column;
+
+text-align:center;
+
+gap:20px;
+
+}
+
+}
+
+@media (max-width:768px){
+
+.landing-navbar{
+
+flex-direction:column;
+
+gap:15px;
+
+padding:20px;
+
+}
+
+.nav-links{
+
+flex-wrap:wrap;
+
+justify-content:center;
+
+}
+
+}
+@media (max-width:768px){
+
+.hero h1{
+
+font-size:40px;
+
+}
+
+.hero p{
+
+font-size:17px;
+
+}
+
+}
+@media (max-width:768px){
+
+.features{
+
+display:flex;
+
+flex-direction:column;
+
+gap:20px;
+
+}
+
+}
+@media (max-width:768px){
+
+.stats-container{
+
+grid-template-columns:1fr 1fr;
+
+}
+
+}
+@media(max-width:768px){
+
+.job-card{
+
+flex-direction:column;
+
+align-items:flex-start;
+
+gap:15px;
+
+}
+
+}
+.chart-container{
+
+overflow-x:auto;
+
+}
