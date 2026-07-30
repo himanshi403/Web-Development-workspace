@@ -9,6 +9,8 @@ import Layout from "../components/Layout";
 import RecentJobs from "../components/RecentJobs";
 import QuickActions from "../components/QuickActions";
 import RecentActivity from "../components/RecentActivity";
+import NotificationBell from "../components/NotificationBell";
+import ProfileMenu from "../components/ProfileMenu";
 
 
 
@@ -104,18 +106,47 @@ if(loading){
     <Sidebar />
 
     <div className="dashboard-content">
+      <div className="dashboard-topbar">
 
-    <header className="dashboard-header">
+<NotificationBell/>
 
-<h1>Job Application Tracker</h1>
+<ProfileMenu/>
+
+</div>
+
+   <header className="dashboard-header">
+
+<div>
+
+<h1>
+
+Welcome back, Himanshi 👋
+
+</h1>
 
 <p>
 
-Track every application,
-
-interview and offer in one place.
+Keep tracking your applications and stay one step closer to your dream offer.
 
 </p>
+
+</div>
+
+<div className="dashboard-summary">
+
+<h2>
+
+{jobs.length}
+
+</h2>
+
+<span>
+
+Applications
+
+</span>
+
+</div>
 
 </header>
 <QuickActions
