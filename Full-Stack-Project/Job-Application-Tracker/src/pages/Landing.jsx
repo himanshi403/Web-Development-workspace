@@ -1,7 +1,10 @@
 import { Link } from "react-router-dom";
 import Footer from "../components/Footer";
+import AuthModal from "../components/AuthModal";
+import { useState } from "react";
 
 function Landing() {
+     const [showModal, setShowModal] = useState(false);
 
     return (
         
@@ -21,20 +24,19 @@ function Landing() {
 
         <a href="#features">Features</a>
 
-        <a href="#about">About</a>
+         <a href="#testimonials">Testimonials</a>
 
         <a href="#contact">Contact</a>
 
     </div>
-
-    <div className="nav-buttons">
-
-        <Link
-            to="/login"
-            className="login-nav-btn"
+    <button
+        className="nav-login"
+        onClick={()=>setShowModal(true)}
         >
             Login
-        </Link>
+        </button>
+
+    
 
         <Link
             to="/signup"
@@ -43,7 +45,7 @@ function Landing() {
             Sign Up
         </Link>
 
-    </div>
+
 
 </nav>
 
@@ -69,12 +71,17 @@ function Landing() {
 
         </p>
 
-        <Link
-            to="/signup"
-            className="hero-btn"
-        >
-            Get Started
-        </Link>
+         <button
+
+                    className="hero-btn"
+
+                    onClick={() => setShowModal(true)}
+
+                >
+
+                    Get Started
+
+                </button>
 
     </div>
 
@@ -203,8 +210,17 @@ function Landing() {
     </div>
 
 </section>
+ <div id="footer">
 <Footer />
 
+        </div>
+
+        {
+            showModal &&
+            <AuthModal
+               closeModal={()=>setShowModal(false)}
+               />
+        }
         </div>
 
     );

@@ -1,34 +1,74 @@
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import AuthLayout from "../components/AuthLayout";
+import "../styles/auth.css";
 
-function SignUp(){
-    return(
-        <div className="auth-page">
-            <h1>Create Account</h1>
-            <input
-            type="text"
-            placeholder="Enter Your Full Name"
-            />
-            <input
-            type="email"
-            placeholder="email"
-            />
-            <input
+function SignUp() {
 
-              type="password"
+    const navigate = useNavigate();
 
-              placeholder="Password"
+    const [showPassword, setShowPassword] = useState(false);
 
-            />
-             <button onClick={() => navigate("/dashboard")}>Signup</button>
+    return (
 
-            <p>
-                Already have an account?
-                <Link to="/login">
-                Login
-                </Link>
-            </p>
+        <AuthLayout
+            title="Create Your Account 🚀"
+            subtitle="Start organizing every job application today."
+        >
 
-        </div>
+            <div className="auth-card">
+
+                <h2>Signup</h2>
+
+                <input
+                    type="text"
+                    placeholder="Full Name"
+                />
+
+                <input
+                    type="email"
+                    placeholder="Email"
+                />
+
+                <input
+                    type={showPassword ? "text" : "password"}
+                    placeholder="Password"
+                />
+
+                <button
+                    className="show-password"
+                    onClick={() => setShowPassword(!showPassword)}
+                    type="button"
+                >
+                    {showPassword ? "Hide Password" : "Show Password"}
+                </button>
+
+                <button
+                    className="login-btn"
+                    onClick={() => navigate("/dashboard")}
+                >
+                    Create Account
+                </button>
+
+                <p>
+
+                    Already have an account?{" "}
+
+                    <Link to="/login">
+
+                        Login
+
+                    </Link>
+
+                </p>
+
+            </div>
+
+        </AuthLayout>
+
     );
+
 }
-export default SignUp;
+
+export default SignUp; 
