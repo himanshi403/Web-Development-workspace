@@ -1,4 +1,5 @@
-import Layout from "../components/Layout";
+import { useState, useEffect } from "react";
+import EditProfileModal from "../components/EditProfileModal";
 
 function Profile({jobs}){
     const total = jobs.length;
@@ -18,41 +19,94 @@ function Profile({jobs}){
     const rejected = jobs.filter(
         job => job.status === "Rejected"
     ).length;
+
+    const defaultProfile = {
+
+    name: "Himanshi Prashar",
+
+    role: "Computer Science Student",
+
+    location: "Ambala, Haryana",
+
+    email: "himanshi@email.com",
+
+    about:
+        "Passionate about Web Development and Java.",
+
+    goal:
+        "Seeking Software Engineering opportunities."
+
+};
+
+const [profile, setProfile] = useState(defaultProfile);
+
+const [showEdit, setShowEdit] = useState(false);
+
+useEffect(() => {
+
+    const savedProfile =
+        JSON.parse(localStorage.getItem("profile"));
+
+    if (savedProfile) {
+
+        setProfile(savedProfile);
+
+    }
+
+}, []);
+
+
+
     return(
         <div className="profile-page">
+        
 
-            <div className="profile-card">
+            <div className="profile-header-card">
 
-                <div className="avatar">
+                <div className="profile-avatar">
 
-                    👤
+                    HP
 
                 </div>
 
-                <h1>Himanshi Prashar</h1>
+                  <p className="profile-location">
 
-                <p>Computer Science Student</p>
+                    📍 Ambala, Haryana
 
-                <p>Ambala, Haryana</p>
+                </p>
+
+                <h1>{profile.name}</h1>
+
+                <p>{profile.role}</p>
+
+                <p>{profile.location}</p>
 
                 <hr />
 
-                <p>
+                <p className="profile-email">
 
-                    <strong>Email :</strong>
-
-                    himanshi@email.com
+                    ✉ {profile.email}
 
                 </p>
-                 <p>
+
+                 <p className="member-since">
 
                     <strong>Member Since :</strong>
 
                     July 2026
 
                 </p>
+                    <button
+    className="edit-profile-btn"
+    onClick={() => setShowEdit(true)}
+>
+
+    ✏ Edit Profile
+
+</button>
 
                 </div>
+                
 
             <div className="profile-stats">
 
@@ -97,19 +151,78 @@ function Profile({jobs}){
                 </div>
 
             </div>
+
+            <div className="about-card">
+
+                <h2>About Me</h2>
+
+                <p>
+                    {profile.about}
+
+                </p>
+
+            </div>
+            <div className="career-card">
+
+    <h2>Career Goal</h2>
+
+    <p>{profile.goal}</p>
+
+</div>
+
+             <div className="skills-card">
+
+                <h2>Skills</h2>
+
+                <div className="skills-container">
+
+                    <span>☕ Java</span>
+
+                    <span>⚛ React</span>
+
+                    <span>🌐 HTML</span>
+
+                    <span>🎨 CSS</span>
+
+                    <span>🍃 MongoDB</span>
+
+                    <span>🚀 Node.js</span>
+
+                    <span>💻 JavaScript</span>
+
+                    <span>🔧 Git</span>
+
+                </div>
+
+            </div>
+
+
              <div className="resume-card">
 
                 <h2>Resume</h2>
 
                 <p>No resume uploaded.</p>
 
-                <button>
+                <button className="resume-btn">
 
                     Upload Resume
 
                 </button>
 
             </div>
+            {
+    showEdit &&
+
+    <EditProfileModal
+
+        profile={profile}
+
+        setProfile={setProfile}
+
+        closeModal={() => setShowEdit(false)}
+
+    />
+}
 
         </div>
     );

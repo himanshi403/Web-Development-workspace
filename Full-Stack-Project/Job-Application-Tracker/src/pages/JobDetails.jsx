@@ -27,82 +27,146 @@ function JobDetails({ jobs }) {
         currentIndex < sortedJobs.length - 1
             ? sortedJobs[currentIndex + 1]
             : null;
+return (
 
-    return (
+<div className="job-details-page">
 
-        <div className="details-page">
+<button
+className="back-btn"
+onClick={() => navigate("/dashboard")}
+>
 
-            <button
-                className="back-btn"
-                onClick={() => navigate("/dashboard")}
-            >
-                ← Back
-            </button>
+← Back to Dashboard
 
-            <h1>{job.company}</h1>
+</button>
 
-            <h2>{job.role}</h2>
+<div className="details-card">
 
-            <p>
-                <strong>Status:</strong> {job.status}
-            </p>
+<div className="details-header">
 
-            <p>
-                <strong>Applied On:</strong>{" "}
-                {
-                    job.createdAt
-                        ? new Date(job.createdAt).toLocaleDateString()
-                        : "Not Available"
-                }
-            </p>
+<div className="company-circle">
 
-            <p>
-                <strong>Job ID:</strong> {job.id}
-            </p>
+{job.company.charAt(0).toUpperCase()}
 
-            <p>
-                <strong>Notes:</strong> No notes added yet.
-            </p>
+</div>
 
-            <button className="edit-btn">
-                Edit Job
-            </button>
+<div>
 
-            <div className="job-navigation">
+<h1>{job.company}</h1>
 
-                {
-                    previousJob && (
+<h2>{job.role}</h2>
 
-                        <button
-                            onClick={() =>
-                                navigate(`/job/${previousJob.id}`)
-                            }
-                        >
-                            ← Previous
-                        </button>
+</div>
 
-                    )
-                }
+</div>
 
-                {
-                    nextJob && (
+<div className="details-grid">
 
-                        <button
-                            onClick={() =>
-                                navigate(`/job/${nextJob.id}`)
-                            }
-                        >
-                            Next →
-                        </button>
+<div className="detail-item">
 
-                    )
-                }
+<h4>Status</h4>
 
-            </div>
+<p>{job.status}</p>
 
-        </div>
+</div>
 
-    );
+<div className="detail-item">
+
+<h4>Applied On</h4>
+
+<p>
+
+{
+
+job.createdAt
+
+? new Date(job.createdAt).toLocaleDateString()
+
+: "Not Available"
+
+}
+
+</p>
+
+</div>
+
+<div className="detail-item">
+
+<h4>Job ID</h4>
+
+<p>{job.id}</p>
+
+</div>
+
+<div className="detail-item">
+
+<h4>Notes</h4>
+
+<p>No notes added yet.</p>
+
+</div>
+
+</div>
+
+<div className="details-buttons">
+
+<button className="edit-btn">
+
+✏ Edit Job
+
+</button>
+
+</div>
+
+<div className="job-navigation">
+
+{
+
+previousJob &&
+
+<button
+
+onClick={() =>
+
+navigate(`/job/${previousJob.id}`)
+
+}
+
+>
+
+← Previous
+
+</button>
+
+}
+
+{
+
+nextJob &&
+
+<button
+
+onClick={() =>
+
+navigate(`/job/${nextJob.id}`)
+
+}
+
+>
+
+Next →
+
+</button>
+
+}
+
+</div>
+
+</div>
+
+</div>
+
+);
 
 }
 

@@ -72,6 +72,7 @@ function JobForm({
         }
 
         closeForm();
+        closeForm={closeForm}
 
         setCompany("");
         setRole("");
@@ -85,7 +86,7 @@ function JobForm({
 
             <h2>
 
-                {editingJob ? "✏ Edit Job" : " Add New Job"}
+                {editingJob ? " Edit Job" : " Add New Job"}
 
             </h2>
 

@@ -3,6 +3,7 @@ import Footer from "../components/Footer";
 import AuthModal from "../components/AuthModal";
 import { useState } from "react";
 
+
 function Landing() {
      const [showModal, setShowModal] = useState(false);
 

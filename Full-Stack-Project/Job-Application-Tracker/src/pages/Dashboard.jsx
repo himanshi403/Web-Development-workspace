@@ -15,6 +15,7 @@ import UpcomingInterviews from "../components/UpcomingInterviews";
 
 
 
+
 function Dashboard({
 
 jobs,
@@ -49,7 +50,10 @@ setJobToDelete,
 
 confirmDelete,
 
-undoDelete})
+undoDelete,
+
+closeForm
+})
 
 {
     const [loading, setLoading] = useState(true);
@@ -109,7 +113,7 @@ if(loading){
     <div className="dashboard-content">
       <div className="dashboard-topbar">
 
-<NotificationBell/>
+<NotificationBell activities={activities}/>
 
 <ProfileMenu/>
 
@@ -152,6 +156,7 @@ Applications
 </header>
 <QuickActions
     setShowForm={setShowForm}
+    
 />
 
 <div className="toolbar">
@@ -185,7 +190,7 @@ Applications
 {showForm && (
   <div
 className="modal-overlay"
-onClick={() => setShowForm(false)}
+onClick={() => closeForm()}
 >
 
 <div
@@ -197,6 +202,7 @@ onClick={(e)=>e.stopPropagation()}
     closeForm={() => setShowForm(false)}
     editingJob={editingJob}
     updateJob={updateJob}
+    
   />
   </div>
   </div>
@@ -218,6 +224,7 @@ onClick={(e)=>e.stopPropagation()}
            search={search}
            sortBy={sortBy}
            statusFilter={statusFilter}
+           setShowForm={setShowForm}
    />
 
 
@@ -228,7 +235,7 @@ jobToDelete && (
 
 <div className="modal">
 
-<h2>Delete Job?</h2>
+<h2>🗑 Delete Application</h2>
 
 <p>
 

@@ -5,9 +5,9 @@ function ProfileMenu(){
     const[open,setOpen]=useState(false);
     return(
         <div className="profile-menu">
-            <div className="profile-avatar"
+            <div className="navbar-avatar"
             onClick={()=>setOpen(!open)}>
-                👤
+                HP
             </div>
 
             {

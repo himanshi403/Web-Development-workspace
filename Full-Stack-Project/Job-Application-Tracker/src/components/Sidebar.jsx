@@ -1,30 +1,63 @@
 import { NavLink } from "react-router-dom";
+
 function Sidebar(){
-    return(
-    <aside className="sidebar">
-        <h2>Job Tracker</h2>
 
-        <NavLink to="/dashboard">
-        Dashboard
-        </NavLink>
+return(
 
-        <NavLink to="/profile">
-        Profile
-        </NavLink>
+<aside className="sidebar">
 
-        <NavLink to="/analytics">
-         📊 Analytics
-        </NavLink>
+<div className="sidebar-top">
 
-        <NavLink to="/settings">
-        Settings
-       </NavLink>
+<h2>💼 JobTracker</h2>
 
-      <NavLink to="/">
-        Logout
-       </NavLink>
+<p className="sidebar-tagline">
 
-    </aside>
-    );
+Track. Apply. Succeed.
+
+</p>
+
+</div>
+
+<nav className="sidebar-links">
+
+<NavLink to="/dashboard">🏠 Dashboard</NavLink>
+
+<NavLink to="/profile">👤 Profile</NavLink>
+
+<NavLink to="/analytics">📊 Analytics</NavLink>
+
+<NavLink to="/settings">⚙ Settings</NavLink>
+
+</nav>
+
+<div className="sidebar-summary">
+
+<h3>Quick Summary</h3>
+
+<div className="summary-box">
+
+🔥 Keep Applying!
+
+</div>
+
+<div className="summary-box">
+
+🚀 Dream Job Loading...
+
+</div>
+
+</div>
+
+<div className="sidebar-bottom">
+
+<NavLink to="/">🚪 Logout</NavLink>
+
+</div>
+
+</aside>
+
+);
+
 }
+
 export default Sidebar;

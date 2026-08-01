@@ -15,7 +15,7 @@ Route
 
 import Landing from "./pages/Landing";
 import Login from "./pages/Login";
-import SignUp from "./pages/Signup";
+import SignUp from "./pages/SignUp";
 import Dashboard from "./pages/Dashboard";
 import Profile from "./pages/Profile";
 import Settings from "./pages/Settings";
@@ -142,7 +142,13 @@ function addActivity(text) {
     ...prev
   ]);
 }
-console.log(jobs);
+function closeJobForm(){
+
+setShowForm(false);
+
+setEditingJob(null);
+
+}
 
   return(
 
@@ -238,6 +244,7 @@ updateJob={updateJob}
 setJobToDelete={setJobToDelete}
 
 closeToast={()=>setToast("")}
+closeForm={closeJobForm}
 
 
 />

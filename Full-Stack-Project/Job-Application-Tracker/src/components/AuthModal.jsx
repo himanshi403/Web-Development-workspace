@@ -84,16 +84,6 @@ Forgot Password?
 
 </p>
 
-                {
-
-                    !isLogin &&
-
-                    <input
-                        type="text"
-                        placeholder="Full Name"
-                    />
-
-                }
 
                 <button
 className="login-btn"
@@ -111,40 +101,56 @@ onClick={() => {
 </button>
 
                 <p>
+{
+    isLogin ? (
 
-                    {
+        <p>
 
-                        isLogin
+            Don't have an account?{" "}
 
-                        ?
+            <span
 
-                        <>Don't have an account?
+                onClick={() => {
 
-                            <span
-                                onClick={() => setIsLogin(false)}
-                            >
+                    closeModal();
 
-                                Signup
+                    navigate("/signup");
 
-                            </span>
+                }}
 
-                        </>
+            >
 
-                        :
+                Signup
 
-                        <>Already have an account?
+            </span>
 
-                            <span
-                                onClick={() => setIsLogin(true)}
-                            >
+        </p>
 
-                                Login
+    ) : (
 
-                            </span>
+        <p>
 
-                        </>
+            Already have an account?{" "}
 
-                    }
+            <span
+
+                onClick={() => {
+
+                    setIsLogin(true);
+
+                }}
+
+            >
+
+                Login
+
+            </span>
+
+        </p>
+
+    )
+}
+        
 
                 </p>
 

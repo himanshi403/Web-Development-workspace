@@ -1,83 +1,112 @@
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import AuthLayout from "../components/AuthLayout";
 import { useState } from "react";
-import "../styles/auth.css";
+import AuthShell from "../components/AuthShell";
+import career from "../assets/career.svg";
 
-function Login() {
+function Login(){
 
-    const navigate = useNavigate();
-      const [showPassword, setShowPassword] = useState(false);
+const navigate=useNavigate();
 
-    return (
-         <AuthLayout
-    title="Welcome Back 👋"
-    subtitle="Continue tracking your dream job journey."
+const[showPassword,setShowPassword]=useState(false);
+
+return(
+
+<AuthShell
+
+title="Welcome Back 👋"
+
+subtitle="Continue your journey toward your dream job."
+
+image={career}
+
 >
 
 <div className="auth-card">
 
-                    <h2>Login</h2>
+<h2>Login</h2>
 
-                    <input
-                        type="email"
-                        placeholder="Email"
-                    />
+<div className="input-group">
 
-                    <input
-                        type={showPassword ? "text" : "password"}
-                        placeholder="Password"
-                    />
+<span>📧</span>
 
-                     <button
-                    className="show-password"
-                    onClick={() => setShowPassword(!showPassword)}
-                    type="button"
-                >
-                    {showPassword ? "Hide Password" : "Show Password"}
-                </button>
+<input
 
-                    <button
-                        className="login-btn"
-                        onClick={() => navigate("/dashboard")}
-                    >
+type="email"
 
-                        Login
+placeholder="Email"
 
-                    </button>
+/>
 
-                     <p className="forgot-password">
-                    Forgot Password?
-                </p>
+</div>
 
+<div className="input-group">
 
-                <div className="social-login">
+<span>🔒</span>
 
-                    <button type="button">
-                        Continue with Google
-                    </button>
+<input
 
-                    <button type="button">
-                        Continue with GitHub
-                    </button>
+type={showPassword?"text":"password"}
 
-                </div>
+placeholder="Password"
 
-                    <p>
+/>
 
-                        Don't have an account?{" "}
+</div>
 
-                        <Link to="/signup">
+<button
 
-                            Signup
+className="show-password-btn"
 
-                        </Link>
+onClick={()=>setShowPassword(!showPassword)}
 
-                    </p>
+>
 
-                </div>
-                 </AuthLayout>
-                 );
+{showPassword?"Hide":"Show"} Password
+
+</button>
+
+<button
+
+className="login-btn"
+
+onClick={()=>navigate("/dashboard")}
+
+>
+
+Login
+
+</button>
+
+<div className="divider">
+
+<span>OR</span>
+
+</div>
+
+<button className="social-btn">
+
+Continue with Google
+
+</button>
+
+<p>
+
+Don't have an account?
+
+<Link to="/signup">
+
+Signup
+
+</Link>
+
+</p>
+
+</div>
+
+</AuthShell>
+
+);
 
 }
 
