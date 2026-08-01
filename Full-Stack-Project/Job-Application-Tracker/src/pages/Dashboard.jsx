@@ -190,7 +190,7 @@ Applications
 {showForm && (
   <div
 className="modal-overlay"
-onClick={() => closeForm()}
+onClick={closeForm}
 >
 
 <div
@@ -199,7 +199,7 @@ onClick={(e)=>e.stopPropagation()}
 >
   <JobForm
     addJob={addJob}
-    closeForm={() => setShowForm(false)}
+    closeForm={closeForm}
     editingJob={editingJob}
     updateJob={updateJob}
     

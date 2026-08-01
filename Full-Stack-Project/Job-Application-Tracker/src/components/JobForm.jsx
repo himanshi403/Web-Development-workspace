@@ -72,7 +72,7 @@ function JobForm({
         }
 
         closeForm();
-        closeForm={closeForm}
+        
 
         setCompany("");
         setRole("");
