@@ -1,63 +1,61 @@
 import { NavLink } from "react-router-dom";
 
-function Sidebar(){
+function Sidebar() {
+  return (
+    <aside className="sidebar">
 
-return(
+      <div className="sidebar-header">
 
-<aside className="sidebar">
+        <img
+          src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
+          alt="JobTracker"
+          className="sidebar-logo"
+        />
 
-<div className="sidebar-top">
+        <h1 className="sidebar-title">
+          JobTracker
+        </h1>
 
-<h2>💼 JobTracker</h2>
+      </div>
 
-<p className="sidebar-tagline">
+      <nav className="sidebar-nav">
 
-Track. Apply. Succeed.
+        <NavLink to="/dashboard">
+          🏠 Dashboard
+        </NavLink>
 
-</p>
+        <NavLink to="/profile">
+          👤 Profile
+        </NavLink>
 
-</div>
+        <NavLink to="/analytics">
+          📊 Analytics
+        </NavLink>
 
-<nav className="sidebar-links">
+        <NavLink to="/calendar">
+          📅 Interview Calendar
+        </NavLink>
 
-<NavLink to="/dashboard">🏠 Dashboard</NavLink>
+        <NavLink to="/resume">
+          📄 Resume
+        </NavLink>
 
-<NavLink to="/profile">👤 Profile</NavLink>
+        <NavLink to="/settings">
+          ⚙ Settings
+        </NavLink>
 
-<NavLink to="/analytics">📊 Analytics</NavLink>
+      </nav>
 
-<NavLink to="/settings">⚙ Settings</NavLink>
+      <div className="sidebar-footer">
 
-</nav>
+        <NavLink to="/">
+          🚪 Logout
+        </NavLink>
 
-<div className="sidebar-summary">
+      </div>
 
-<h3>Quick Summary</h3>
-
-<div className="summary-box">
-
-🔥 Keep Applying!
-
-</div>
-
-<div className="summary-box">
-
-🚀 Dream Job Loading...
-
-</div>
-
-</div>
-
-<div className="sidebar-bottom">
-
-<NavLink to="/">🚪 Logout</NavLink>
-
-</div>
-
-</aside>
-
-);
-
+    </aside>
+  );
 }
 
 export default Sidebar;

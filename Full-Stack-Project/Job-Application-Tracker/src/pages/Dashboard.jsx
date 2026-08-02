@@ -60,8 +60,6 @@ exportJobs
 {
     const [loading, setLoading] = useState(true);
   
-
-
   const filteredJobs = jobs
 .filter(job => {
 
@@ -87,6 +85,28 @@ useEffect(() => {
 
 },[]);
 
+
+const words = [
+  "Track",
+  "Apply",
+  "Achieve",
+  "Grow",
+  "Succeed"
+];
+
+const [currentWord, setCurrentWord] = useState(0);
+
+useEffect(() => {
+
+  const interval = setInterval(() => {
+
+    setCurrentWord(prev => (prev + 1) % words.length);
+
+  },2500);
+
+  return () => clearInterval(interval);
+
+},[]);
 
 if(loading){
 
@@ -122,18 +142,27 @@ if(loading){
 <ProfileMenu/>
 
 </div>
+<header className="dashboard-hero">
 
-   <header className="dashboard-header">
+<div className="hero-left">
 
-<div>
+<h1 className="hero-title">
 
-<h1>
+<span className="hero-static">Track&nbsp;</span>
 
-Welcome back, Himanshi 👋
+<span className="hero-word">
+
+{["Dreams", "Jobs", "Success", "Offers", "Future"][Math.floor(Date.now()/2500)%5]}
+
+</span>
 
 </h1>
 
-<p>
+<p className="hero-subtitle">
+
+Welcome back, <strong>Himanshi</strong> 👋
+
+<br />
 
 Keep tracking your applications and stay one step closer to your dream offer.
 
@@ -141,19 +170,23 @@ Keep tracking your applications and stay one step closer to your dream offer.
 
 </div>
 
-<div className="dashboard-summary">
+<div className="hero-right">
 
-<h2>
+<div className="hero-stat-card">
+
+<div className="hero-stat-number">
 
 {jobs.length}
 
-</h2>
+</div>
 
-<span>
+<div className="hero-stat-label">
 
 Applications
 
-</span>
+</div>
+
+</div>
 
 </div>
 

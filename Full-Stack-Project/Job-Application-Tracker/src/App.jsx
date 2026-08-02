@@ -2,6 +2,8 @@ import {useState} from "react";
 import {useEffect} from "react";
 import Analytics from "./pages/Analytics";
 import JobDetails from "./pages/JobDetails";
+import Resume from "./pages/Resume";
+import InterviewCalendar from "./pages/InterviewCalendar";
 import {
 
 BrowserRouter,
@@ -192,6 +194,15 @@ path="/login"
 
 element={<Login/>}
 
+/>
+<Route
+path="/resume"
+element={<Resume/>}
+/>
+
+<Route
+path="/calendar"
+element={<InterviewCalendar jobs={jobs}/>}
 />
 
 <Route
