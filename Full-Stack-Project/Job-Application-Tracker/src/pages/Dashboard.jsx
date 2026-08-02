@@ -1,5 +1,6 @@
 import React, {useState,useEffect} from 'react';
 
+
 import Navbar from "../components/Navbar";
 import JobForm from "../components/JobForm";
 import JobStats from "../components/JobStats";
@@ -52,11 +53,13 @@ confirmDelete,
 
 undoDelete,
 
-closeForm
+closeForm,
+exportJobs
 })
 
 {
     const [loading, setLoading] = useState(true);
+  
 
 
   const filteredJobs = jobs
@@ -83,6 +86,7 @@ useEffect(() => {
     return () => clearTimeout(timer);
 
 },[]);
+
 
 if(loading){
 
@@ -156,6 +160,7 @@ Applications
 </header>
 <QuickActions
     setShowForm={setShowForm}
+    exportJobs={exportJobs}
     
 />
 

@@ -4,6 +4,7 @@ import StatusPieChart from "../components/Charts/StatusPieChart";
 import TopCompaniesChart from "../components/Charts/TopCompaniesChart";
 import MonthlyTrendChart from "../components/Charts/MonthlyTrendChart";
 import RecentActivity from "../components/RecentActivity";
+import Layout from "../components/Layout";
 
 function Analytics({jobs}){
     const total=jobs.length;
@@ -16,6 +17,7 @@ function Analytics({jobs}){
     total===0? 0:Math.round((offer/total)*100);
 
     return(
+        <Layout>
         
         <div className="analytics-page">
             <h1>Analytics</h1>
@@ -56,6 +58,7 @@ function Analytics({jobs}){
 
 
         </div>
+        </Layout>
     );
 
     

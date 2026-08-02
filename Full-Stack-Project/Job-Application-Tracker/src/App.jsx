@@ -149,6 +149,28 @@ setShowForm(false);
 setEditingJob(null);
 
 }
+function exportJobs() {
+
+    const data = JSON.stringify(jobs, null, 2);
+
+    const blob = new Blob(
+        [data],
+        {
+            type: "application/json"
+        }
+    );
+
+    const url = URL.createObjectURL(blob);
+
+    const link = document.createElement("a");
+
+    link.href = url;
+
+    link.download = "jobs.json";
+
+    link.click();
+
+}
 
   return(
 
@@ -245,9 +267,11 @@ setJobToDelete={setJobToDelete}
 
 closeToast={()=>setToast("")}
 closeForm={closeJobForm}
+exportJobs={exportJobs}
 
 
 />
+
 
 
 }
@@ -260,6 +284,7 @@ closeForm={closeJobForm}
     element={
         <JobDetails
             jobs={jobs}
+            updateJob={updateJob}
         />
     }
 />

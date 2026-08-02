@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import EditProfileModal from "../components/EditProfileModal";
+import Layout from "../components/Layout";
 
 function Profile({jobs}){
     const total = jobs.length;
@@ -58,6 +59,7 @@ useEffect(() => {
 
 
     return(
+        <Layout>
         <div className="profile-page">
         
 
@@ -225,6 +227,7 @@ useEffect(() => {
 }
 
         </div>
+        </Layout>
     );
 }
 export default Profile;

@@ -1,6 +1,8 @@
 import { useParams, useNavigate } from "react-router-dom";
+import { useState } from "react";
+import Layout from "../components/Layout";
 
-function JobDetails({ jobs }) {
+function JobDetails({ jobs,updateJob }) {
 
     const { id } = useParams();
     const navigate = useNavigate();
@@ -8,6 +10,15 @@ function JobDetails({ jobs }) {
     const job = jobs.find(
         job => job.id.toString() === id
     );
+    const [editing,setEditing] = useState(false);
+
+const [company,setCompany] = useState(job.company);
+
+const [role,setRole] = useState(job.role);
+
+const [status,setStatus] = useState(job.status);
+
+const [notes,setNotes] = useState(job.notes || "");
 
     if (!job) {
         return <h2>Job Not Found</h2>;
@@ -28,6 +39,7 @@ function JobDetails({ jobs }) {
             ? sortedJobs[currentIndex + 1]
             : null;
 return (
+    <Layout>
 
 <div className="job-details-page">
 
@@ -52,9 +64,40 @@ onClick={() => navigate("/dashboard")}
 
 <div>
 
+{
+editing ?
+
+<>
+
+<input
+
+value={company}
+
+onChange={(e)=>setCompany(e.target.value)}
+
+/>
+
+<input
+
+value={role}
+
+onChange={(e)=>setRole(e.target.value)}
+
+/>
+
+</>
+
+:
+
+<>
+
 <h1>{job.company}</h1>
 
 <h2>{job.role}</h2>
+
+</>
+
+}
 
 </div>
 
@@ -66,7 +109,31 @@ onClick={() => navigate("/dashboard")}
 
 <h4>Status</h4>
 
+{
+editing ?
+
+<select
+
+value={status}
+
+onChange={(e)=>setStatus(e.target.value)}
+>
+
+<option>Applied</option>
+
+<option>Interview</option>
+
+<option>Offer</option>
+
+<option>Rejected</option>
+
+</select>
+
+:
+
 <p>{job.status}</p>
+
+}
 
 </div>
 
@@ -102,7 +169,27 @@ job.createdAt
 
 <h4>Notes</h4>
 
-<p>No notes added yet.</p>
+{
+
+editing ?
+
+<textarea
+
+value={notes}
+
+onChange={(e)=>setNotes(e.target.value)}
+
+/>
+
+:
+
+<p>
+
+{job.notes || "No notes added yet."}
+
+</p>
+
+}
 
 </div>
 
@@ -110,11 +197,75 @@ job.createdAt
 
 <div className="details-buttons">
 
-<button className="edit-btn">
+{
 
-✏ Edit Job
+editing ?
+
+<>
+
+<button
+
+className="save-btn"
+
+onClick={()=>{
+
+updateJob({
+
+...job,
+
+company,
+
+role,
+
+status,
+
+notes
+
+});
+
+setEditing(false);
+
+}}
+
+>
+
+Save
 
 </button>
+
+<button
+
+className="cancel-btn"
+
+onClick={()=>{
+
+setEditing(false);
+
+}}
+
+>
+
+Cancel
+
+</button>
+
+</>
+
+:
+
+<button
+
+className="edit-btn"
+
+onClick={()=>setEditing(true)}
+
+>
+
+Edit Job
+
+</button>
+
+}
 
 </div>
 
@@ -165,6 +316,7 @@ Next →
 </div>
 
 </div>
+</Layout>
 
 );
 

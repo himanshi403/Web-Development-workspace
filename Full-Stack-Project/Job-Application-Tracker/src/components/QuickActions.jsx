@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 
 
 
-function QuickActions({ setShowForm }) {
+function QuickActions({ setShowForm ,exportJobs }) {
     const navigate = useNavigate();
 
   return (
@@ -15,9 +15,17 @@ function QuickActions({ setShowForm }) {
         ➕ Add Job
       </button>
 
-      <button className="action-btn">
-        📄 Export Jobs
-      </button>
+      <button
+
+className="action-btn"
+
+onClick={exportJobs}
+
+>
+
+📄 Export Jobs
+
+</button>
 
       <button className="action-btn"
       onClick={() => navigate("/analytics")}
