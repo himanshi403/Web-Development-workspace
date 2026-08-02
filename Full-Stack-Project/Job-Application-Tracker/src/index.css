@@ -163,6 +163,7 @@ overflow:hidden;
 
 position:relative;
 
+
 }
 
 .dashboard-hero::after{
@@ -1702,6 +1703,7 @@ font-size:12px;
 .profile-menu{
 
 position:relative;
+z-index:1000;
 
 }
 
@@ -1745,7 +1747,7 @@ padding:15px;
 border-radius:12px;
 
 box-shadow:0 8px 20px rgba(0,0,0,.15);
-
+z-index:9999;
 }
 
 .dropdown-menu p{

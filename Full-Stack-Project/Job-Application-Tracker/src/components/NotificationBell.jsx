@@ -1,12 +1,43 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 
 function NotificationBell({ activities = [] }) {
 
     const [showNotifications, setShowNotifications] = useState(false);
+    const bellRef = useRef(null);
 
+    useEffect(() => {
+
+    function handleClickOutside(event) {
+
+        if (
+            bellRef.current &&
+            !bellRef.current.contains(event.target)
+        ) {
+
+            setShowNotifications(false);
+
+        }
+
+    }
+
+    document.addEventListener(
+        "mousedown",
+        handleClickOutside
+    );
+
+    return () => {
+
+        document.removeEventListener(
+            "mousedown",
+            handleClickOutside
+        );
+
+    };
+
+}, []);
     return (
 
-        <div className="notification-wrapper">
+        <div className="notification-wrapper" ref={bellRef}>
 
             <div
                 className="notification-bell"
