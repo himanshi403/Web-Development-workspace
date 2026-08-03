@@ -1,6 +1,21 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 function Sidebar() {
+    const navigate = useNavigate();
+const [loggingOut, setLoggingOut] = useState(false);
+
+function handleLogout() {
+
+    setLoggingOut(true);
+
+    setTimeout(() => {
+
+        navigate("/");
+
+    },800);
+
+}
   return (
     <aside className="sidebar">
 
@@ -48,9 +63,27 @@ function Sidebar() {
 
       <div className="sidebar-footer">
 
-        <NavLink to="/">
-          🚪 Logout
-        </NavLink>
+        <button
+className="logout-btn"
+onClick={handleLogout}
+disabled={loggingOut}
+>
+
+{
+
+loggingOut
+
+?
+
+"Logging out..."
+
+:
+
+"🚪 Logout"
+
+}
+
+</button>
 
       </div>
 

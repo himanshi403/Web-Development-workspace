@@ -1443,6 +1443,33 @@ html{
 scroll-behavior:smooth;
 
 }
+button{
+
+transition:.25s ease;
+
+}
+
+button:active{
+
+transform:scale(.96);
+
+}
+
+img{
+
+user-select:none;
+
+}
+
+::selection{
+
+background:#2563eb;
+
+color:white;
+
+}
+
+
 /* ===========================
    AUTH MODAL
 =========================== */
@@ -3587,5 +3614,247 @@ border-radius:18px;
 box-shadow:
 
 0 8px 30px rgba(0,0,0,.08);
+
+}
+
+.dashboard-skeleton{
+
+display:flex;
+
+flex-direction:column;
+
+gap:20px;
+
+}
+
+.skeleton{
+
+border-radius:16px;
+
+background:linear-gradient(
+90deg,
+#ececec 25%,
+#f8f8f8 50%,
+#ececec 75%
+);
+
+background-size:300% 100%;
+
+animation:skeletonLoading 1.2s infinite;
+
+}
+
+.skeleton.hero{
+
+height:170px;
+
+}
+
+.skeleton.toolbar{
+
+height:70px;
+
+}
+
+.skeleton.list{
+
+height:110px;
+
+}
+
+@keyframes skeletonLoading{
+
+0%{
+
+background-position:100% 0;
+
+}
+
+100%{
+
+background-position:-100% 0;
+
+}
+
+}
+
+body.dark .skeleton{
+
+background:linear-gradient(
+90deg,
+#262626 25%,
+#333 50%,
+#262626 75%
+);
+
+background-size:300% 100%;
+
+}
+
+.skeleton-sidebar{
+
+width:280px;
+
+padding:30px 20px;
+
+display:flex;
+
+flex-direction:column;
+
+gap:18px;
+
+}
+
+.skeleton.logo{
+
+height:70px;
+
+border-radius:18px;
+
+}
+
+.skeleton.nav{
+
+height:48px;
+
+border-radius:14px;
+
+}
+
+.not-found-page{
+
+height:100vh;
+
+display:flex;
+
+flex-direction:column;
+
+justify-content:center;
+
+align-items:center;
+
+text-align:center;
+
+padding:30px;
+
+}
+
+.not-found-page h1{
+
+font-size:120px;
+
+color:#2563eb;
+
+margin:0;
+
+}
+
+.not-found-page h2{
+
+margin-top:10px;
+
+font-size:34px;
+
+}
+
+.not-found-page p{
+
+margin:20px 0;
+
+color:#666;
+
+}
+
+.back-home-btn{
+
+padding:14px 24px;
+
+border-radius:12px;
+
+background:#2563eb;
+
+color:white;
+
+text-decoration:none;
+
+font-weight:600;
+
+transition:.3s;
+
+}
+
+.back-home-btn:hover{
+
+transform:translateY(-3px);
+
+}
+
+.error-page{
+
+height:100vh;
+
+display:flex;
+
+flex-direction:column;
+
+justify-content:center;
+
+align-items:center;
+
+gap:20px;
+
+text-align:center;
+
+}
+
+.error-page button{
+
+padding:14px 28px;
+
+border:none;
+
+background:#2563eb;
+
+color:white;
+
+border-radius:12px;
+
+cursor:pointer;
+
+}
+
+.logout-btn{
+
+width:100%;
+
+padding:14px;
+
+border:none;
+
+background:#ef4444;
+
+color:white;
+
+border-radius:14px;
+
+font-weight:600;
+
+cursor:pointer;
+
+transition:.25s;
+
+}
+
+.logout-btn:hover{
+
+background:#dc2626;
+
+}
+
+.logout-btn:disabled{
+
+opacity:.8;
+
+cursor:not-allowed;
 
 }

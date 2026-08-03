@@ -11,6 +11,7 @@ function JobForm({
     const [role, setRole] = useState("");
     const [status, setStatus] = useState("Applied");
     const [interviewDate, setInterviewDate] = useState("");
+    const [saving,setSaving]=useState(false);
 
     useEffect(() => {
 
@@ -33,6 +34,9 @@ function JobForm({
     }, [editingJob]);
 
     function handleSubmit() {
+        if(saving) return;
+
+setSaving(true);
 
         if (company === "" || role === "") {
 
@@ -53,6 +57,7 @@ function JobForm({
                 createdAt: editingJob.createdAt
 
             });
+            setSaving(false);
 
         } else {
 
@@ -86,7 +91,11 @@ function JobForm({
 
             <h2>
 
-                {editingJob ? " Edit Job" : " Add New Job"}
+                {saving
+? "Saving..."
+: editingJob
+? "Save Changes"
+: "Add Job"}
 
             </h2>
 

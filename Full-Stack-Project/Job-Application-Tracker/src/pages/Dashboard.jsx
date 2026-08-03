@@ -12,7 +12,7 @@ import QuickActions from "../components/QuickActions";
 import RecentActivity from "../components/RecentActivity";
 import NotificationBell from "../components/NotificationBell";
 import ProfileMenu from "../components/ProfileMenu";
-import UpcomingInterviews from "../components/UpcomingInterviews";
+import DashboardSkeleton from "../components/DashboardSkeleton";
 
 
 
@@ -109,18 +109,7 @@ useEffect(() => {
 },[]);
 
 if(loading){
-
-    return(
-
-        <div className="loading-screen">
-
-            <div className="loader"></div>
-
-            <p>Loading Dashboard...</p>
-
-        </div>
-
-    );
+   return <DashboardSkeleton />;
 
 }
 
@@ -246,26 +235,25 @@ onClick={(e)=>e.stopPropagation()}
   </div>
 )}
 
-  <JobStats jobs={jobs} />
-  <UpcomingInterviews jobs={jobs}/>
-  
-  <RecentActivity activities={activities} />
-  
-  <RecentJobs jobs={jobs}/>
-<p className="results-info">
-  Showing {filteredJobs.length} of {jobs.length} applications
+  <p className="results-info">
+    Showing {filteredJobs.length} of {jobs.length} applications
 </p>
 
-  <JobList jobs={filteredJobs}
-           deleteJob={(job)=>setJobToDelete(job)}
-           editJob={editJob}
-           search={search}
-           sortBy={sortBy}
-           statusFilter={statusFilter}
-           setShowForm={setShowForm}
-   />
+<JobList
+    jobs={filteredJobs}
+    deleteJob={(job)=>setJobToDelete(job)}
+    editJob={editJob}
+    search={search}
+    sortBy={sortBy}
+    statusFilter={statusFilter}
+    setShowForm={setShowForm}
+/>
 
+<JobStats jobs={jobs} />
 
+<RecentActivity activities={activities} />
+
+<RecentJobs jobs={jobs} />
   {
 jobToDelete && (
 

@@ -4,6 +4,9 @@ import Analytics from "./pages/Analytics";
 import JobDetails from "./pages/JobDetails";
 import Resume from "./pages/Resume";
 import InterviewCalendar from "./pages/InterviewCalendar";
+import NotFound from "./pages/NotFound";
+import ErrorBoundary from "./components/ErrorBoundary";
+import ScrollToTop from "./components/ScrollToTop";
 import {
 
 BrowserRouter,
@@ -175,6 +178,8 @@ function exportJobs() {
 }
 
   return(
+    <ErrorBoundary>
+
 
 <BrowserRouter>
 
@@ -226,6 +231,10 @@ element={<Settings jobs={jobs}/>}
 <Route
 path="/analytics"
 element={<Analytics jobs={jobs}/>}
+/>
+<Route
+    path="*"
+    element={<NotFound/>}
 />
 
 <Route
@@ -303,6 +312,7 @@ exportJobs={exportJobs}
 </Routes>
 
 </BrowserRouter>
+</ErrorBoundary>
 
 );
 } 
