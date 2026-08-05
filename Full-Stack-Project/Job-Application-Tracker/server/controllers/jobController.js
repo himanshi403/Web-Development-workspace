@@ -203,6 +203,134 @@ export const getSingleJob = async (req, res) => {
 
 };
 
+// ================= UPDATE JOB =================
+
+export const updateJob = async (req, res) => {
+
+    try {
+
+        const job = await Job.findById(req.params.id);
+
+        if (!job) {
+
+            return res.status(404).json({
+
+                success: false,
+                message: "Job not found"
+
+            });
+
+        }
+
+        // Ownership Check
+
+        if (job.user.toString() !== req.user.id.toString()) {
+
+            return res.status(403).json({
+
+                success: false,
+                message: "Unauthorized"
+
+            });
+
+        }
+
+        const {
+
+            company,
+            role,
+            status,
+            interviewDate
+
+        } = req.body;
+
+        job.company = company || job.company;
+        job.role = role || job.role;
+        job.status = status || job.status;
+        job.interviewDate = interviewDate || job.interviewDate;
+
+        await job.save();
+
+        res.status(200).json({
+
+            success: true,
+            message: "Job Updated Successfully",
+            job
+
+        });
+
+    }
+
+    catch (error) {
+
+        res.status(500).json({
+
+            success: false,
+            message: error.message
+
+        });
+
+    }
+
+};
+
+
+// ================= DELETE JOB =================
+
+export const deleteJob = async (req, res) => {
+
+    try {
+
+        const job = await Job.findById(req.params.id);
+
+        if (!job) {
+
+            return res.status(404).json({
+
+                success: false,
+                message: "Job not found"
+
+            });
+
+        }
+
+        // Ownership Check
+
+        if (job.user.toString() !== req.user.id.toString()) {
+
+            return res.status(403).json({
+
+                success: false,
+                message: "Unauthorized"
+
+            });
+
+        }
+
+        await job.deleteOne();
+
+        res.status(200).json({
+
+            success: true,
+            message: "Job Deleted Successfully"
+
+        });
+
+    }
+
+    catch (error) {
+
+        res.status(500).json({
+
+            success: false,
+            message: error.message
+
+        });
+
+    }
+
+};
+
 export const getJobStats = async (req,res)=>{
 
 try{
