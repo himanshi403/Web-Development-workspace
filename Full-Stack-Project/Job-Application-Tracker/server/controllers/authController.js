@@ -36,16 +36,21 @@ export const register = async (req, res) => {
 
         // Create user
         const user = await User.create({
-            name,
-            email,
-            password: hashedPassword
-        });
+    name,
+    email,
+    password: hashedPassword
+});
+     const createdUser = await User.findById(user._id).select("-password");
 
-        res.status(201).json({
-            success: true,
-            message: "User Registered Successfully",
-            user
-        });
+res.status(201).json({
+
+    success: true,
+
+    message: "User Registered Successfully",
+
+    user: createdUser
+
+});
     } catch (error) {
         res.status(500).json({
             success: false,
@@ -105,19 +110,7 @@ export const login = async (req, res) => {
     }
 };
 
-export const getProfile = async (req, res) => {
 
-    res.json({
-
-        success: true,
-
-        message: "Protected Route Accessed",
-
-        user: req.user
-
-    });
-
-};
 
 export const getMe = async (req, res) => {
 

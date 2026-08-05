@@ -1,8 +1,8 @@
 import Job from "../models/Job.js";
+import asyncHandler from "../utils/asyncHandler.js";
 
-export const createJob = async (req, res) => {
+export const createJob = asyncHandler(async (req, res) => {
 
-    try {
 
         const {
 
@@ -12,6 +12,15 @@ export const createJob = async (req, res) => {
             interviewDate
 
         } = req.body;
+        if(!company || !role){
+
+const error = new Error("Company and Role are required");
+
+error.statusCode = 400;
+
+throw error;
+
+}
 
         const job = await Job.create({
 
@@ -37,25 +46,13 @@ export const createJob = async (req, res) => {
 
         });
 
-    }
+    });
 
-    catch (error) {
+   
 
-        res.status(500).json({
+export const getJobs = asyncHandler(async (req,res)=>{
 
-            success: false,
-
-            message: error.message
-
-        });
-
-    }
-
-};
-
-export const getJobs = async (req, res) => {
-
-    try {
+   
 
         const { search, status, sort } = req.query;
 
@@ -139,25 +136,14 @@ const totalJobs = await Job.countDocuments(query);
            pages:Math.ceil(totalJobs/limit)
         });
 
-    }
+    });
 
-    catch (error) {
-
-        res.status(500).json({
-
-            success: false,
-            message: error.message
-
-        });
-
-    }
-
-};
+   
 
 
-export const getSingleJob = async (req, res) => {
+export const getSingleJob = asyncHandler(async (req, res) => {
 
-    try {
+    
 
         const job = await Job.findOne({
 
@@ -187,38 +173,25 @@ export const getSingleJob = async (req, res) => {
 
         });
 
-    }
+    });
 
-    catch (error) {
-
-        res.status(500).json({
-
-            success: false,
-
-            message: error.message
-
-        });
-
-    }
-
-};
+   
 
 // ================= UPDATE JOB =================
 
-export const updateJob = async (req, res) => {
+export const updateJob = asyncHandler(async (req,res)=>{
 
-    try {
+    
 
         const job = await Job.findById(req.params.id);
 
         if (!job) {
 
-            return res.status(404).json({
+           const error = new Error("Job not found");
 
-                success: false,
-                message: "Job not found"
+            error.statusCode = 404;
 
-            });
+            throw error;
 
         }
 
@@ -226,12 +199,11 @@ export const updateJob = async (req, res) => {
 
         if (job.user.toString() !== req.user.id.toString()) {
 
-            return res.status(403).json({
+          const error = new Error("Unauthorized");
 
-                success: false,
-                message: "Unauthorized"
+           error.statusCode = 403;
 
-            });
+           throw error;
 
         }
 
@@ -243,6 +215,15 @@ export const updateJob = async (req, res) => {
             interviewDate
 
         } = req.body;
+        if(!company || !role){
+
+const error = new Error("Company and Role are required");
+
+error.statusCode = 400;
+
+throw error;
+
+}
 
         job.company = company || job.company;
         job.role = role || job.role;
@@ -259,27 +240,14 @@ export const updateJob = async (req, res) => {
 
         });
 
-    }
+    });
 
-    catch (error) {
-
-        res.status(500).json({
-
-            success: false,
-            message: error.message
-
-        });
-
-    }
-
-};
+    
 
 
 // ================= DELETE JOB =================
 
-export const deleteJob = async (req, res) => {
-
-    try {
+export const deleteJob = asyncHandler(async (req,res)=>{
 
         const job = await Job.findById(req.params.id);
 
@@ -316,24 +284,13 @@ export const deleteJob = async (req, res) => {
 
         });
 
-    }
+    });
 
-    catch (error) {
+   
 
-        res.status(500).json({
+export const getJobStats = asyncHandler(async (req,res)=>{
 
-            success: false,
-            message: error.message
 
-        });
-
-    }
-
-};
-
-export const getJobStats = async (req,res)=>{
-
-try{
 
 const stats=await Job.aggregate([
 
@@ -387,19 +344,7 @@ stats:defaultStats
 
 });
 
-}
-
-catch(error){
-
-res.status(500).json({
-
-success:false,
-
-message:error.message
-
 });
 
-}
 
-};
 

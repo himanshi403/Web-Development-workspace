@@ -3,6 +3,8 @@ import dotenv from "dotenv";
 import connectDB from "./config/db.js";
 import authRoutes from "./routes/authRoutes.js";
 import jobRoutes from "./routes/jobRoutes.js";
+import errorHandler from "./middleware/errorMiddleware.js";
+import notFound from "./middleware/notFoundMiddleware.js";
 
 dotenv.config();
 
@@ -12,6 +14,8 @@ const app = express();
 app.use(express.json());
 app.use("/api/auth", authRoutes);
 app.use("/api/jobs", jobRoutes);
+app.use(notFound);
+app.use(errorHandler);
 
 app.get("/", (req, res) => {
 

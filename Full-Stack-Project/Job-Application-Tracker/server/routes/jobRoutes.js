@@ -1,14 +1,15 @@
 import express from "express";
 
 import { protect } from "../middleware/authMiddleware.js";
-import { getJobStats } from "../controllers/jobController.js";
+
 
 import { 
     createJob,
     getJobs,
     getSingleJob,
     updateJob,
-    deleteJob
+    deleteJob,
+    getJobStats
 
  } from "../controllers/jobController.js";
 
