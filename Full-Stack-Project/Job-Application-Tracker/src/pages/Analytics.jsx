@@ -1,5 +1,5 @@
 import {useMemo} from "react";
-import "../styles/Analytics.css";
+
 import StatusPieChart from "../components/Charts/StatusPieChart";
 import TopCompaniesChart from "../components/Charts/TopCompaniesChart";
 import MonthlyTrendChart from "../components/Charts/MonthlyTrendChart";

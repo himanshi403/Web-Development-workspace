@@ -2,6 +2,10 @@ import express from "express";
 
 import { protect } from "../middleware/authMiddleware.js";
 
+import { validateJob } from "../validators/jobValidator.js";
+
+import validationMiddleware from "../middleware/validationMiddleware.js";
+
 
 import { 
     createJob,
@@ -15,12 +19,18 @@ import {
 
 const router = express.Router();
 
-router.post("/", protect, createJob);
+router.post(
+    "/",
+    protect,
+    validateJob,
+    validationMiddleware,
+    createJob
+);
 router.get("/", protect, getJobs);
 router.get("/stats",protect,getJobStats);
 router.get("/:id", protect, getSingleJob);
-router.put("/:id", protect, updateJob);
 router.delete("/:id", protect, deleteJob);
+router.put("/:id", protect, validateJob, validationMiddleware, updateJob);
 
 
 export default router;

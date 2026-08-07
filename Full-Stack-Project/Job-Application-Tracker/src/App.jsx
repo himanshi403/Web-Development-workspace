@@ -25,6 +25,13 @@ import Dashboard from "./pages/Dashboard";
 import Profile from "./pages/Profile";
 import Settings from "./pages/Settings";
 
+import {
+    getJobs,
+    createJob,
+    updateJob as updateJobAPI,
+    deleteJob as deleteJobAPI
+} from "./services/jobService";
+
 function App(){
   const[jobs,setJobs]=useState([]);
   const [editingJob, setEditingJob] = useState(null);
@@ -38,35 +45,49 @@ function App(){
    const [undoTimer, setUndoTimer] = useState(null);
    const [activities, setActivities] = useState([]);
 
+  const fetchJobs=async ()=>{
+    try{
+      const response=await getJobs();
+      setJobs(response.data.jobs);
+    }catch(error){
+      console.error("Error fetching jobs:",error);
+    }
+  };
+
+  useEffect(()=>{
+    fetchJobs();
+  },[]);
 
 
-useEffect(() => {
-
-const savedJobs = JSON.parse(localStorage.getItem("jobs"));
-
-if(savedJobs!==null){
-
-setJobs(savedJobs);
-
-}
-
-},[]);
-
-    useEffect(()=>{
-    localStorage.setItem(
-      "jobs",
-      JSON.stringify(jobs)
-    );
-  },[jobs]);
+  
 
  
 
-  function addJob(job){
-    setJobs([...jobs,job]);
-    showToast("✅ Job added successfully");
-    addActivity(`Added ${job.company}`);
-    setShowForm(false);
-  }
+const addJob = async (jobData) => {
+
+    try {
+
+        await createJob(jobData);
+
+        await fetchJobs();
+
+        showToast("✅ Job added successfully");
+
+        addActivity(`Added ${jobData.company}`);
+
+        setShowForm(false);
+
+    }
+
+    catch (error) {
+
+        console.log(error);
+
+        showToast("❌ Failed to add job");
+
+    }
+
+};
 
 
 function confirmDelete(){
@@ -109,24 +130,33 @@ setShowForm(true);
 
 }
 
-function updateJob(updatedJob){
+const updateJob = async (updatedJob) => {
 
-setJobs(
+    try {
 
-jobs.map(job=>
+        await updateJobAPI(updatedJob.id, updatedJob);
 
-job.id===updatedJob.id?updatedJob:job
+        await fetchJobs();
 
-)
+        showToast("✏️ Job updated successfully");
 
-);
-showToast("✏️ Job updated successfully");
-addActivity(`Updated ${updatedJob.company}`);
+        addActivity(`Updated ${updatedJob.company}`);
 
-setEditingJob(null);
-setShowForm(false);
+        setEditingJob(null);
 
-}
+        setShowForm(false);
+
+    }
+
+    catch (error) {
+
+        console.log(error);
+
+        showToast("❌ Update failed");
+
+    }
+
+};
 
 function showToast(message){
   setToast(message);//will show job added succesfully!

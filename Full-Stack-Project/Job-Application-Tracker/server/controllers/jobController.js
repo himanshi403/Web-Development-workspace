@@ -1,6 +1,14 @@
 import Job from "../models/Job.js";
 import asyncHandler from "../utils/asyncHandler.js";
 
+import {
+
+successResponse,
+
+errorResponse
+
+} from "../utils/apiResponse.js";
+
 export const createJob = asyncHandler(async (req, res) => {
 
 
@@ -36,15 +44,17 @@ throw error;
 
         });
 
-        res.status(201).json({
+       successResponse(
 
-            success: true,
+    res,
 
-            message: "Job Created Successfully",
+    201,
 
-            job
+    "Job Created Successfully",
 
-        });
+    { job }
+
+);
 
     });
 
@@ -123,19 +133,27 @@ const jobs = await jobsQuery
 
 const totalJobs = await Job.countDocuments(query);
 
-        res.status(200).json({
+   successResponse(
 
-           success:true,
+res,
 
-           jobs,
+200,
 
-           totalJobs,
+"Jobs fetched successfully",
 
-           page,
+{
 
-           pages:Math.ceil(totalJobs/limit)
-        });
+jobs,
 
+totalJobs,
+
+page,
+
+pages
+
+}
+
+);
     });
 
    
@@ -165,13 +183,21 @@ export const getSingleJob = asyncHandler(async (req, res) => {
 
         }
 
-        res.status(200).json({
+       successResponse(
 
-            success: true,
+res,
 
-            job
+200,
 
-        });
+"Job fetched successfully",
+
+{
+
+job
+
+}
+
+);
 
     });
 
@@ -232,13 +258,21 @@ throw error;
 
         await job.save();
 
-        res.status(200).json({
+       successResponse(
 
-            success: true,
-            message: "Job Updated Successfully",
-            job
+res,
 
-        });
+200,
+
+"Job Updated Successfully",
+
+{
+
+job
+
+}
+
+);
 
     });
 
@@ -253,12 +287,15 @@ export const deleteJob = asyncHandler(async (req,res)=>{
 
         if (!job) {
 
-            return res.status(404).json({
+           successResponse(
 
-                success: false,
-                message: "Job not found"
+            res,
 
-            });
+            200,
+
+            "Job Deleted Successfully"
+
+          );
 
         }
 
@@ -336,13 +373,21 @@ defaultStats[item._id]=item.count;
 
 });
 
-res.json({
+successResponse(
 
-success:true,
+res,
+
+200,
+
+"Statistics fetched",
+
+{
 
 stats:defaultStats
 
-});
+}
+
+);
 
 });
 

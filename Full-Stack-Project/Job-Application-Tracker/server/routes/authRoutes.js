@@ -16,7 +16,25 @@ const router = express.Router();
 router.get("/me", protect, getMe);
 router.get("/test", testAuth);
 
-router.post("/register", register);
+import validationMiddleware from "../middleware/validationMiddleware.js";
+import {
+    validateRegister,
+    validateLogin
+} from "../validators/authValidator.js";
 router.post("/login", login);
+
+router.post(
+    "/register",
+    validateRegister,
+    validationMiddleware,
+    register
+);
+
+router.post(
+    "/login",
+    validateLogin,
+    validationMiddleware,
+    login
+);
 
 export default router;
