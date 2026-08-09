@@ -1,8 +1,11 @@
 import express from "express";
 import dotenv from "dotenv";
+import cors from "cors";
+
 import connectDB from "./config/db.js";
 import authRoutes from "./routes/authRoutes.js";
 import jobRoutes from "./routes/jobRoutes.js";
+
 import errorHandler from "./middleware/errorMiddleware.js";
 import notFound from "./middleware/notFoundMiddleware.js";
 
@@ -11,11 +14,17 @@ dotenv.config();
 connectDB();
 
 const app = express();
+
+// ================= MIDDLEWARE =================
+
+app.use(cors({
+    origin: "http://localhost:5173",
+    credentials: true
+}));
+
 app.use(express.json());
-app.use("/api/auth", authRoutes);
-app.use("/api/jobs", jobRoutes);
-app.use(notFound);
-app.use(errorHandler);
+
+// ================= ROOT ROUTE =================
 
 app.get("/", (req, res) => {
 
@@ -25,6 +34,21 @@ app.get("/", (req, res) => {
     });
 
 });
+
+// ================= API ROUTES =================
+
+app.use("/api/auth", authRoutes);
+
+app.use("/api/jobs", jobRoutes);
+
+// ================= ERROR HANDLING =================
+
+// Must come AFTER all valid routes
+app.use(notFound);
+
+app.use(errorHandler);
+
+// ================= SERVER =================
 
 const PORT = process.env.PORT || 5000;
 

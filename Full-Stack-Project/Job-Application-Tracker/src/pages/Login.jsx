@@ -1,113 +1,183 @@
-import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
+
 import AuthShell from "../components/AuthShell";
 import career from "../assets/career.svg";
 
-function Login(){
+import { login } from "../services/authService";
 
-const navigate=useNavigate();
+function Login() {
 
-const[showPassword,setShowPassword]=useState(false);
+    const navigate = useNavigate();
 
-return(
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
 
-<AuthShell
+    const [showPassword, setShowPassword] = useState(false);
+    const [loading, setLoading] = useState(false);
 
-title="Welcome Back 👋"
+    const handleLogin = async (e) => {
 
-subtitle="Continue your journey toward your dream job."
+        e.preventDefault();
 
-image={career}
+        if (!email || !password) {
+            alert("Please enter email and password");
+            return;
+        }
 
->
+        try {
 
-<div className="auth-card">
+            setLoading(true);
 
-<h2>Login</h2>
+            console.log("Sending login request...");
 
-<div className="input-group">
+            const response = await login({
+                email,
+                password
+            });
 
-<span>📧</span>
+            console.log("Login response:", response.data);
 
-<input
+            // Save JWT
+            const token = response.data.token;
 
-type="email"
+            if (!token) {
 
-placeholder="Email"
+                console.error(
+                    "Login succeeded but backend did not return a token."
+                );
 
-/>
+                alert("Login failed: No token received from server.");
 
-</div>
+                return;
+            }
 
-<div className="input-group">
+            localStorage.setItem("token", token);
 
-<span>🔒</span>
+            // Save user information
+            if (response.data.user) {
 
-<input
+                localStorage.setItem(
+                    "user",
+                    JSON.stringify(response.data.user)
+                );
 
-type={showPassword?"text":"password"}
+            }
 
-placeholder="Password"
+            console.log(
+                "Token stored:",
+                localStorage.getItem("token")
+            );
 
-/>
+            navigate("/dashboard");
 
-</div>
+        } catch (error) {
 
-<button
+            console.error("Login error:", error);
 
-className="show-password-btn"
+            alert(
+                error.response?.data?.message ||
+                "Login failed"
+            );
 
-onClick={()=>setShowPassword(!showPassword)}
+        } finally {
 
->
+            setLoading(false);
 
-{showPassword?"Hide":"Show"} Password
+        }
 
-</button>
+    };
 
-<button
+    return (
 
-className="login-btn"
+        <AuthShell
+            title="Welcome Back 👋"
+            subtitle="Continue your journey toward your dream job."
+            image={career}
+        >
 
-onClick={()=>navigate("/dashboard")}
+            <form onSubmit={handleLogin}>
 
->
+                <div className="input-group">
 
-Login
+                    <span>📧</span>
 
-</button>
+                    <input
+                        type="email"
+                        placeholder="Email"
+                        value={email}
+                        onChange={(e) =>
+                            setEmail(e.target.value)
+                        }
+                    />
 
-<div className="divider">
+                </div>
 
-<span>OR</span>
+                <div className="input-group">
 
-</div>
+                    <span>🔒</span>
 
-<button className="social-btn">
+                    <input
+                        type={
+                            showPassword
+                                ? "text"
+                                : "password"
+                        }
+                        placeholder="Password"
+                        value={password}
+                        onChange={(e) =>
+                            setPassword(e.target.value)
+                        }
+                    />
 
-Continue with Google
+                    <button
+                        type="button"
+                        className="show-password-btn"
+                        onClick={() =>
+                            setShowPassword(!showPassword)
+                        }
+                    >
+                        {showPassword
+                            ? "Hide"
+                            : "Show"}
+                    </button>
 
-</button>
+                </div>
 
-<p>
+                <button
+                    type="submit"
+                    className="login-btn"
+                    disabled={loading}
+                >
+                    {loading
+                        ? "Logging in..."
+                        : "Login"}
+                </button>
 
-Don't have an account?
+            </form>
 
-<Link to="/signup">
+            <div className="or-divider">
+                OR
+            </div>
 
-Signup
+            <button
+                type="button"
+                className="google-btn"
+            >
+                Continue with Google
+            </button>
 
-</Link>
+            <p>
+                Don't have an account?{" "}
 
-</p>
+                <Link to="/signup">
+                    Signup
+                </Link>
+            </p>
 
-</div>
+        </AuthShell>
 
-</AuthShell>
-
-);
-
+    );
 }
 
 export default Login;
