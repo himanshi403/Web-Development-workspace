@@ -13,7 +13,8 @@ import {
     getSingleJob,
     updateJob,
     deleteJob,
-    getJobStats
+    getJobStats,
+    restoreJob
 
  } from "../controllers/jobController.js";
 
@@ -28,6 +29,7 @@ router.post(
 );
 router.get("/", protect, getJobs);
 router.get("/stats",protect,getJobStats);
+router.post("/restore", protect, restoreJob);
 router.get("/:id", protect, getSingleJob);
 router.delete("/:id", protect, deleteJob);
 router.put("/:id", protect, validateJob, validationMiddleware, updateJob);

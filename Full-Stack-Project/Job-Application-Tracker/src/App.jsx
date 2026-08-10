@@ -22,7 +22,8 @@ import {
     getJobs,
     createJob,
     updateJob as updateJobAPI,
-    deleteJob as deleteJobAPI
+    deleteJob as deleteJobAPI,
+    restoreJob as restoreJobAPI
 } from "./services/jobService";
 
 
@@ -50,27 +51,21 @@ function App() {
 
     const [activities, setActivities] = useState([]);
 
-    /*
-     * This value changes whenever a different user logs in.
-     * It allows App.jsx to fetch the new user's jobs immediately.
-     */
+    
     const [currentUser, setCurrentUser] = useState(
         localStorage.getItem("user")
     );
 
 
-    // =========================================================
+    
     // FETCH JOBS FOR CURRENT USER
-    // =========================================================
+    
 
     const fetchJobs = async () => {
 
         const token = localStorage.getItem("token");
 
-        /*
-         * If there is no token, there is no logged-in user.
-         * Clear jobs so the previous user's jobs cannot remain.
-         */
+        
         if (!token) {
 
             setJobs([]);
@@ -89,10 +84,7 @@ function App() {
 
             console.error("Error fetching jobs:", error);
 
-            /*
-             * If authentication fails, don't keep showing
-             * another user's old jobs.
-             */
+            
             if (error.response?.status === 401) {
 
                 setJobs([]);
@@ -104,9 +96,7 @@ function App() {
     };
 
 
-    // =========================================================
-    // LISTEN FOR LOGIN / LOGOUT
-    // =========================================================
+   
 
     useEffect(() => {
 
@@ -151,10 +141,9 @@ function App() {
     }, []);
 
 
-    // =========================================================
+    
     // INITIAL LOAD
-    // =========================================================
-
+    
     useEffect(() => {
 
         const token = localStorage.getItem("token");
@@ -176,9 +165,9 @@ function App() {
     }, []);
 
 
-    // =========================================================
+   
     // ADD JOB
-    // =========================================================
+    
 
     const addJob = async (jobData) => {
 
@@ -186,10 +175,7 @@ function App() {
 
             await createJob(jobData);
 
-            /*
-             * Fetch from backend again so MongoDB remains
-             * the source of truth.
-             */
+            
             await fetchJobs();
 
             showToast("✅ Job added successfully");
@@ -270,38 +256,51 @@ function App() {
     };
 
 
-    // =========================================================
-    // UNDO DELETE
-    // =========================================================
+    
+   const undoDelete = async () => {
 
-    /*
-     * Since deletion already happened in MongoDB,
-     * simply putting the job back into React state would be wrong.
-     *
-     * Therefore we refresh from backend instead.
-     */
-    const undoDelete = async () => {
+    if (!lastDeletedJob) {
+        return;
+    }
 
-        /*
-         * We cannot truly undo a MongoDB deletion without
-         * creating the job again.
-         *
-         * For now, refresh the current user's jobs.
-         */
+    try {
+
         clearTimeout(undoTimer);
+
+        await restoreJobAPI({
+
+            company: lastDeletedJob.company,
+
+            role: lastDeletedJob.role,
+
+            status: lastDeletedJob.status,
+
+            interviewDate:
+                lastDeletedJob.interviewDate || null,
+
+            createdAt:
+                lastDeletedJob.createdAt
+
+        });
 
         await fetchJobs();
 
         setLastDeletedJob(null);
 
-        setToast("");
+        setToast("↩️ Job restored successfully");
 
-    };
+    } catch (error) {
 
+        console.error(
+            "Restore job error:",
+            error
+        );
 
-    // =========================================================
-    // EDIT JOB
-    // =========================================================
+        setToast("❌ Failed to restore job");
+
+    }
+
+};
 
     const editJob = (job) => {
 
@@ -312,9 +311,7 @@ function App() {
     };
 
 
-    // =========================================================
-    // UPDATE JOB
-    // =========================================================
+    
 
     const updateJob = async (updatedJob) => {
 
@@ -348,10 +345,7 @@ function App() {
     };
 
 
-    // =========================================================
-    // TOAST
-    // =========================================================
-
+    
     function showToast(message) {
 
         setToast(message);
@@ -365,9 +359,7 @@ function App() {
     }
 
 
-    // =========================================================
-    // ACTIVITY
-    // =========================================================
+    
 
     function addActivity(text) {
 
@@ -394,9 +386,7 @@ function App() {
     }
 
 
-    // =========================================================
-    // CLOSE JOB FORM
-    // =========================================================
+    
 
     function closeJobForm() {
 
@@ -407,9 +397,7 @@ function App() {
     }
 
 
-    // =========================================================
-    // EXPORT JOBS
-    // =========================================================
+    
 
     function exportJobs() {
 

@@ -1,324 +1,509 @@
 import { useParams, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+
 import Layout from "../components/Layout";
 
-function JobDetails({ jobs,updateJob }) {
+import {
+    getSingleJob,
+    updateJob
+} from "../services/jobService";
+
+function JobDetails() {
 
     const { id } = useParams();
+
     const navigate = useNavigate();
 
-    const job = jobs.find(
-        job => job.id.toString() === id
-    );
-    const [editing,setEditing] = useState(false);
+    const [job, setJob] = useState(null);
 
-const [company,setCompany] = useState(job.company);
+    const [loading, setLoading] = useState(true);
 
-const [role,setRole] = useState(job.role);
+    const [error, setError] = useState("");
 
-const [status,setStatus] = useState(job.status);
+    const [editing, setEditing] = useState(false);
 
-const [notes,setNotes] = useState(job.notes || "");
+    const [company, setCompany] = useState("");
 
-    if (!job) {
-        return <h2>Job Not Found</h2>;
+    const [role, setRole] = useState("");
+
+    const [status, setStatus] = useState("Applied");
+
+    const [interviewDate, setInterviewDate] =
+        useState("");
+
+    const [notes, setNotes] = useState("");
+
+    const [saving, setSaving] = useState(false);
+
+
+    // ================= FETCH JOB =================
+
+    useEffect(() => {
+
+        const fetchJob = async () => {
+
+            try {
+
+                setLoading(true);
+
+                setError("");
+
+                const response =
+                    await getSingleJob(id);
+
+                const fetchedJob =
+                    response.data.job;
+
+                setJob(fetchedJob);
+
+                setCompany(
+                    fetchedJob.company || ""
+                );
+
+                setRole(
+                    fetchedJob.role || ""
+                );
+
+                setStatus(
+                    fetchedJob.status || "Applied"
+                );
+
+                setInterviewDate(
+                    fetchedJob.interviewDate
+                        ? fetchedJob.interviewDate
+                            .split("T")[0]
+                        : ""
+                );
+
+                setNotes(
+                    fetchedJob.notes || ""
+                );
+
+            } catch (error) {
+
+                console.error(
+                    "Error fetching job:",
+                    error
+                );
+
+                setError(
+                    error.response?.data?.message ||
+                    "Unable to load job"
+                );
+
+            } finally {
+
+                setLoading(false);
+
+            }
+
+        };
+
+        fetchJob();
+
+    }, [id]);
+
+
+    // ================= SAVE JOB =================
+
+    const handleSave = async () => {
+
+        try {
+
+            setSaving(true);
+
+            const response =
+                await updateJob(id, {
+
+                    company,
+
+                    role,
+
+                    status,
+
+                    interviewDate:
+                        interviewDate || null,
+
+                    notes
+
+                });
+
+            setJob(response.data.job);
+
+            setEditing(false);
+
+        } catch (error) {
+
+            console.error(
+                "Error updating job:",
+                error
+            );
+
+            alert(
+                error.response?.data?.message ||
+                "Failed to update job"
+            );
+
+        } finally {
+
+            setSaving(false);
+
+        }
+
+    };
+
+
+    // ================= LOADING =================
+
+    if (loading) {
+
+        return (
+
+            <Layout>
+
+                <div className="job-details-page">
+
+                    <h2>
+                        Loading job details...
+                    </h2>
+
+                </div>
+
+            </Layout>
+
+        );
+
     }
 
-    const sortedJobs = [...jobs].reverse();
-    const currentIndex = sortedJobs.findIndex(
-        j => j.id.toString() === id
+
+    // ================= ERROR =================
+
+    if (error || !job) {
+
+        return (
+
+            <Layout>
+
+                <div className="job-details-page">
+
+                    <button
+                        className="back-btn"
+                        onClick={() =>
+                            navigate("/dashboard")
+                        }
+                    >
+                        ← Back to Dashboard
+                    </button>
+
+                    <h2>
+                        {error || "Job Not Found"}
+                    </h2>
+
+                </div>
+
+            </Layout>
+
+        );
+
+    }
+
+
+    return (
+
+        <Layout>
+
+            <div className="job-details-page">
+
+                <button
+                    className="back-btn"
+                    onClick={() =>
+                        navigate("/dashboard")
+                    }
+                >
+                    ← Back to Dashboard
+                </button>
+
+
+                <div className="details-card">
+
+
+                    {/* HEADER */}
+
+                    <div className="details-header">
+
+                        <div className="company-circle">
+
+                            {job.company
+                                ?.charAt(0)
+                                .toUpperCase()}
+
+                        </div>
+
+
+                        <div>
+
+                            {editing ? (
+
+                                <>
+
+                                    <input
+                                        value={company}
+                                        onChange={(e) =>
+                                            setCompany(
+                                                e.target.value
+                                            )
+                                        }
+                                    />
+
+                                    <input
+                                        value={role}
+                                        onChange={(e) =>
+                                            setRole(
+                                                e.target.value
+                                            )
+                                        }
+                                    />
+
+                                </>
+
+                            ) : (
+
+                                <>
+
+                                    <h1>
+                                        {job.company}
+                                    </h1>
+
+                                    <h2>
+                                        {job.role}
+                                    </h2>
+
+                                </>
+
+                            )}
+
+                        </div>
+
+                    </div>
+
+
+                    {/* DETAILS */}
+
+                    <div className="details-grid">
+
+
+                        {/* STATUS */}
+
+                        <div className="detail-item">
+
+                            <h4>Status</h4>
+
+                            {editing ? (
+
+                                <select
+                                    value={status}
+                                    onChange={(e) =>
+                                        setStatus(
+                                            e.target.value
+                                        )
+                                    }
+                                >
+
+                                    <option value="Applied">
+                                        Applied
+                                    </option>
+
+                                    <option value="Interview">
+                                        Interview
+                                    </option>
+
+                                    <option value="Offer">
+                                        Offer
+                                    </option>
+
+                                    <option value="Rejected">
+                                        Rejected
+                                    </option>
+
+                                </select>
+
+                            ) : (
+
+                                <p>
+                                    {job.status}
+                                </p>
+
+                            )}
+
+                        </div>
+
+
+                        {/* APPLICATION DATE */}
+
+                        <div className="detail-item">
+
+                            <h4>
+                                Applied On
+                            </h4>
+
+                            <p>
+
+                                {job.createdAt
+                                    ? new Date(
+                                        job.createdAt
+                                    ).toLocaleDateString()
+                                    : "Not Available"}
+
+                            </p>
+
+                        </div>
+
+
+                        {/* INTERVIEW DATE */}
+
+                        <div className="detail-item">
+
+                            <h4>
+                                Interview Date
+                            </h4>
+
+                            {editing ? (
+
+                                <input
+                                    type="date"
+                                    value={
+                                        interviewDate
+                                    }
+                                    onChange={(e) =>
+                                        setInterviewDate(
+                                            e.target.value
+                                        )
+                                    }
+                                />
+
+                            ) : (
+
+                                <p>
+
+                                    {job.interviewDate
+                                        ? new Date(
+                                            job.interviewDate
+                                        ).toLocaleDateString()
+                                        : "Not Scheduled"}
+
+                                </p>
+
+                            )}
+
+                        </div>
+
+
+                        {/* JOB ID */}
+
+                        <div className="detail-item">
+
+                            <h4>
+                                Job ID
+                            </h4>
+
+                            <p>
+                                {job._id}
+                            </p>
+
+                        </div>
+
+
+                        {/* NOTES */}
+
+                        <div className="detail-item">
+
+                            <h4>
+                                Notes
+                            </h4>
+
+                            {editing ? (
+
+                                <textarea
+                                    value={notes}
+                                    onChange={(e) =>
+                                        setNotes(
+                                            e.target.value
+                                        )
+                                    }
+                                    placeholder="Add notes about this application..."
+                                />
+
+                            ) : (
+
+                                <p>
+
+                                    {job.notes ||
+                                        "No notes added yet."}
+
+                                </p>
+
+                            )}
+
+                        </div>
+
+                    </div>
+
+
+                    {/* BUTTONS */}
+
+                    <div className="details-buttons">
+
+                        {editing ? (
+
+                            <>
+
+                                <button
+                                    className="save-btn"
+                                    onClick={handleSave}
+                                    disabled={saving}
+                                >
+
+                                    {saving
+                                        ? "Saving..."
+                                        : "Save"}
+
+                                </button>
+
+
+                                <button
+                                    className="cancel-btn"
+                                    onClick={() =>
+                                        setEditing(false)
+                                    }
+                                    disabled={saving}
+                                >
+                                    Cancel
+                                </button>
+
+                            </>
+
+                        ) : (
+
+                            <button
+                                className="edit-btn"
+                                onClick={() =>
+                                    setEditing(true)
+                                }
+                            >
+                                Edit Job
+                            </button>
+
+                        )}
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </Layout>
+
     );
-
-    const previousJob =
-        currentIndex > 0
-            ? sortedJobs[currentIndex - 1]
-            : null;
-
-    const nextJob =
-        currentIndex < sortedJobs.length - 1
-            ? sortedJobs[currentIndex + 1]
-            : null;
-return (
-    <Layout>
-
-<div className="job-details-page">
-
-<button
-className="back-btn"
-onClick={() => navigate("/dashboard")}
->
-
-← Back to Dashboard
-
-</button>
-
-<div className="details-card">
-
-<div className="details-header">
-
-<div className="company-circle">
-
-{job.company.charAt(0).toUpperCase()}
-
-</div>
-
-<div>
-
-{
-editing ?
-
-<>
-
-<input
-
-value={company}
-
-onChange={(e)=>setCompany(e.target.value)}
-
-/>
-
-<input
-
-value={role}
-
-onChange={(e)=>setRole(e.target.value)}
-
-/>
-
-</>
-
-:
-
-<>
-
-<h1>{job.company}</h1>
-
-<h2>{job.role}</h2>
-
-</>
-
-}
-
-</div>
-
-</div>
-
-<div className="details-grid">
-
-<div className="detail-item">
-
-<h4>Status</h4>
-
-{
-editing ?
-
-<select
-
-value={status}
-
-onChange={(e)=>setStatus(e.target.value)}
->
-
-<option>Applied</option>
-
-<option>Interview</option>
-
-<option>Offer</option>
-
-<option>Rejected</option>
-
-</select>
-
-:
-
-<p>{job.status}</p>
-
-}
-
-</div>
-
-<div className="detail-item">
-
-<h4>Applied On</h4>
-
-<p>
-
-{
-
-job.createdAt
-
-? new Date(job.createdAt).toLocaleDateString()
-
-: "Not Available"
-
-}
-
-</p>
-
-</div>
-
-<div className="detail-item">
-
-<h4>Job ID</h4>
-
-<p>{job.id}</p>
-
-</div>
-
-<div className="detail-item">
-
-<h4>Notes</h4>
-
-{
-
-editing ?
-
-<textarea
-
-value={notes}
-
-onChange={(e)=>setNotes(e.target.value)}
-
-/>
-
-:
-
-<p>
-
-{job.notes || "No notes added yet."}
-
-</p>
-
-}
-
-</div>
-
-</div>
-
-<div className="details-buttons">
-
-{
-
-editing ?
-
-<>
-
-<button
-
-className="save-btn"
-
-onClick={()=>{
-
-updateJob({
-
-...job,
-
-company,
-
-role,
-
-status,
-
-notes
-
-});
-
-setEditing(false);
-
-}}
-
->
-
-Save
-
-</button>
-
-<button
-
-className="cancel-btn"
-
-onClick={()=>{
-
-setEditing(false);
-
-}}
-
->
-
-Cancel
-
-</button>
-
-</>
-
-:
-
-<button
-
-className="edit-btn"
-
-onClick={()=>setEditing(true)}
-
->
-
-Edit Job
-
-</button>
-
-}
-
-</div>
-
-<div className="job-navigation">
-
-{
-
-previousJob &&
-
-<button
-
-onClick={() =>
-
-navigate(`/job/${previousJob.id}`)
-
-}
-
->
-
-← Previous
-
-</button>
-
-}
-
-{
-
-nextJob &&
-
-<button
-
-onClick={() =>
-
-navigate(`/job/${nextJob.id}`)
-
-}
-
->
-
-Next →
-
-</button>
-
-}
-
-</div>
-
-</div>
-
-</div>
-</Layout>
-
-);
 
 }
 

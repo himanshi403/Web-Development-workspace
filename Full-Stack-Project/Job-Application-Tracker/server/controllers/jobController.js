@@ -150,7 +150,7 @@ export const getJobs = asyncHandler(async (req, res) => {
     const totalJobs = await Job.countDocuments(query);
 
 
-    // THIS WAS MISSING IN YOUR FILE
+    
     const pages = Math.ceil(totalJobs / limit);
 
 
@@ -240,57 +240,30 @@ export const updateJob = asyncHandler(async (req, res) => {
     }
 
 
-    // ================= OWNERSHIP CHECK =================
-
+     // Ownership check
     if (
-        job.user.toString() !== req.user.id.toString()
+        job.user.toString() !==
+        req.user.id.toString()
     ) {
 
-        const error = new Error("Unauthorized");
+        const error = new Error(
+            "Unauthorized"
+        );
 
         error.statusCode = 403;
 
         throw error;
-
     }
-
 
     const {
         company,
         role,
         status,
-        interviewDate
+        interviewDate,
+        notes
     } = req.body;
 
-
-    // Update only the fields provided
-    if (company !== undefined) {
-
-        job.company = company;
-
-    }
-
-    if (role !== undefined) {
-
-        job.role = role;
-
-    }
-
-    if (status !== undefined) {
-
-        job.status = status;
-
-    }
-
-    if (interviewDate !== undefined) {
-
-        job.interviewDate = interviewDate;
-
-    }
-
-
-    // Company and role must still exist
-    if (!job.company || !job.role) {
+    if (!company || !role) {
 
         const error = new Error(
             "Company and Role are required"
@@ -299,33 +272,35 @@ export const updateJob = asyncHandler(async (req, res) => {
         error.statusCode = 400;
 
         throw error;
-
     }
 
+    job.company = company;
+    job.role = role;
+    job.status = status || job.status;
+
+    // Allow interview date to be cleared
+    job.interviewDate =
+        interviewDate || null;
+
+    job.notes =
+        notes || "";
 
     await job.save();
 
-
     successResponse(
-
         res,
-
         200,
-
         "Job Updated Successfully",
-
         {
-
             job
-
         }
-
     );
 
 });
 
 
-// ================= DELETE JOB =================
+
+// DELETE JOB
 
 export const deleteJob = asyncHandler(async (req, res) => {
 
@@ -343,7 +318,7 @@ export const deleteJob = asyncHandler(async (req, res) => {
     }
 
 
-    // ================= OWNERSHIP CHECK =================
+    // OWNERSHIP CHECK 
 
     if (
         job.user.toString() !== req.user.id.toString()
@@ -373,8 +348,63 @@ export const deleteJob = asyncHandler(async (req, res) => {
 
 });
 
+// ================= RESTORE DELETED JOB =================
 
-// ================= JOB STATISTICS =================
+export const restoreJob = asyncHandler(async (req, res) => {
+
+    const {
+        company,
+        role,
+        status,
+        interviewDate,
+        createdAt
+    } = req.body;
+
+    if (!company || !role) {
+
+        const error = new Error(
+            "Company and Role are required"
+        );
+
+        error.statusCode = 400;
+
+        throw error;
+    }
+
+    const restoredJob = await Job.create({
+
+        company,
+
+        role,
+
+        status: status || "Applied",
+
+        interviewDate: interviewDate || undefined,
+
+        user: req.user.id,
+
+        createdAt: createdAt || new Date()
+
+    });
+
+    successResponse(
+
+        res,
+
+        201,
+
+        "Job restored successfully",
+
+        {
+            job: restoredJob
+        }
+
+    );
+
+});
+
+
+// JOB STATISTICS 
 
 export const getJobStats = asyncHandler(async (req, res) => {
 
