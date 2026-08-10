@@ -1,18 +1,60 @@
-import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 
 import AuthShell from "../components/AuthShell";
 import career from "../assets/career.svg";
 
-function SignUp() {
+import { register } from "../services/authService";
 
+function SignUp() {
     const navigate = useNavigate();
 
+    const [name, setName] = useState("");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+
     const [showPassword, setShowPassword] = useState(false);
+    const [loading, setLoading] = useState(false);
+
+    const handleSignup = async (e) => {
+        e.preventDefault();
+
+        if (!name || !email || !password) {
+            alert("Please fill all fields");
+            return;
+        }
+
+        try {
+            setLoading(true);
+
+            console.log("Sending signup request...");
+
+            const response = await register({
+                name,
+                email,
+                password
+            });
+
+            console.log("Signup response:", response.data);
+
+            alert("Account created successfully! Please login.");
+
+            navigate("/login");
+
+        } catch (error) {
+            console.error("Signup error:", error);
+
+            alert(
+                error.response?.data?.message ||
+                "Signup failed"
+            );
+
+        } finally {
+            setLoading(false);
+        }
+    };
 
     return (
-
         <AuthShell
             title="Start Your Career 🚀"
             subtitle="Create your account and organize every job application in one place."
@@ -24,78 +66,105 @@ function SignUp() {
                 <h2>Create Account</h2>
 
                 <p className="auth-subtitle">
-
                     Join JobTracker today.
-
                 </p>
 
-                <div className="input-group">
+                <form onSubmit={handleSignup}>
 
-                    <span>👤</span>
+                    {/* NAME */}
+                    <div className="input-group">
 
-                    <input
-                        type="text"
-                        placeholder="Full Name"
-                    />
+                        <span>👤</span>
 
-                </div>
+                        <input
+                            type="text"
+                            placeholder="Full Name"
+                            value={name}
+                            onChange={(e) =>
+                                setName(e.target.value)
+                            }
+                        />
 
-                <div className="input-group">
+                    </div>
 
-                    <span>📧</span>
+                    {/* EMAIL */}
+                    <div className="input-group">
 
-                    <input
-                        type="email"
-                        placeholder="Email"
-                    />
+                        <span>📧</span>
 
-                </div>
+                        <input
+                            type="email"
+                            placeholder="Email"
+                            value={email}
+                            onChange={(e) =>
+                                setEmail(e.target.value)
+                            }
+                        />
 
-                <div className="input-group">
+                    </div>
 
-                    <span>🔒</span>
+                    {/* PASSWORD */}
+                    <div className="input-group">
 
-                    <input
-                        type={showPassword ? "text" : "password"}
-                        placeholder="Password"
-                    />
+                        <span>🔒</span>
 
-                </div>
+                        <input
+                            type={
+                                showPassword
+                                    ? "text"
+                                    : "password"
+                            }
+                            placeholder="Password"
+                            value={password}
+                            onChange={(e) =>
+                                setPassword(e.target.value)
+                            }
+                        />
 
-                <button
-                    className="show-password-btn"
-                    onClick={() => setShowPassword(!showPassword)}
-                >
+                    </div>
 
-                    {showPassword ? "🙈 Hide Password" : "👁 Show Password"}
+                    {/* SHOW PASSWORD */}
+                    <button
+                        type="button"
+                        className="show-password-btn"
+                        onClick={() =>
+                            setShowPassword(!showPassword)
+                        }
+                    >
+                        {showPassword
+                            ? "🙈 Hide Password"
+                            : "👁 Show Password"}
+                    </button>
 
-                </button>
+                    {/* SIGNUP */}
+                    <button
+                        type="submit"
+                        className="login-btn"
+                        disabled={loading}
+                    >
+                        {loading
+                            ? "Creating Account..."
+                            : "🚀 Create Account"}
+                    </button>
 
-                <button
-                    className="login-btn"
-                    onClick={() => navigate("/dashboard")}
-                >
-
-                    🚀 Create Account
-
-                </button>
+                </form>
 
                 <div className="divider">
-
                     <span>OR</span>
-
                 </div>
 
-                <button className="social-btn">
-
+                <button
+                    type="button"
+                    className="social-btn"
+                >
                     Continue with Google
-
                 </button>
 
-                <button className="social-btn">
-
+                <button
+                    type="button"
+                    className="social-btn"
+                >
                     Continue with GitHub
-
                 </button>
 
                 <p className="switch-auth">
@@ -103,9 +172,7 @@ function SignUp() {
                     Already have an account?{" "}
 
                     <Link to="/login">
-
                         Login
-
                     </Link>
 
                 </p>
@@ -113,9 +180,7 @@ function SignUp() {
             </div>
 
         </AuthShell>
-
     );
-
 }
 
 export default SignUp;

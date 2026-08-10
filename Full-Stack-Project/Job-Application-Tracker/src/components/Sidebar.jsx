@@ -2,93 +2,95 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { useState } from "react";
 
 function Sidebar() {
+
     const navigate = useNavigate();
-const [loggingOut, setLoggingOut] = useState(false);
+    const [loggingOut, setLoggingOut] = useState(false);
 
-function handleLogout() {
+    function handleLogout() {
 
-    setLoggingOut(true);
+        setLoggingOut(true);
 
-    setTimeout(() => {
+        // Remove authentication data
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
 
-        navigate("/");
+        // Optional: remove old frontend-only job data
+        localStorage.removeItem("jobs");
 
-    },800);
+          // Tell App.jsx that the user has logged out.
+    window.dispatchEvent(
+        new Event("authChange")
+    );
 
-}
-  return (
-    <aside className="sidebar">
+        setTimeout(() => {
 
-      <div className="sidebar-header">
+            navigate("/login");
 
-        <img
-          src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
-          alt="JobTracker"
-          className="sidebar-logo"
-        />
+        }, 500);
+    }
 
-        <h1 className="sidebar-title">
-          JobTracker
-        </h1>
+    return (
+        <aside className="sidebar">
 
-      </div>
+            <div className="sidebar-header">
 
-      <nav className="sidebar-nav">
+                <img
+                    src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
+                    alt="JobTracker"
+                    className="sidebar-logo"
+                />
 
-        <NavLink to="/dashboard">
-          🏠 Dashboard
-        </NavLink>
+                <h1 className="sidebar-title">
+                    JobTracker
+                </h1>
 
-        <NavLink to="/profile">
-          👤 Profile
-        </NavLink>
+            </div>
 
-        <NavLink to="/analytics">
-          📊 Analytics
-        </NavLink>
+            <nav className="sidebar-nav">
 
-        <NavLink to="/calendar">
-          📅 Interview Calendar
-        </NavLink>
+                <NavLink to="/dashboard">
+                    🏠 Dashboard
+                </NavLink>
 
-        <NavLink to="/resume">
-          📄 Resume
-        </NavLink>
+                <NavLink to="/profile">
+                    👤 Profile
+                </NavLink>
 
-        <NavLink to="/settings">
-          ⚙ Settings
-        </NavLink>
+                <NavLink to="/analytics">
+                    📊 Analytics
+                </NavLink>
 
-      </nav>
+                <NavLink to="/calendar">
+                    📅 Interview Calendar
+                </NavLink>
 
-      <div className="sidebar-footer">
+                <NavLink to="/resume">
+                    📄 Resume
+                </NavLink>
 
-        <button
-className="logout-btn"
-onClick={handleLogout}
-disabled={loggingOut}
->
+                <NavLink to="/settings">
+                    ⚙ Settings
+                </NavLink>
 
-{
+            </nav>
 
-loggingOut
+            <div className="sidebar-footer">
 
-?
+                <button
+                    className="logout-btn"
+                    onClick={handleLogout}
+                    disabled={loggingOut}
+                >
+                    {loggingOut
+                        ? "Logging out..."
+                        : "🚪 Logout"
+                    }
+                </button>
 
-"Logging out..."
+            </div>
 
-:
-
-"🚪 Logout"
-
-}
-
-</button>
-
-      </div>
-
-    </aside>
-  );
+        </aside>
+    );
 }
 
 export default Sidebar;
