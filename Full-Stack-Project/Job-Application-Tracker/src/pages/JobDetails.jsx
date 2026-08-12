@@ -3,10 +3,7 @@ import { useEffect, useState } from "react";
 
 import Layout from "../components/Layout";
 
-import {
-    getSingleJob,
-    updateJob
-} from "../services/jobService";
+import {getSingleJob,updateJob} from "../services/jobService";
 
 function JobDetails() {
 
@@ -36,7 +33,7 @@ function JobDetails() {
     const [saving, setSaving] = useState(false);
 
 
-    // ================= FETCH JOB =================
+    // FETCH JOB
 
     useEffect(() => {
 
@@ -104,7 +101,7 @@ function JobDetails() {
     }, [id]);
 
 
-    // ================= SAVE JOB =================
+    // SAVE JOB 
 
     const handleSave = async () => {
 
@@ -122,13 +119,20 @@ function JobDetails() {
                     status,
 
                     interviewDate:
-                        interviewDate || null,
+                    interviewDate || null,
 
                     notes
 
                 });
 
-            setJob(response.data.job);
+           const updatedJob = response.data.job;
+
+            setJob(updatedJob);
+
+            setCompany(updatedJob.company);
+            setRole(updatedJob.role);
+            setStatus(updatedJob.status);
+            setNotes(updatedJob.notes || "");
 
             setEditing(false);
 
@@ -153,7 +157,7 @@ function JobDetails() {
     };
 
 
-    // ================= LOADING =================
+    // LOADING
 
     if (loading) {
 
@@ -176,7 +180,7 @@ function JobDetails() {
     }
 
 
-    // ================= ERROR =================
+    //ERROR
 
     if (error || !job) {
 
@@ -185,6 +189,9 @@ function JobDetails() {
             <Layout>
 
                 <div className="job-details-page">
+                 <h2>
+                        {error || "Job Not Found"}
+                    </h2>
 
                     <button
                         className="back-btn"
@@ -195,9 +202,7 @@ function JobDetails() {
                         ← Back to Dashboard
                     </button>
 
-                    <h2>
-                        {error || "Job Not Found"}
-                    </h2>
+                   
 
                 </div>
 

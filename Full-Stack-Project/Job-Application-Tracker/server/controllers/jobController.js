@@ -6,7 +6,7 @@ import {
 } from "../utils/apiResponse.js";
 
 
-// ================= CREATE JOB =================
+// CREATE JOB 
 
 export const createJob = asyncHandler(async (req, res) => {
 
@@ -14,7 +14,8 @@ export const createJob = asyncHandler(async (req, res) => {
         company,
         role,
         status,
-        interviewDate
+        interviewDate,
+        notes
     } = req.body;
 
     // Validation
@@ -34,8 +35,7 @@ export const createJob = asyncHandler(async (req, res) => {
         role,
         status,
         interviewDate,
-
-        // Attach job to logged-in user
+        notes,
         user: req.user.id
 
     });
@@ -274,16 +274,17 @@ export const updateJob = asyncHandler(async (req, res) => {
         throw error;
     }
 
-    job.company = company;
-    job.role = role;
-    job.status = status || job.status;
+  job.company = company || job.company;
+job.role = role || job.role;
+job.status = status || job.status;
 
-    // Allow interview date to be cleared
-    job.interviewDate =
-        interviewDate || null;
+   if (interviewDate !== undefined) {
+    job.interviewDate = interviewDate;
+}
 
-    job.notes =
-        notes || "";
+if (notes !== undefined) {
+    job.notes = notes;
+}
 
     await job.save();
 
