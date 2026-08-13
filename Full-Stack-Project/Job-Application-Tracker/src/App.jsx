@@ -61,84 +61,93 @@ function App() {
     // FETCH JOBS FOR CURRENT USER
     
 
-    const fetchJobs = async () => {
+    const fetchJobs = async (
+    searchValue = search,
+    statusValue = statusFilter,
+    sortValue = sortBy
+) => {
 
-        const token = localStorage.getItem("token");
+    const token = localStorage.getItem("token");
 
-        
-        if (!token) {
+    if (!token) {
+
+        setJobs([]);
+
+        return;
+
+    }
+
+    try {
+
+        const params = {
+
+            search: searchValue,
+
+            status: statusValue,
+
+            sort: sortValue
+
+        };
+
+
+        const response = await getJobs(params);
+
+        setJobs(
+            response.data.jobs || []
+        );
+
+    } catch (error) {
+
+        console.error(
+            "Error fetching jobs:",
+            error
+        );
+
+        if (
+            error.response?.status === 401
+        ) {
 
             setJobs([]);
 
-            return;
-
         }
 
-        try {
+    }
 
-            const response = await getJobs();
+};
 
-            setJobs(response.data.jobs || []);
+useEffect(() => {
 
-        } catch (error) {
+    const token =
+        localStorage.getItem("token");
 
-            console.error("Error fetching jobs:", error);
+    if (!token) {
+        return;
+    }
 
-            
-            if (error.response?.status === 401) {
 
-                setJobs([]);
+    const timer = setTimeout(() => {
 
-            }
+        fetchJobs(
+            search,
+            statusFilter,
+            sortBy
+        );
 
-        }
+    }, 400);
+
+
+    return () => {
+
+        clearTimeout(timer);
 
     };
 
-
+}, [
+    search,
+    statusFilter,
+    sortBy
+]);
    
-
-    useEffect(() => {
-
-        const handleAuthChange = () => {
-
-            const user = localStorage.getItem("user");
-
-            /*
-             * Clear old user's jobs immediately.
-             */
-            setJobs([]);
-
-            setCurrentUser(user);
-
-            /*
-             * Fetch jobs belonging to the newly logged-in user.
-             */
-            if (user && localStorage.getItem("token")) {
-
-                fetchJobs();
-
-            }
-
-        };
-
-
-        window.addEventListener(
-            "authChange",
-            handleAuthChange
-        );
-
-
-        return () => {
-
-            window.removeEventListener(
-                "authChange",
-                handleAuthChange
-            );
-
-        };
-
-    }, []);
 
 
     

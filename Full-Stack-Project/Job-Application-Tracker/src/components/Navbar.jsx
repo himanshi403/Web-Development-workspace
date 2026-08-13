@@ -1,63 +1,84 @@
 function Navbar({
 
-search,
-setSearch,
-sortBy,
-setSortBy,
-statusFilter,
-setStatusFilter
+    search,
+    setSearch,
 
-}){
+    sortBy,
+    setSortBy,
 
-return(
+    statusFilter,
+    setStatusFilter
 
-<div>
+}) {
+
+    return (
+
+        <div className="navbar-controls">
+
+            <input
+                type="text"
+                placeholder="Search Company"
+                value={search}
+                onChange={(e) =>
+                    setSearch(e.target.value)
+                }
+            />
 
 
+            <select
+                value={sortBy}
+                onChange={(e) =>
+                    setSortBy(e.target.value)
+                }
+            >
 
-<input
+                <option value="newest">
+                    Newest
+                </option>
 
-type="text"
+                <option value="oldest">
+                    Oldest
+                </option>
 
-placeholder="Search Company"
+                <option value="company">
+                    Company A-Z
+                </option>
 
-value={search}
+            </select>
 
-onChange={(e)=>setSearch(e.target.value)}
 
-/>
+            <select
+                value={statusFilter}
+                onChange={(e) =>
+                    setStatusFilter(e.target.value)
+                }
+            >
 
-<select
-    value={sortBy}
-    onChange={(e)=>setSortBy(e.target.value)}
->
+                <option value="All">
+                    All Status
+                </option>
 
-<option value="newest">Newest</option>
+                <option value="Applied">
+                    Applied
+                </option>
 
-<option value="oldest">Oldest</option>
+                <option value="Interview">
+                    Interview
+                </option>
 
-<option value="az">Company A-Z</option>
+                <option value="Offer">
+                    Offer
+                </option>
 
-<option value="za">Company Z-A</option>
+                <option value="Rejected">
+                    Rejected
+                </option>
 
-<option value="status">Status</option>
+            </select>
 
-</select>
+        </div>
 
-<select
-    value={statusFilter}
-    onChange={(e)=>setStatusFilter(e.target.value)}
->
-    <option value="All">All Status</option>
-    <option value="Applied">Applied</option>
-    <option value="Interview">Interview</option>
-    <option value="Offer">Offer</option>
-    <option value="Rejected">Rejected</option>
-</select>
-
-</div>
-
-);
+    );
 
 }
 

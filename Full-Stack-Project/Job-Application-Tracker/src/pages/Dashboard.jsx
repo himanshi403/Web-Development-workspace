@@ -59,23 +59,10 @@ exportJobs
 
 {
     const [loading, setLoading] = useState(true);
+
+    const filteredJobs = jobs;
   
-  const filteredJobs = jobs
-.filter(job => {
-
-const matchSearch = job.company
-.toLowerCase()
-.includes(search.toLowerCase());
-
-const matchStatus =
-
-statusFilter === "All" ||
-
-job.status === statusFilter;
-
-return matchSearch && matchStatus;
-
-});
+  
 useEffect(() => {
     const timer = setTimeout(() => {
         setLoading(false);
@@ -243,9 +230,6 @@ onClick={(e)=>e.stopPropagation()}
     jobs={filteredJobs}
     deleteJob={(job)=>setJobToDelete(job)}
     editJob={editJob}
-    search={search}
-    sortBy={sortBy}
-    statusFilter={statusFilter}
     setShowForm={setShowForm}
 />
 

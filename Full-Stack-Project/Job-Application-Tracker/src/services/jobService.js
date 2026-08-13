@@ -1,7 +1,9 @@
 import API from "../api/axios";
 
-export const getJobs = () =>
-    API.get("/jobs");
+export const getJobs = (params = {}) =>
+    API.get("/jobs", {
+        params
+    });
 
 export const getSingleJob = (id) => {
     return API.get(`/jobs/${id}`);
