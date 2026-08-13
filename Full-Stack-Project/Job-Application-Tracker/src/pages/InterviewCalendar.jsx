@@ -1,133 +1,268 @@
-import Sidebar from "../components/Sidebar";
+import { useNavigate } from "react-router-dom";
 import Layout from "../components/Layout";
 
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 
-function InterviewCalendar({ jobs }) {
+function InterviewCalendar({ jobs = [] }) {
 
-const interviewJobs = jobs.filter(
+    const navigate = useNavigate();
 
-job => job.interviewDate
 
-);
+    const interviewJobs = jobs
+        .filter(job => job.interviewDate)
+        .sort(
+            (a, b) =>
+                new Date(a.interviewDate) -
+                new Date(b.interviewDate)
+        );
 
-function tileContent({ date }) {
+    function formatDate(date) {
 
-const year = date.getFullYear();
+        const year = date.getFullYear();
 
-const month = String(date.getMonth()+1).padStart(2,"0");
+        const month = String(
+            date.getMonth() + 1
+        ).padStart(2, "0");
 
-const day = String(date.getDate()).padStart(2,"0");
+        const day = String(
+            date.getDate()
+        ).padStart(2, "0");
 
-const today = `${year}-${month}-${day}`;
+        return `${year}-${month}-${day}`;
 
-const interviews = interviewJobs.filter(
+    }
 
-job => job.interviewDate === today
+    const today = new Date();
 
-);
+    today.setHours(0, 0, 0, 0);
 
-if(interviews.length===0){
+    const upcomingInterviews = interviewJobs.filter(job => {
 
-return null;
+        const interviewDate = new Date(
+            job.interviewDate
+        );
 
-}
+        interviewDate.setHours(0, 0, 0, 0);
 
-return(
+        return interviewDate >= today;
 
-<div className="calendar-dot">
+    });
 
-{interviews.length}
 
-</div>
+    const pastInterviews = interviewJobs.filter(job => {
 
-);
+        const interviewDate = new Date(
+            job.interviewDate
+        );
 
-}
+        interviewDate.setHours(0, 0, 0, 0);
 
-return(
+        return interviewDate < today;
 
-<Layout>
+    });
 
-<div className="calendar-page">
 
-<h1>
+    function tileContent({ date, view }) {
 
-Interview Calendar
+        // Only show interview counts on the monthly calendar
+        if (view !== "month") {
+            return null;
+        }
 
-</h1>
+        const currentDate = formatDate(date);
 
-<p>
 
-All scheduled interviews
+        const interviews = interviewJobs.filter(job => {
 
-</p>
+            const interviewDate = formatDate(
+                new Date(job.interviewDate)
+            );
 
-<Calendar
+            return interviewDate === currentDate;
 
-tileContent={tileContent}
+        });
 
-/>
 
-<div className="calendar-list">
+        if (interviews.length === 0) {
+            return null;
+        }
 
-<h2>
 
-Upcoming Interviews
+        return (
 
-</h2>
+            <div className="calendar-dot">
 
-{
+                {interviews.length}
 
-interviewJobs.length===0 ?
+            </div>
 
-<p>
+        );
 
-No Interviews Scheduled
+    }
 
-</p>
 
-:
+    function displayDate(date) {
 
-interviewJobs.map(job=>(
+        return new Date(date).toLocaleDateString(
+            "en-IN",
+            {
+                day: "numeric",
+                month: "short",
+                year: "numeric"
+            }
+        );
 
-<div
-className="calendar-card"
-key={job.id}
->
+    }
 
-<h3>
 
-{job.company}
 
-</h3>
+    function InterviewCard({ job }) {
 
-<p>
+        return (
 
-{job.role}
+            <div
+                className="calendar-card"
+                key={job._id || job.id}
+                onClick={() =>
+                    navigate(
+                        `/job/${job._id || job.id}`
+                    )
+                }
+            >
 
-</p>
+                <div>
 
-<span>
+                    <h3>
+                        {job.company}
+                    </h3>
 
-📅 {job.interviewDate}
+                    <p>
+                        {job.role}
+                    </p>
 
-</span>
+                </div>
 
-</div>
 
-))
+                <span>
 
-}
+                    📅{" "}
 
-</div>
+                    {displayDate(job.interviewDate)}
 
-</div>
+                </span>
 
-</Layout>
+            </div>
 
-);
+        );
+
+    }
+
+
+    return (
+
+        <Layout>
+
+            <div className="calendar-page">
+
+                <h1>
+                    Interview Calendar
+                </h1>
+
+                <p>
+                    Track all your scheduled interviews.
+                </p>
+
+
+                <Calendar
+                    tileContent={tileContent}
+                />
+
+                <div className="calendar-list">
+
+                    <h2>
+                        Upcoming Interviews
+                    </h2>
+
+
+                    {
+
+                        upcomingInterviews.length === 0
+
+                            ?
+
+                            (
+
+                                <div className="empty-state">
+
+                                    <h3>
+                                        📅 No Upcoming Interviews
+                                    </h3>
+
+                                    <p>
+                                        Add an interview date to a job
+                                        application to see it here.
+                                    </p>
+
+                                </div>
+
+                            )
+
+                            :
+
+                            (
+
+                                upcomingInterviews.map(job => (
+
+                                    <InterviewCard
+                                        key={job._id || job.id}
+                                        job={job}
+                                    />
+
+                                ))
+
+                            )
+
+                    }
+
+                </div>
+
+
+                {
+
+                    pastInterviews.length > 0 && (
+
+                        <div className="calendar-list past-interviews">
+
+                            <h2>
+                                Past Interviews
+                            </h2>
+
+
+                            {
+
+                                pastInterviews.map(job => (
+
+                                    <InterviewCard
+                                        key={job._id || job.id}
+                                        job={job}
+                                    />
+
+                                ))
+
+                            }
+
+                        </div>
+
+                    )
+
+                }
+
+            </div>
+
+        </Layout>
+
+    );
 
 }
 

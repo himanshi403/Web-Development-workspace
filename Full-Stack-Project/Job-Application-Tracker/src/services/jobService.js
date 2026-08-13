@@ -18,3 +18,7 @@ export const deleteJob = (id) =>
 
 export const restoreJob = (data) =>
     API.post("/jobs/restore", data);
+
+export const getJobStats = () => {
+    return API.get("/jobs/stats");
+};

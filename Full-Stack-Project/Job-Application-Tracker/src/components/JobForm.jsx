@@ -11,16 +11,25 @@ function JobForm({
     const [role, setRole] = useState("");
     const [status, setStatus] = useState("Applied");
     const [interviewDate, setInterviewDate] = useState("");
-    const [saving,setSaving]=useState(false);
+    const [saving, setSaving] = useState(false);
+
 
     useEffect(() => {
 
         if (editingJob) {
 
-            setCompany(editingJob.company);
-            setRole(editingJob.role);
-            setStatus(editingJob.status);
-            setInterviewDate(editingJob.interviewDate || "");
+            setCompany(editingJob.company || "");
+            setRole(editingJob.role || "");
+            setStatus(editingJob.status || "Applied");
+
+            // Convert MongoDB date into YYYY-MM-DD
+            setInterviewDate(
+                editingJob.interviewDate
+                    ? new Date(editingJob.interviewDate)
+                        .toISOString()
+                        .split("T")[0]
+                    : ""
+            );
 
         } else {
 
@@ -33,57 +42,88 @@ function JobForm({
 
     }, [editingJob]);
 
-    function handleSubmit() {
-        if(saving) return;
 
-setSaving(true);
+    const handleSubmit = async () => {
 
-        if (company === "" || role === "") {
+        if (saving) return;
 
-            alert("Fill all fields");
+
+        if (!company.trim() || !role.trim()) {
+
+            alert("Please fill in Company Name and Job Role.");
+
             return;
 
         }
 
-        if (editingJob) {
 
-            updateJob({
+        try {
 
-                id: editingJob.id,
-                company,
-                role,
-                status,
-                interviewDate,
-                createdAt: editingJob.createdAt
+            setSaving(true);
 
-            });
+
+            if (editingJob) {
+
+                await updateJob({
+
+                    ...editingJob,
+
+                    // MongoDB uses _id
+                    _id: editingJob._id,
+
+                    company: company.trim(),
+
+                    role: role.trim(),
+
+                    status,
+
+                    // Send null if no interview date is selected
+                    interviewDate:
+                        interviewDate || null
+
+                });
+
+            } else {
+
+                await addJob({
+
+                    company: company.trim(),
+
+                    role: role.trim(),
+
+                    status,
+
+                    interviewDate:
+                        interviewDate || null
+
+                });
+
+            }
+
+
+            setCompany("");
+            setRole("");
+            setStatus("Applied");
+            setInterviewDate("");
+
+
+            closeForm();
+
+        } catch (error) {
+
+            console.error(
+                "Job form submission error:",
+                error
+            );
+
+        } finally {
+
             setSaving(false);
-
-        } else {
-
-            const newJob = {
-
-                id: Date.now(),
-                company,
-                role,
-                status,
-                interviewDate,
-                createdAt: new Date().toISOString()
-
-            };
-
-            addJob(newJob);
 
         }
 
-        closeForm();
-        
+    };
 
-        setCompany("");
-        setRole("");
-        setStatus("Applied");
-
-    }
 
     return (
 
@@ -91,68 +131,97 @@ setSaving(true);
 
             <h2>
 
-                {saving
-? "Saving..."
-: editingJob
-? "Save Changes"
-: "Add Job"}
+                {editingJob
+                    ? "Edit Job"
+                    : "Add Job"}
 
             </h2>
+
 
             <input
                 type="text"
                 placeholder="Company Name"
                 value={company}
-                onChange={(e) => setCompany(e.target.value)}
+                onChange={(e) =>
+                    setCompany(e.target.value)
+                }
             />
+
 
             <input
                 type="text"
                 placeholder="Job Role"
                 value={role}
-                onChange={(e) => setRole(e.target.value)}
+                onChange={(e) =>
+                    setRole(e.target.value)
+                }
             />
+
 
             <select
                 value={status}
-                onChange={(e) => setStatus(e.target.value)}
+                onChange={(e) =>
+                    setStatus(e.target.value)
+                }
             >
 
-                <option>Applied</option>
-                <option>Interview</option>
-                <option>Offer</option>
-                <option>Rejected</option>
+                <option value="Applied">
+                    Applied
+                </option>
+
+                <option value="Interview">
+                    Interview
+                </option>
+
+                <option value="Offer">
+                    Offer
+                </option>
+
+                <option value="Rejected">
+                    Rejected
+                </option>
 
             </select>
+
+
             <label className="date-label">
 
-Interview Date
+                Interview Date
 
-</label>
+            </label>
 
-<input
 
-type="date"
+            <input
+                type="date"
+                value={interviewDate}
+                onChange={(e) =>
+                    setInterviewDate(e.target.value)
+                }
+            />
 
-value={interviewDate}
-
-onChange={(e)=>setInterviewDate(e.target.value)}
-
-/>
 
             <button
                 className="submit-btn"
                 onClick={handleSubmit}
+                disabled={saving}
             >
 
-                {editingJob ? "Save Changes" : "Add Job"}
+                {
+                    saving
+                        ? "Saving..."
+                        : editingJob
+                            ? "Save Changes"
+                            : "Add Job"
+                }
 
             </button>
+
 
             <button
                 type="button"
                 className="cancel-btn"
                 onClick={closeForm}
+                disabled={saving}
             >
 
                 Cancel

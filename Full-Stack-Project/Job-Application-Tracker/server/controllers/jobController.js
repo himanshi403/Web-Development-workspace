@@ -1,8 +1,10 @@
+import mongoose from "mongoose";
 import Job from "../models/Job.js";
 import asyncHandler from "../utils/asyncHandler.js";
 
 import {
-    successResponse
+    successResponse,
+    errorResponse
 } from "../utils/apiResponse.js";
 
 
@@ -52,7 +54,7 @@ export const createJob = asyncHandler(async (req, res) => {
 });
 
 
-// ================= GET ALL JOBS =================
+// GET ALL JOBS 
 
 export const getJobs = asyncHandler(async (req, res) => {
 
@@ -71,7 +73,7 @@ export const getJobs = asyncHandler(async (req, res) => {
     };
 
 
-    // ================= SEARCH =================
+    //SEARCH 
 
     if (search) {
 
@@ -85,7 +87,7 @@ export const getJobs = asyncHandler(async (req, res) => {
     }
 
 
-    // ================= STATUS FILTER =================
+    //STATUS FILTER 
 
     if (status && status !== "All") {
 
@@ -94,7 +96,7 @@ export const getJobs = asyncHandler(async (req, res) => {
     }
 
 
-    // ================= SORT =================
+    //SORT
 
     let jobsQuery = Job.find(query);
 
@@ -132,7 +134,7 @@ export const getJobs = asyncHandler(async (req, res) => {
     }
 
 
-    // ================= PAGINATION =================
+    // PAGINATION
 
     const page = Number(req.query.page) || 1;
 
@@ -179,7 +181,7 @@ export const getJobs = asyncHandler(async (req, res) => {
 });
 
 
-// ================= GET SINGLE JOB =================
+//GET SINGLE JOB 
 
 export const getSingleJob = asyncHandler(async (req, res) => {
 
@@ -222,7 +224,7 @@ export const getSingleJob = asyncHandler(async (req, res) => {
 });
 
 
-// ================= UPDATE JOB =================
+//UPDATE JOB 
 
 export const updateJob = asyncHandler(async (req, res) => {
 
@@ -349,7 +351,7 @@ export const deleteJob = asyncHandler(async (req, res) => {
 
 });
 
-// ================= RESTORE DELETED JOB =================
+//RESTORE DELETED JOB
 
 export const restoreJob = asyncHandler(async (req, res) => {
 
@@ -406,15 +408,16 @@ export const restoreJob = asyncHandler(async (req, res) => {
 
 
 // JOB STATISTICS 
-
 export const getJobStats = asyncHandler(async (req, res) => {
+
+    const userId = req.user.id;
 
     const stats = await Job.aggregate([
 
         {
             $match: {
 
-                user: req.user._id
+                user: new mongoose.Types.ObjectId(userId)
 
             }
 

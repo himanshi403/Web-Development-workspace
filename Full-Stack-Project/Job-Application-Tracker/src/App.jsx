@@ -549,13 +549,15 @@ function App() {
 
                 <Route
                     path="/analytics"
-                    element={<Analytics />}
+                    element={<Analytics  jobs={jobs}  />}
                 />
 
                 <Route
                     path="/calendar"
                     element={
-                        <InterviewCalendar />
+                        <InterviewCalendar 
+                            jobs={jobs}
+                        />
                     }
                 />
 
