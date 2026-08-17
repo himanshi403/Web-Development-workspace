@@ -1,28 +1,68 @@
 import { useState } from "react";
 
-function EditProfileModal({ profile, setProfile, closeModal }) {
+function EditProfileModal({
+    profile,
+    setProfile,
+    updateProfile,
+    closeModal
+}) {
 
-    const [formData, setFormData] = useState(profile);
+    const [formData, setFormData] = useState({
+        name: profile.name || "",
+        role: profile.role || "",
+        location: profile.location || "",
+        email: profile.email || "",
+        about: profile.about || "",
+        goal: profile.goal || ""
+    });
+
+    const [saving, setSaving] = useState(false);
 
     function handleChange(e) {
+
         setFormData({
             ...formData,
             [e.target.name]: e.target.value
         });
-    }
-
-    function saveProfile() {
-
-        setProfile(formData);
-
-        localStorage.setItem(
-            "profile",
-            JSON.stringify(formData)
-        );
-
-        closeModal();
 
     }
+
+
+    async function saveProfile() {
+
+        if (!formData.name.trim()) {
+            alert("Name is required");
+            return;
+        }
+
+        try {
+
+            setSaving(true);
+
+            const updatedProfile =
+                await updateProfile(formData);
+
+            setProfile(updatedProfile);
+
+            closeModal();
+
+        } catch (error) {
+
+            console.error(
+                "Profile update failed:",
+                error
+            );
+
+            alert("Failed to update profile");
+
+        } finally {
+
+            setSaving(false);
+
+        }
+
+    }
+
 
     return (
 
@@ -33,10 +73,13 @@ function EditProfileModal({ profile, setProfile, closeModal }) {
 
             <div
                 className="edit-profile-modal"
-                onClick={(e) => e.stopPropagation()}
+                onClick={(e) =>
+                    e.stopPropagation()
+                }
             >
 
                 <h2>Edit Profile</h2>
+
 
                 <input
                     name="name"
@@ -45,12 +88,14 @@ function EditProfileModal({ profile, setProfile, closeModal }) {
                     placeholder="Name"
                 />
 
+
                 <input
                     name="role"
                     value={formData.role}
                     onChange={handleChange}
                     placeholder="Role"
                 />
+
 
                 <input
                     name="location"
@@ -59,12 +104,15 @@ function EditProfileModal({ profile, setProfile, closeModal }) {
                     placeholder="Location"
                 />
 
+
                 <input
                     name="email"
+                    type="email"
                     value={formData.email}
                     onChange={handleChange}
                     placeholder="Email"
                 />
+
 
                 <textarea
                     name="about"
@@ -73,6 +121,7 @@ function EditProfileModal({ profile, setProfile, closeModal }) {
                     placeholder="About Yourself"
                 />
 
+
                 <textarea
                     name="goal"
                     value={formData.goal}
@@ -80,20 +129,26 @@ function EditProfileModal({ profile, setProfile, closeModal }) {
                     placeholder="Career Goal"
                 />
 
+
                 <div className="modal-buttons">
 
                     <button
                         className="cancel-btn"
                         onClick={closeModal}
+                        disabled={saving}
                     >
                         Cancel
                     </button>
 
+
                     <button
                         className="save-btn"
                         onClick={saveProfile}
+                        disabled={saving}
                     >
-                        Save
+                        {saving
+                            ? "Saving..."
+                            : "Save"}
                     </button>
 
                 </div>

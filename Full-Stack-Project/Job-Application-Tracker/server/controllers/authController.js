@@ -197,6 +197,17 @@ export const getMe = async (req, res) => {
 
         const user = await User.findById(req.user.id).select("-password");
 
+         if (!user) {
+
+            return res.status(404).json({
+
+                success: false,
+                message: "User not found"
+
+            });
+
+        }
+
         successResponse(
 
             res,
@@ -220,6 +231,142 @@ export const getMe = async (req, res) => {
         res.status(500).json({
 
             success: false,
+            message: error.message
+
+        });
+
+    }
+
+};
+
+export const updateProfile = async (req, res) => {
+
+    try {
+
+        const {
+            name,
+            email,
+            role,
+            location,
+            about,
+            goal
+        } = req.body;
+
+
+        const user = await User.findById(
+            req.user.id
+        );
+
+
+        if (!user) {
+
+            return res.status(404).json({
+
+                success: false,
+                message: "User not found"
+
+            });
+
+        }
+
+
+        if (name !== undefined) {
+
+            user.name = name;
+
+        }
+
+
+        if (email !== undefined) {
+
+            const existingUser =
+                await User.findOne({
+                    email,
+                    _id: {
+                        $ne: user._id
+                    }
+                });
+
+
+            if (existingUser) {
+
+                return res.status(400).json({
+
+                    success: false,
+                    message:
+                        "Email already registered"
+
+                });
+
+            }
+
+
+            user.email = email;
+
+        }
+
+
+        if (role !== undefined) {
+
+            user.role = role;
+
+        }
+
+
+        if (location !== undefined) {
+
+            user.location = location;
+
+        }
+
+
+        if (about !== undefined) {
+
+            user.about = about;
+
+        }
+
+
+        if (goal !== undefined) {
+
+            user.goal = goal;
+
+        }
+
+
+        await user.save();
+
+
+        const updatedUser =
+            await User.findById(
+                user._id
+            ).select("-password");
+
+
+        successResponse(
+
+            res,
+
+            200,
+
+            "Profile updated successfully",
+
+            {
+
+                user: updatedUser
+
+            }
+
+        );
+
+    }
+
+    catch (error) {
+
+        res.status(500).json({
+
+            success: false,
+
             message: error.message
 
         });

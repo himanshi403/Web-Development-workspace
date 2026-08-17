@@ -1,233 +1,339 @@
 import { useState, useEffect } from "react";
+
 import EditProfileModal from "../components/EditProfileModal";
 import Layout from "../components/Layout";
 
-function Profile({jobs}){
-    const total = jobs.length;
+import {
+    getProfile,
+    updateProfile as updateProfileAPI
+} from "../services/profileService";
 
-    const applied = jobs.filter(
-        job => job.status === "Applied"
-    ).length;
 
-    const interview = jobs.filter(
-        job => job.status === "Interview"
-    ).length;
+function Profile() {
 
-    const offer = jobs.filter(
-        job => job.status === "Offer"
-    ).length;
+ 
 
-    const rejected = jobs.filter(
-        job => job.status === "Rejected"
-    ).length;
 
-    const defaultProfile = {
+    const [profile, setProfile] = useState(null);
 
-    name: "Himanshi Prashar",
+    const [showEdit, setShowEdit] = useState(false);
 
-    role: "Computer Science Student",
+    const [loading, setLoading] = useState(true);
 
-    location: "Ambala, Haryana",
+    const [error, setError] = useState("");
 
-    email: "himanshi@email.com",
 
-    about:
-        "Passionate about Web Development and Java.",
+    // FETCH LOGGED-IN USER PROFILE
+    useEffect(() => {
 
-    goal:
-        "Seeking Software Engineering opportunities."
+        const fetchProfile = async () => {
 
-};
+            try {
 
-const [profile, setProfile] = useState(defaultProfile);
+                setLoading(true);
 
-const [showEdit, setShowEdit] = useState(false);
+                setError("");
 
-useEffect(() => {
+                const response = await getProfile();
 
-    const savedProfile =
-        JSON.parse(localStorage.getItem("profile"));
+                const user = response.data.user;
 
-    if (savedProfile) {
+                setProfile(user);
 
-        setProfile(savedProfile);
+            } catch (error) {
+
+                console.error(
+                    "Error fetching profile:",
+                    error
+                );
+
+                setError(
+                    "Failed to load profile."
+                );
+
+            } finally {
+
+                setLoading(false);
+
+            }
+
+        };
+
+        fetchProfile();
+
+    }, []);
+
+
+    // UPDATE PROFILE
+    const updateProfile = async (formData) => {
+
+        try {
+
+            const response =
+                await updateProfileAPI(formData);
+
+            return response.data.user;
+
+        } catch (error) {
+
+            console.error(
+                "Error updating profile:",
+                error
+            );
+
+            throw error;
+
+        }
+
+    };
+
+
+    if (loading) {
+
+        return (
+
+            <Layout>
+
+                <div className="profile-page">
+
+                    <h2>
+                        Loading profile...
+                    </h2>
+
+                </div>
+
+            </Layout>
+
+        );
 
     }
 
-}, []);
+
+    if (error) {
+
+        return (
+
+            <Layout>
+
+                <div className="profile-page">
+
+                    <h2>
+                        {error}
+                    </h2>
+
+                </div>
+
+            </Layout>
+
+        );
+
+    }
 
 
+    const initials = profile?.name
+        ? profile.name
+            .split(" ")
+            .map(word => word.charAt(0))
+            .join("")
+            .slice(0, 2)
+            .toUpperCase()
+        : "U";
 
-    return(
+
+    return (
+
         <Layout>
-        <div className="profile-page">
-        
 
-            <div className="profile-header-card">
+            <div className="profile-page">
 
-                <div className="profile-avatar">
 
-                    HP
+                <div className="profile-header-card">
 
-                </div>
+                    <div className="profile-avatar">
 
-                  <p className="profile-location">
+                        {initials}
 
-                    📍 Ambala, Haryana
+                    </div>
 
-                </p>
 
-                <h1>{profile.name}</h1>
+                    <p className="profile-location">
 
-                <p>{profile.role}</p>
+                        📍 {
+                            profile.location ||
+                            "Not added yet"
+                        }
 
-                <p>{profile.location}</p>
+                    </p>
 
-                <hr />
 
-                <p className="profile-email">
+                    <h1>
 
-                    ✉ {profile.email}
+                        {profile.name}
 
-                </p>
+                    </h1>
 
-                 <p className="member-since">
 
-                    <strong>Member Since :</strong>
+                    <p>
 
-                    July 2026
+                        {
+                            profile.role ||
+                            "Not added yet"
+                        }
 
-                </p>
+                    </p>
+
+
+                    <hr />
+
+
+                    <p className="profile-email">
+
+                        ✉ {profile.email}
+
+                    </p>
+
+
+                    <p className="member-since">
+
+                        <strong>
+                            Member Since :
+                        </strong>
+
+                        {" "}
+
+                        {
+                            profile.createdAt
+                                ? new Date(
+                                    profile.createdAt
+                                ).toLocaleDateString(
+                                    "en-IN",
+                                    {
+                                        month: "long",
+                                        year: "numeric"
+                                    }
+                                )
+                                : "Not Available"
+                        }
+
+                    </p>
+
+
                     <button
-    className="edit-profile-btn"
-    onClick={() => setShowEdit(true)}
->
+                        className="edit-profile-btn"
+                        onClick={() =>
+                            setShowEdit(true)
+                        }
+                    >
 
-    ✏ Edit Profile
+                        ✏ Edit Profile
 
-</button>
-
-                </div>
-                
-
-            <div className="profile-stats">
-
-                <div className="stat-box">
-
-                    <h3>Total</h3>
-
-                    <p>{total}</p>
+                    </button>
 
                 </div>
 
-                <div className="stat-box">
 
-                    <h3>Applied</h3>
 
-                    <p>{applied}</p>
 
-                </div>
+                <div className="about-card">
 
-                <div className="stat-box">
+                    <h2>About Me</h2>
 
-                    <h3>Interview</h3>
+                    <p>
 
-                    <p>{interview}</p>
+                        {
+                            profile.about ||
+                            "Not added yet."
+                        }
 
-                </div>
-
-                <div className="stat-box">
-
-                    <h3>Offer</h3>
-
-                    <p>{offer}</p>
+                    </p>
 
                 </div>
 
-                <div className="stat-box">
 
-                    <h3>Rejected</h3>
 
-                    <p>{rejected}</p>
+                <div className="career-card">
+
+                    <h2>Career Goal</h2>
+
+                    <p>
+
+                        {
+                            profile.goal ||
+                            "Not added yet."
+                        }
+
+                    </p>
 
                 </div>
+
+
+
+                <div className="skills-card">
+
+                    <h2>Skills</h2>
+
+                    <div className="skills-container">
+
+                        <span>☕ Java</span>
+                        <span>⚛ React</span>
+                        <span>🌐 HTML</span>
+                        <span>🎨 CSS</span>
+                        <span>🍃 MongoDB</span>
+                        <span>🚀 Node.js</span>
+                        <span>💻 JavaScript</span>
+                        <span>🔧 Git</span>
+
+                    </div>
+
+                </div>
+
+
+
+                <div className="resume-card">
+
+                    <h2>Resume</h2>
+
+                    <p>
+                        No resume uploaded.
+                    </p>
+
+                    <button className="resume-btn">
+
+                        Upload Resume
+
+                    </button>
+
+                </div>
+
+
+
+                {
+
+                    showEdit &&
+
+                    <EditProfileModal
+
+                        profile={profile}
+
+                        setProfile={setProfile}
+
+                        updateProfile={updateProfile}
+
+                        closeModal={() =>
+                            setShowEdit(false)
+                        }
+
+                    />
+
+                }
+
 
             </div>
 
-            <div className="about-card">
-
-                <h2>About Me</h2>
-
-                <p>
-                    {profile.about}
-
-                </p>
-
-            </div>
-            <div className="career-card">
-
-    <h2>Career Goal</h2>
-
-    <p>{profile.goal}</p>
-
-</div>
-
-             <div className="skills-card">
-
-                <h2>Skills</h2>
-
-                <div className="skills-container">
-
-                    <span>☕ Java</span>
-
-                    <span>⚛ React</span>
-
-                    <span>🌐 HTML</span>
-
-                    <span>🎨 CSS</span>
-
-                    <span>🍃 MongoDB</span>
-
-                    <span>🚀 Node.js</span>
-
-                    <span>💻 JavaScript</span>
-
-                    <span>🔧 Git</span>
-
-                </div>
-
-            </div>
-
-
-             <div className="resume-card">
-
-                <h2>Resume</h2>
-
-                <p>No resume uploaded.</p>
-
-                <button className="resume-btn">
-
-                    Upload Resume
-
-                </button>
-
-            </div>
-            {
-    showEdit &&
-
-    <EditProfileModal
-
-        profile={profile}
-
-        setProfile={setProfile}
-
-        closeModal={() => setShowEdit(false)}
-
-    />
-}
-
-        </div>
         </Layout>
+
     );
+
 }
+
 export default Profile;

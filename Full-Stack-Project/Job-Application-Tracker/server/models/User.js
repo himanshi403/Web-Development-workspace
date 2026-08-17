@@ -34,7 +34,31 @@ const userSchema = new mongoose.Schema({
 
         minlength: 6
 
-    }
+    },
+
+     role: {
+            type: String,
+            default: "Computer Science Student",
+            trim: true
+        },
+
+        location: {
+            type: String,
+            default: "",
+            trim: true
+        },
+
+         about: {
+            type: String,
+            default: "",
+            trim: true
+        },
+
+        goal: {
+            type: String,
+            default: "",
+            trim: true
+        }
 
 }, {
 
