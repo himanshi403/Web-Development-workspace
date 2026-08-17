@@ -1,31 +1,73 @@
 import { useState } from "react";
 import Layout from "../components/Layout";
 
-function Settings({ jobs }) {
+import {
+    deleteAllJobs
+} from "../services/jobService";
+
+
+function Settings({
+    jobs = [],
+    fetchJobs
+}) {
 
     const [darkMode, setDarkMode] = useState(
         document.body.classList.contains("dark")
     );
 
+    const [clearingJobs, setClearingJobs] =
+        useState(false);
+
+
+    // =========================================================
+    // THEME
+    // =========================================================
+
     function toggleTheme() {
 
         document.body.classList.toggle("dark");
 
-        setDarkMode(document.body.classList.contains("dark"));
+        const isDark =
+            document.body.classList.contains("dark");
+
+        setDarkMode(isDark);
+
+        localStorage.setItem(
+            "theme",
+            isDark ? "dark" : "light"
+        );
 
     }
 
+
+    // =========================================================
+    // EXPORT JOBS
+    // =========================================================
+
     function exportJobs() {
 
-        const data = JSON.stringify(jobs, null, 2);
+        const data = JSON.stringify(
+            jobs,
+            null,
+            2
+        );
 
-        const blob = new Blob([data], {
-            type: "application/json"
-        });
 
-        const url = URL.createObjectURL(blob);
+        const blob = new Blob(
+            [data],
+            {
+                type: "application/json"
+            }
+        );
 
-        const link = document.createElement("a");
+
+        const url =
+            URL.createObjectURL(blob);
+
+
+        const link =
+            document.createElement("a");
+
 
         link.href = url;
 
@@ -33,133 +75,224 @@ function Settings({ jobs }) {
 
         link.click();
 
-    }
 
-    function clearJobs() {
-
-        const confirmDelete = window.confirm(
-            "Delete all jobs permanently?"
-        );
-
-        if (!confirmDelete) return;
-
-        localStorage.removeItem("jobs");
-
-        window.location.reload();
+        URL.revokeObjectURL(url);
 
     }
+
+
+    // =========================================================
+    // DELETE ALL JOBS
+    // =========================================================
+
+    async function clearJobs() {
+
+        const confirmDelete =
+            window.confirm(
+                "Delete all your job applications permanently?"
+            );
+
+
+        if (!confirmDelete) {
+
+            return;
+
+        }
+
+
+        try {
+
+            setClearingJobs(true);
+
+
+            await deleteAllJobs();
+
+
+            await fetchJobs();
+
+
+            alert(
+                "All job applications deleted successfully."
+            );
+
+        }
+
+        catch (error) {
+
+            console.error(
+                "Error deleting all jobs:",
+                error
+            );
+
+
+            alert(
+                "Failed to delete job applications."
+            );
+
+        }
+
+        finally {
+
+            setClearingJobs(false);
+
+        }
+
+    }
+
 
     return (
+
         <Layout>
 
-        <div className="settings-page">
+            <div className="settings-page">
 
-            <h1>⚙ Settings</h1>
+                <h1>
+                    ⚙ Settings
+                </h1>
 
-            <div className="settings-grid">
 
-                <div className="setting-card">
+                <div className="settings-grid">
 
-                    <h3>Appearance</h3>
 
-                    <p>
-                        Choose your preferred theme.
-                    </p>
+                    {/* APPEARANCE */}
 
-                    <button
-                        onClick={toggleTheme}
-                    >
+                    <div className="setting-card">
 
-                        {darkMode
-                            ? "☀ Light Mode"
-                            : "🌙 Dark Mode"}
+                        <h3>
+                            Appearance
+                        </h3>
 
-                    </button>
+                        <p>
+                            Choose your preferred theme.
+                        </p>
 
-                </div>
 
-                <div className="setting-card">
+                        <button
+                            onClick={toggleTheme}
+                        >
 
-                    <h3>Export Applications</h3>
+                            {
+                                darkMode
+                                    ? "☀ Light Mode"
+                                    : "🌙 Dark Mode"
+                            }
 
-                    <p>
+                        </button>
 
-                        Download all job applications
-                        as JSON.
+                    </div>
 
-                    </p>
 
-                    <button
-                        onClick={exportJobs}
-                    >
 
-                        📥 Export Jobs
+                    {/* EXPORT */}
 
-                    </button>
+                    <div className="setting-card">
 
-                </div>
+                        <h3>
+                            Export Applications
+                        </h3>
 
-                <div className="setting-card">
+                        <p>
 
-                    <h3>Application Summary</h3>
+                            Download all your job applications
+                            as JSON.
 
-                    <p>
+                        </p>
 
-                        Total Applications
 
-                    </p>
+                        <button
+                            onClick={exportJobs}
+                        >
 
-                    <h2>{jobs.length}</h2>
+                            📥 Export Jobs
 
-                </div>
+                        </button>
 
-                <div className="setting-card">
+                    </div>
 
-                    <h3>About</h3>
 
-                    <p>
 
-                        Job Tracker v1.0
+                    {/* SUMMARY */}
 
-                    </p>
+                    <div className="setting-card">
 
-                    <p>
+                        <h3>
+                            Application Summary
+                        </h3>
 
-                        Built using React.
+                        <p>
+                            Total Applications
+                        </p>
 
-                    </p>
+                        <h2>
+                            {jobs.length}
+                        </h2>
 
-                </div>
+                    </div>
 
-                <div className="setting-card danger-card">
 
-                    <h3>Danger Zone</h3>
 
-                    <p>
+                    {/* ABOUT */}
 
-                        Delete all saved jobs.
+                    <div className="setting-card">
 
-                    </p>
+                        <h3>
+                            About
+                        </h3>
 
-                    <button
-                        className="danger-btn"
-                        onClick={clearJobs}
-                    >
+                        <p>
+                            Job Tracker v1.0
+                        </p>
 
-                        🗑 Clear All Jobs
+                        <p>
+                            Built using React and Node.js.
+                        </p>
 
-                    </button>
+                    </div>
+
+
+
+                    {/* DANGER ZONE */}
+
+                    <div className="setting-card danger-card">
+
+                        <h3>
+                            Danger Zone
+                        </h3>
+
+                        <p>
+
+                            Permanently delete all your
+                            job applications.
+
+                        </p>
+
+
+                        <button
+                            className="danger-btn"
+                            onClick={clearJobs}
+                            disabled={clearingJobs}
+                        >
+
+                            {
+                                clearingJobs
+                                    ? "Deleting..."
+                                    : "🗑 Clear All Jobs"
+                            }
+
+                        </button>
+
+                    </div>
+
 
                 </div>
 
             </div>
 
-        </div>
         </Layout>
-
 
     );
 
 }
+
 
 export default Settings;

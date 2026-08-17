@@ -18,6 +18,9 @@ export const updateJob = (id, data) =>
 export const deleteJob = (id) =>
     API.delete(`/jobs/${id}`);
 
+export const deleteAllJobs = () =>
+    API.delete("/jobs/all");
+
 export const restoreJob = (data) =>
     API.post("/jobs/restore", data);
 

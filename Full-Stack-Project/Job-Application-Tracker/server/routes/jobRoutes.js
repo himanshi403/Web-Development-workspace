@@ -13,6 +13,7 @@ import {
     getSingleJob,
     updateJob,
     deleteJob,
+    deleteAllJobs,
     getJobStats,
     restoreJob
 
@@ -31,6 +32,7 @@ router.get("/", protect, getJobs);
 router.get("/stats",protect,getJobStats);
 router.post("/restore", protect, restoreJob);
 router.get("/:id", protect, getSingleJob);
+router.delete("/all", protect, deleteAllJobs);
 router.delete("/:id", protect, deleteJob);
 router.put("/:id", protect, validateJob, validationMiddleware, updateJob);
 

@@ -351,6 +351,35 @@ export const deleteJob = asyncHandler(async (req, res) => {
 
 });
 
+// DELETE ALL JOBS FOR CURRENT USER
+
+export const deleteAllJobs = asyncHandler(async (req, res) => {
+
+    const result = await Job.deleteMany({
+
+        user: req.user.id
+
+    });
+
+
+    successResponse(
+
+        res,
+
+        200,
+
+        "All jobs deleted successfully",
+
+        {
+
+            deletedCount: result.deletedCount
+
+        }
+
+    );
+
+});
+
 //RESTORE DELETED JOB
 
 export const restoreJob = asyncHandler(async (req, res) => {

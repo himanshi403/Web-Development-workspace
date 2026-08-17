@@ -577,7 +577,11 @@ useEffect(() => {
 
                 <Route
                     path="/settings"
-                    element={<Settings />}
+                    element={<Settings
+                        jobs={jobs}
+            fetchJobs={fetchJobs}
+             />
+            }
                 />
 
                 <Route
