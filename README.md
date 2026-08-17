@@ -8,7 +8,7 @@ This repository documents my journey of learning modern web development by build
 ## Learning Path
 
 * HTML & CSS
-* JavaScript (In Progress)
+* JavaScript
 * React.js
 * Node.js & Express.js
 * MongoDB
