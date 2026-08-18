@@ -8,7 +8,8 @@ import {
 
     uploadResume,
 
-    getResumes
+    getResumes,
+    deleteResume
 
 } from "../controllers/resumeController.js";
 
@@ -40,6 +41,16 @@ router.get(
     protect,
 
     getResumes
+
+);
+
+router.delete(
+
+    "/:id",
+
+    protect,
+
+    deleteResume
 
 );
 

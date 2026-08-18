@@ -97,3 +97,48 @@ export const getResumes = asyncHandler(
 
     }
 );
+
+// =========================================================
+// DELETE RESUME
+// =========================================================
+
+export const deleteResume = asyncHandler(
+    async (req, res) => {
+
+        const resume = await Resume.findOne({
+
+            _id: req.params.id,
+
+            user: req.user.id
+
+        });
+
+
+        if (!resume) {
+
+            const error = new Error(
+                "Resume not found"
+            );
+
+            error.statusCode = 404;
+
+            throw error;
+
+        }
+
+
+        await resume.deleteOne();
+
+
+        successResponse(
+
+            res,
+
+            200,
+
+            "Resume deleted successfully"
+
+        );
+
+    }
+);

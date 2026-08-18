@@ -16,3 +16,12 @@ export const uploadResume = (formData) => {
 export const getResumes = () => {
     return API.get("/resumes");
 };
+
+export const deleteResume = (id) => {
+
+    return API.delete(
+
+        `/resumes/${id}`
+
+    );
+};

@@ -1,24 +1,80 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
+
 import Layout from "../components/Layout";
-import API from "../api/axios";
+
+import {
+
+    uploadResume,
+
+    getResumes,
+
+    deleteResume
+
+} from "../services/resumeService";
 
 
 function Resume() {
 
-    const [resumes, setResumes] = useState([]);
+    const [resumes, setResumes] =
+        useState([]);
 
-    const [selectedFile, setSelectedFile] = useState(null);
+    const [selectedFile, setSelectedFile] =
+        useState(null);
 
-    const [uploading, setUploading] = useState(false);
+    const [loading, setLoading] =
+        useState(true);
 
-    const [loading, setLoading] = useState(true);
+    const [uploading, setUploading] =
+        useState(false);
 
-    const [message, setMessage] = useState("");
+    const [error, setError] =
+        useState("");
 
-    const fileInputRef = useRef(null);
 
+    // ==============================
+    // FETCH RESUMES
+    // ==============================
 
-    // ================= FETCH RESUMES =================
+    const fetchResumes = async () => {
+
+        try {
+
+            setLoading(true);
+
+            setError("");
+
+            const response =
+                await getResumes();
+
+            setResumes(
+
+                response.data.resumes || []
+
+            );
+
+        }
+
+        catch (error) {
+
+            console.error(
+                "Error fetching resumes:",
+                error
+            );
+
+            setError(
+                "Failed to load resumes."
+            );
+
+        }
+
+        finally {
+
+            setLoading(false);
+
+        }
+
+    };
+
 
     useEffect(() => {
 
@@ -27,54 +83,26 @@ function Resume() {
     }, []);
 
 
-    async function fetchResumes() {
-
-        try {
-
-            setLoading(true);
-
-            const response = await API.get("/resumes");
-
-            setResumes(
-                response.data.resumes || []
-            );
-
-        } catch (error) {
-
-            console.error(
-                "Failed to fetch resumes:",
-                error
-            );
-
-            setMessage(
-                "Failed to load resumes."
-            );
-
-        } finally {
-
-            setLoading(false);
-
-        }
-
-    }
-
-
-    // ================= FILE SELECT =================
+    // ==============================
+    // SELECT FILE
+    // ==============================
 
     function handleFileChange(e) {
 
-        const file = e.target.files[0];
+        const file =
+            e.target.files[0];
 
         if (!file) return;
 
 
-        if (file.type !== "application/pdf") {
+        if (
+            file.type !==
+            "application/pdf"
+        ) {
 
-            setMessage(
+            setError(
                 "Please select a PDF file."
             );
-
-            setSelectedFile(null);
 
             return;
 
@@ -83,18 +111,20 @@ function Resume() {
 
         setSelectedFile(file);
 
-        setMessage("");
+        setError("");
 
     }
 
 
-    // ================= UPLOAD RESUME =================
+    // ==============================
+    // UPLOAD RESUME
+    // ==============================
 
-    async function handleUpload() {
+    const handleUpload = async () => {
 
         if (!selectedFile) {
 
-            setMessage(
+            setError(
                 "Please select a resume first."
             );
 
@@ -107,42 +137,36 @@ function Resume() {
 
             setUploading(true);
 
-            setMessage("");
+            setError("");
 
 
-            const formData = new FormData();
+            const formData =
+                new FormData();
 
             formData.append(
+
                 "resume",
+
                 selectedFile
-            );
-
-
-            const response = await API.post(
-
-                "/resumes",
-
-                formData,
-
-                {
-                    headers: {
-                        "Content-Type":
-                            "multipart/form-data"
-                    }
-                }
 
             );
 
 
-            const uploadedResume =
+            const response =
+                await uploadResume(
+                    formData
+                );
+
+
+            const newResume =
                 response.data.resume;
 
 
-            setResumes((prevResumes) => [
+            setResumes(prev => [
 
-                uploadedResume,
+                newResume,
 
-                ...prevResumes
+                ...prev
 
             ]);
 
@@ -150,34 +174,111 @@ function Resume() {
             setSelectedFile(null);
 
 
-            if (fileInputRef.current) {
+            document.getElementById(
+                "resume-upload"
+            ).value = "";
 
-                fileInputRef.current.value = "";
+        }
 
-            }
-
-
-            setMessage(
-                "Resume uploaded successfully!"
-            );
-
-        } catch (error) {
+        catch (error) {
 
             console.error(
-                "Resume upload failed:",
+                "Upload error:",
                 error
             );
 
-            setMessage(
+            setError(
+
                 error.response?.data?.message ||
-                "Failed to upload resume."
+
+                "Resume upload failed."
+
             );
 
-        } finally {
+        }
+
+        finally {
 
             setUploading(false);
 
         }
+
+    };
+
+
+    // ==============================
+    // DELETE RESUME
+    // ==============================
+
+    const handleDelete =
+        async (resumeId) => {
+
+            const confirmDelete =
+                window.confirm(
+
+                    "Delete this resume?"
+
+                );
+
+
+            if (!confirmDelete) return;
+
+
+            try {
+
+                await deleteResume(
+                    resumeId
+                );
+
+
+                setResumes(prev =>
+
+                    prev.filter(
+
+                        resume =>
+
+                            resume._id !==
+                            resumeId
+
+                    )
+
+                );
+
+            }
+
+            catch (error) {
+
+                console.error(
+                    "Delete error:",
+                    error
+                );
+
+                alert(
+                    error.response?.data?.message ||
+
+                    "Failed to delete resume."
+                );
+
+            }
+
+        };
+
+
+    // ==============================
+    // GET FILE URL
+    // ==============================
+
+    function getResumeUrl(resume) {
+
+        const fileName =
+            resume.filePath
+                .split("\\")
+                .pop()
+                .split("/")
+                .pop();
+
+
+        return `http://localhost:5000/uploads/${fileName}`;
 
     }
 
@@ -189,48 +290,18 @@ function Resume() {
             <div className="resume-page">
 
 
-                {/* ================= HEADER ================= */}
-
                 <div className="resume-header">
 
                     <div>
 
-                        <p className="resume-label">
-
-                            CAREER DOCUMENTS
-
-                        </p>
-
                         <h1>
-
                             Resume Library
-
                         </h1>
-
-                        <p className="resume-subtitle">
-
-                            Keep your resumes organized
-                            and ready for your next opportunity.
-
-                        </p>
-
-                    </div>
-
-
-                    <div className="resume-count">
-
-                        <span>
-
-                            {resumes.length}
-
-                        </span>
 
                         <p>
 
-                            Resume
-                            {resumes.length !== 1
-                                ? "s"
-                                : ""}
+                            Upload, manage and access
+                            your resumes in one place.
 
                         </p>
 
@@ -239,170 +310,100 @@ function Resume() {
                 </div>
 
 
-
-                {/* ================= UPLOAD CARD ================= */}
-
                 <div className="resume-upload-card">
 
-
-                    <div className="upload-icon">
-
-                        📄
-
-                    </div>
-
-
                     <h2>
-
-                        Upload a Resume
-
+                        Upload Resume
                     </h2>
-
 
                     <p>
 
-                        Upload your latest resume in PDF format.
+                        Upload your resume in PDF format.
 
                     </p>
 
 
-                    <div className="upload-actions">
+                    <input
 
+                        id="resume-upload"
 
-                        <input
+                        type="file"
 
-                            ref={fileInputRef}
+                        accept=".pdf"
 
-                            type="file"
+                        onChange={
+                            handleFileChange
+                        }
 
-                            accept=".pdf"
-
-                            id="resume-upload"
-
-                            onChange={handleFileChange}
-
-                            hidden
-
-                        />
-
-
-                        <label
-
-                            htmlFor="resume-upload"
-
-                            className="choose-file-btn"
-
-                        >
-
-                            Choose PDF
-
-                        </label>
-
-
-                        <button
-
-                            className="upload-resume-btn"
-
-                            onClick={handleUpload}
-
-                            disabled={
-                                !selectedFile ||
-                                uploading
-                            }
-
-                        >
-
-                            {
-
-                                uploading
-
-                                    ?
-
-                                    "Uploading..."
-
-                                    :
-
-                                    "Upload Resume"
-
-                            }
-
-                        </button>
-
-                    </div>
+                    />
 
 
                     {
 
-                        selectedFile &&
+                        selectedFile && (
 
-                        <div className="selected-file">
+                            <p className="selected-file">
 
-                            <span>
-
-                                📎
-
-                            </span>
-
-                            <p>
+                                📄
 
                                 {selectedFile.name}
 
                             </p>
 
-                        </div>
+                        )
 
                     }
 
 
+                    <button
+
+                        className="resume-upload-btn"
+
+                        onClick={handleUpload}
+
+                        disabled={uploading}
+
+                    >
+
+                        {
+
+                            uploading
+
+                                ?
+
+                                "Uploading..."
+
+                                :
+
+                                "⬆ Upload Resume"
+
+                        }
+
+                    </button>
+
+
                     {
 
-                        message &&
+                        error && (
 
-                        <p
+                            <p className="resume-error">
 
-                            className={`resume-message ${
-                                message.includes("successfully")
-                                    ? "success-message"
-                                    : "error-message"
-                            }`}
+                                {error}
 
-                        >
+                            </p>
 
-                            {message}
-
-                        </p>
+                        )
 
                     }
 
                 </div>
 
 
-
-                {/* ================= RESUME LIST ================= */}
-
                 <div className="resume-library-section">
 
-
-                    <div className="resume-section-header">
-
-                        <div>
-
-                            <h2>
-
-                                Your Resumes
-
-                            </h2>
-
-                            <p>
-
-                                Manage all your uploaded
-                                career documents.
-
-                            </p>
-
-                        </div>
-
-                    </div>
+                    <h2>
+                        Your Resumes
+                    </h2>
 
 
                     {
@@ -413,11 +414,11 @@ function Resume() {
 
                             (
 
-                                <div className="resume-loading">
+                                <p>
 
                                     Loading resumes...
 
-                                </div>
+                                </p>
 
                             )
 
@@ -431,15 +432,9 @@ function Resume() {
 
                                     <div className="resume-empty-state">
 
-                                        <div className="empty-icon">
-
-                                            📁
-
-                                        </div>
-
                                         <h3>
 
-                                            No resumes yet
+                                            📄 No Resumes Yet
 
                                         </h3>
 
@@ -461,16 +456,15 @@ function Resume() {
 
                                     <div className="resume-grid">
 
-
                                         {
 
                                             resumes.map(
 
-                                                (resume) => (
+                                                resume => (
 
                                                     <div
 
-                                                        className="resume-card"
+                                                        className="resume-item"
 
                                                         key={
                                                             resume._id
@@ -478,75 +472,101 @@ function Resume() {
 
                                                     >
 
-                                                        <div className="resume-card-top">
+                                                        <div className="resume-file-icon">
 
-
-                                                            <div className="pdf-icon">
-
-                                                                PDF
-
-                                                            </div>
-
-
-                                                            <div className="resume-file-info">
-
-                                                                <h3>
-
-                                                                    {
-                                                                        resume.fileName
-                                                                    }
-
-                                                                </h3>
-
-
-                                                                <p>
-
-                                                                    Uploaded{" "}
-
-                                                                    {
-                                                                        new Date(
-
-                                                                            resume.createdAt
-
-                                                                        ).toLocaleDateString(
-
-                                                                            "en-IN",
-
-                                                                            {
-
-                                                                                day: "numeric",
-
-                                                                                month: "short",
-
-                                                                                year: "numeric"
-
-                                                                            }
-
-                                                                        )
-
-                                                                    }
-
-                                                                </p>
-
-                                                            </div>
+                                                            📄
 
                                                         </div>
 
 
-                                                        <div className="resume-card-footer">
+                                                        <div className="resume-info">
 
-                                                            <span>
+                                                            <h3>
 
-                                                                Resume
+                                                                {
+                                                                    resume.fileName
+                                                                }
 
-                                                            </span>
+                                                            </h3>
 
 
-                                                            <span className="resume-ready">
+                                                            <p>
 
-                                                                ✓ Ready
+                                                                Uploaded{" "}
 
-                                                            </span>
+                                                                {
+
+                                                                    new Date(
+
+                                                                        resume.createdAt
+
+                                                                    ).toLocaleDateString(
+
+                                                                        "en-IN",
+
+                                                                        {
+
+                                                                            day:
+                                                                                "numeric",
+
+                                                                            month:
+                                                                                "short",
+
+                                                                            year:
+                                                                                "numeric"
+
+                                                                        }
+
+                                                                    )
+
+                                                                }
+
+                                                            </p>
+
+                                                        </div>
+
+
+                                                        <div className="resume-actions">
+
+
+                                                            <a
+
+                                                                href={
+                                                                    getResumeUrl(
+                                                                        resume
+                                                                    )
+                                                                }
+
+                                                                target="_blank"
+
+                                                                rel="noreferrer"
+
+                                                                className="view-resume-btn"
+
+                                                            >
+
+                                                                👁 View
+
+                                                            </a>
+
+
+                                                            <button
+
+                                                                className="delete-resume-btn"
+
+                                                                onClick={() =>
+
+                                                                    handleDelete(
+                                                                        resume._id
+                                                                    )
+
+                                                                }
+
+                                                            >
+
+                                                                🗑 Delete
+
+                                                            </button>
 
                                                         </div>
 
@@ -558,7 +578,6 @@ function Resume() {
 
                                         }
 
-
                                     </div>
 
                                 )
@@ -566,7 +585,6 @@ function Resume() {
                     }
 
                 </div>
-
 
             </div>
 
