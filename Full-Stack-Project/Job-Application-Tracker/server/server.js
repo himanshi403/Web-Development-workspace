@@ -5,6 +5,7 @@ import cors from "cors";
 import connectDB from "./config/db.js";
 import authRoutes from "./routes/authRoutes.js";
 import jobRoutes from "./routes/jobRoutes.js";
+import resumeRoutes from "./routes/resumeRoutes.js";
 
 import errorHandler from "./middleware/errorMiddleware.js";
 import notFound from "./middleware/notFoundMiddleware.js";
@@ -15,7 +16,7 @@ connectDB();
 
 const app = express();
 
-// ================= MIDDLEWARE =================
+
 
 app.use(cors({
     origin: "http://localhost:5173",
@@ -23,8 +24,8 @@ app.use(cors({
 }));
 
 app.use(express.json());
+app.use("/uploads", express.static("uploads"));
 
-// ================= ROOT ROUTE =================
 
 app.get("/", (req, res) => {
 
@@ -40,15 +41,11 @@ app.get("/", (req, res) => {
 app.use("/api/auth", authRoutes);
 
 app.use("/api/jobs", jobRoutes);
-
-// ================= ERROR HANDLING =================
-
-// Must come AFTER all valid routes
+app.use("/api/resumes", resumeRoutes);
 app.use(notFound);
-
 app.use(errorHandler);
 
-// ================= SERVER =================
+
 
 const PORT = process.env.PORT || 5000;
 
