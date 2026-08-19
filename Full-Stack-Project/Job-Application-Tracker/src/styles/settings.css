@@ -1,0 +1,320 @@
+.resume-page {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px;
+}
+
+.resume-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 30px;
+    margin-bottom: 35px;
+}
+
+.resume-label {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    margin-bottom: 10px;
+    opacity: 0.7;
+}
+
+.resume-header h1 {
+    font-size: 38px;
+    margin: 0 0 10px;
+}
+
+.resume-subtitle {
+    font-size: 16px;
+    opacity: 0.7;
+    margin: 0;
+}
+
+.resume-count {
+    min-width: 130px;
+    text-align: center;
+    padding: 22px;
+    border-radius: 16px;
+    background: #ffffff;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+}
+
+.resume-count span {
+    display: block;
+    font-size: 30px;
+    font-weight: 700;
+}
+
+.resume-count p {
+    margin: 5px 0 0;
+    font-size: 14px;
+    opacity: 0.65;
+}
+
+.resume-upload-card {
+    text-align: center;
+    padding: 45px 30px;
+    margin-bottom: 50px;
+    border-radius: 20px;
+    border: 2px dashed #d7d7d7;
+    background: #ffffff;
+    transition: 0.3s ease;
+}
+
+.resume-upload-card:hover {
+    border-color: #888;
+}
+
+.upload-icon {
+    width: 70px;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 18px;
+    border-radius: 18px;
+    font-size: 30px;
+    background: #f2f2f2;
+}
+
+.resume-upload-card h2 {
+    margin-bottom: 8px;
+}
+
+.resume-upload-card p {
+    opacity: 0.7;
+}
+
+.upload-actions {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    margin-top: 25px;
+}
+
+.choose-file-btn {
+    padding: 12px 22px;
+    border-radius: 10px;
+    cursor: pointer;
+    background: #f1f1f1;
+    font-weight: 600;
+    transition: 0.2s;
+}
+
+.choose-file-btn:hover {
+    transform: translateY(-2px);
+}
+
+.upload-resume-btn {
+    padding: 12px 24px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 600;
+    background: #222;
+    color: white;
+    transition: 0.2s;
+}
+
+.upload-resume-btn:hover:not(:disabled) {
+    transform: translateY(-2px);
+    opacity: 0.9;
+}
+
+.upload-resume-btn:disabled {
+    cursor: not-allowed;
+    opacity: 0.45;
+}
+
+.selected-file {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+    padding: 12px 18px;
+    background: #f7f7f7;
+    border-radius: 10px;
+}
+
+.selected-file p {
+    margin: 0;
+    font-size: 14px;
+}
+
+.resume-message {
+    margin-top: 20px;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.success-message {
+    color: #198754;
+}
+
+.error-message {
+    color: #dc3545;
+}
+
+.resume-library-section {
+    margin-top: 20px;
+}
+
+.resume-section-header {
+    margin-bottom: 25px;
+}
+
+.resume-section-header h2 {
+    margin-bottom: 6px;
+}
+
+.resume-section-header p {
+    margin: 0;
+    opacity: 0.65;
+}
+
+.resume-grid {
+    display: grid;
+    grid-template-columns: repeat(
+        auto-fit,
+        minmax(280px, 1fr)
+    );
+    gap: 22px;
+}
+
+.resume-card {
+    padding: 22px;
+    border-radius: 16px;
+    background: #ffffff;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.07);
+    transition: transform 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+.resume-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+}
+
+.resume-card-top {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.pdf-icon {
+    min-width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 700;
+    background: #f2f2f2;
+}
+
+.resume-file-info {
+    overflow: hidden;
+}
+
+.resume-file-info h3 {
+    margin: 0 0 6px;
+    font-size: 15px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.resume-file-info p {
+    margin: 0;
+    font-size: 13px;
+    opacity: 0.6;
+}
+
+.resume-card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 22px;
+    padding-top: 15px;
+    border-top: 1px solid #eeeeee;
+    font-size: 13px;
+}
+
+.resume-ready {
+    font-weight: 600;
+}
+
+.resume-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: auto;
+}
+
+.view-resume-btn,
+.delete-resume-btn {
+    flex: 1;
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: 0.2s ease;
+}
+
+.view-resume-btn {
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #eff6ff;
+    color: #2563eb;
+    border: 1px solid #bfdbfe;
+}
+
+.view-resume-btn:hover {
+    background: #dbeafe;
+    transform: translateY(-1px);
+}
+
+.delete-resume-btn {
+    cursor: pointer;
+    background: #fef2f2;
+    color: #dc2626;
+    border: 1px solid #fecaca;
+}
+
+.delete-resume-btn:hover {
+    background: #fee2e2;
+    transform: translateY(-1px);
+}
+
+.resume-empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    border-radius: 18px;
+    background: #ffffff;
+    border: 1px solid #eeeeee;
+}
+
+.empty-icon {
+    font-size: 45px;
+    margin-bottom: 15px;
+}
+
+.resume-empty-state h3 {
+    margin-bottom: 8px;
+}
+
+.resume-empty-state p {
+    max-width: 400px;
+    margin: auto;
+    opacity: 0.65;
+}
+
+.resume-loading {
+    text-align: center;
+    padding: 50px;
+    opacity: 0.7;
+}

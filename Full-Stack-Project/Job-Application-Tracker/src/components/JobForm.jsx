@@ -12,6 +12,7 @@ function JobForm({
     const [status, setStatus] = useState("Applied");
     const [interviewDate, setInterviewDate] = useState("");
     const [saving, setSaving] = useState(false);
+    
 
 
     useEffect(() => {

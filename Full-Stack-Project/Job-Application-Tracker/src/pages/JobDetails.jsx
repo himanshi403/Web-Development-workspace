@@ -421,14 +421,16 @@ function JobDetails() {
                         {/* NOTES */}
 
                         <div className="detail-item">
+<label className="notes-label">
 
-                            <h4>
-                                Notes
-                            </h4>
+    Notes
+
+</label>
 
                             {editing ? (
 
                                 <textarea
+                                 className="job-notes-input"
                                     value={notes}
                                     onChange={(e) =>
                                         setNotes(

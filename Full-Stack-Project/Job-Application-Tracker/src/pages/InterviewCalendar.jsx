@@ -17,6 +17,8 @@ function InterviewCalendar({ jobs = [] }) {
                 new Date(b.interviewDate)
         );
 
+        
+
     function formatDate(date) {
 
         const year = date.getFullYear();

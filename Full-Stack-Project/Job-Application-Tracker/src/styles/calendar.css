@@ -1,0 +1,43 @@
+.calendar-page {
+    padding: 40px;
+}
+
+.calendar-page h1 {
+    font-size: 34px;
+    margin-bottom: 6px;
+}
+
+.react-calendar {
+    width: 100%;
+    border: none;
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
+}
+
+.calendar-dot {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: #2563eb;
+    color: white;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: auto;
+    margin-top: 4px;
+}
+
+.calendar-list {
+    margin-top: 40px;
+    display: grid;
+    gap: 20px;
+}
+
+.calendar-card {
+    background: white;
+    padding: 20px;
+    border-radius: 18px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+}

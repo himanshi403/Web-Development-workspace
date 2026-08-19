@@ -1,0 +1,184 @@
+.profile-page {
+    max-width: 1000px;
+    margin: auto;
+    padding: 30px;
+}
+
+.profile-header-card {
+    background: white;
+    padding: 35px;
+    border-radius: 20px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.profile-avatar {
+    width: 110px;
+    height: 110px;
+    border-radius: 50%;
+    background: #2563eb;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 34px;
+    font-weight: bold;
+    margin: auto;
+    margin-bottom: 20px;
+}
+
+.profile-role {
+    color: #666;
+    margin: 8px 0;
+}
+
+.profile-location,
+.profile-email,
+.member-since {
+    color: #777;
+    margin: 5px 0;
+}
+
+.about-card,
+.skills-card,
+.resume-card,
+.career-card {
+    background: white;
+    padding: 25px;
+    border-radius: 18px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+    margin-top: 25px;
+}
+
+.skills-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 20px;
+}
+
+.skills-container span {
+    background: #eef4ff;
+    padding: 10px 18px;
+    border-radius: 30px;
+    font-weight: 600;
+    color: #2563eb;
+    transition: 0.25s;
+}
+
+.skills-container span:hover {
+    background: #2563eb;
+    color: white;
+    transform: translateY(-2px);
+}
+
+.resume-btn,
+.edit-profile-btn {
+    margin-top: 20px;
+    padding: 12px 24px;
+    background: #2563eb;
+    color: white;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: 0.25s;
+}
+
+.resume-btn:hover,
+.edit-profile-btn:hover {
+    background: #1d4ed8;
+}
+
+.profile-resume-message {
+    margin-top: 18px;
+    padding: 14px 16px;
+    border-radius: 10px;
+    background: rgba(34, 197, 94, 0.08);
+}
+
+.profile-resume-message p {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.go-resume-page-btn {
+    margin-top: 12px;
+    cursor: pointer;
+    font: inherit;
+    font-weight: 600;
+    background: transparent;
+    padding: 0;
+    text-decoration: underline;
+}
+
+.edit-profile-modal {
+    background: white;
+    width: 520px;
+    padding: 30px;
+    border-radius: 18px;
+    animation: popup 0.3s ease;
+}
+
+.edit-profile-modal input,
+.edit-profile-modal textarea {
+    width: 100%;
+    padding: 12px;
+    margin-top: 12px;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+}
+
+.save-btn {
+    background: #2563eb;
+    color: white;
+}
+
+.cancel-btn {
+    padding: 12px 25px;
+    border-radius: 10px;
+    background: #ececec;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.profile-card {
+    max-width: 420px;
+    margin: auto;
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    text-align: center;
+}
+
+.profile-card img {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    margin-bottom: 20px;
+}
+
+.profile-card button {
+    margin-top: 20px;
+}
+
+.avatar {
+    font-size: 70px;
+    margin-bottom: 15px;
+}
+
+.profile-stats {
+    display: grid;
+    grid-template-columns: repeat(
+        auto-fit,
+        minmax(150px, 1fr)
+    );
+    gap: 20px;
+}
+
+.stat-box {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    text-align: center;
+}

@@ -325,7 +325,7 @@ function Resume() {
 
                     <input
 
-                        id="resume-upload"
+                        
 
                         type="file"
 
@@ -357,7 +357,7 @@ function Resume() {
 
                     <button
 
-                        className="resume-upload-btn"
+                        className="resume-btn"
 
                         onClick={handleUpload}
 
@@ -386,7 +386,7 @@ function Resume() {
 
                         error && (
 
-                            <p className="resume-error">
+                            <p className="error-message">
 
                                 {error}
 
@@ -399,7 +399,7 @@ function Resume() {
                 </div>
 
 
-                <div className="resume-library-section">
+                <div className="resume-library">
 
                     <h2>
                         Your Resumes
@@ -430,7 +430,7 @@ function Resume() {
 
                                 (
 
-                                    <div className="resume-empty-state">
+                                    <div className="empty-state">
 
                                         <h3>
 
@@ -464,7 +464,7 @@ function Resume() {
 
                                                     <div
 
-                                                        className="resume-item"
+                                                        className="resume-card"
 
                                                         key={
                                                             resume._id
