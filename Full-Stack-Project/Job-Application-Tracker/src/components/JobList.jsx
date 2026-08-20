@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import CompanyLogo from "../components/CompanyLogo";
 
 function JobList({
     jobs = [],
@@ -67,13 +68,10 @@ function JobList({
 
                             <div className="job-top">
 
-                                <div className="company-avatar">
-
-                                    {(job.company || "?")
-                                        .charAt(0)
-                                        .toUpperCase()}
-
-                                </div>
+                                <CompanyLogo
+    company={job.company}
+    size="normal"
+/>
 
 
                                 <span

@@ -236,13 +236,10 @@ function JobDetails() {
 
                     <div className="details-header">
 
-                        <div className="company-circle">
-
-                            {job.company
-                                ?.charAt(0)
-                                .toUpperCase()}
-
-                        </div>
+                        <CompanyLogo
+    company={job.company}
+    size="large"
+/>
 
 
                         <div>
