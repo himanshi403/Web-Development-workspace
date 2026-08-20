@@ -3,172 +3,203 @@ import { useNavigate } from "react-router-dom";
 
 function AuthModal({ closeModal }) {
 
-    const [isLogin, setIsLogin] = useState(true);
-    const [showPassword, setShowPassword] = useState(false);
+    const [isLogin, setIsLogin] =
+        useState(true);
+
+    const [showPassword, setShowPassword] =
+        useState(false);
+
     const navigate = useNavigate();
 
-    useEffect(()=>{
 
-function handleEscape(e){
+    useEffect(() => {
 
-if(e.key==="Escape"){
+        function handleEscape(e) {
 
-closeModal();
+            if (e.key === "Escape") {
+                closeModal();
+            }
 
-}
+        }
 
-}
+        window.addEventListener(
+            "keydown",
+            handleEscape
+        );
 
-window.addEventListener("keydown",handleEscape);
+        return () => {
 
-return()=>{
+            window.removeEventListener(
+                "keydown",
+                handleEscape
+            );
 
-window.removeEventListener("keydown",handleEscape);
+        };
 
-};
+    }, [closeModal]);
 
-},[closeModal]);
 
     return (
 
-        <div className="modal-overlay"
-        onClick={closeModal}>
+        <div
+            className="modal-overlay"
+            onClick={closeModal}
+        >
 
-            <div className="auth-modal"
-            onClick={(e)=>e.stopPropagation()}>
+            <div
+                className="auth-modal"
+                onClick={(e) =>
+                    e.stopPropagation()
+                }
+            >
 
                 <button
                     className="close-modal"
                     onClick={closeModal}
+                    aria-label="Close modal"
                 >
-                    ✖
+                    ✕
                 </button>
 
+
                 <h2>
-
-                    {isLogin ? "Welcome Back 👋" : "Create Account 🚀"}
-
+                    {isLogin
+                        ? "Welcome Back 👋"
+                        : "Create Account 🚀"}
                 </h2>
+
 
                 <input
                     type="email"
                     placeholder="Email"
                 />
 
+
                 <input
-                    type={showPassword ? "text" : "password"}
+                    type={
+                        showPassword
+                            ? "text"
+                            : "password"
+                    }
                     placeholder="Password"
                 />
 
-                <button
-type="button"
-className="show-password"
-onClick={() => setShowPassword(!showPassword)}
->
-
-{showPassword ? "🙈 Hide Password" : "👁 Show Password"}
-
-</button>
-
-<label className="remember-me">
-
-<input type="checkbox"  className="custom-checkbox"/>
-
-Remember Me
-
-</label>
-
-<p className="forgot-password">
-
-Forgot Password?
-
-</p>
-
 
                 <button
-className="login-btn"
-onClick={() => {
+                    type="button"
+                    className="show-password"
+                    onClick={() =>
+                        setShowPassword(
+                            !showPassword
+                        )
+                    }
+                >
+                    {showPassword
+                        ? "🙈 Hide Password"
+                        : "👁 Show Password"}
+                </button>
 
-    navigate("/dashboard");
 
-    closeModal();
+                <label className="remember-me">
 
-}}
->
+                    <input
+                        type="checkbox"
+                        className="custom-checkbox"
+                    />
 
-{isLogin ? "Login" : "Create Account"}
+                    Remember Me
 
-</button>
+                </label>
 
-                <p>
-{
-    isLogin ? (
 
-        <p>
-
-            Don't have an account?{" "}
-
-            <span
-
-                onClick={() => {
-
-                    closeModal();
-
-                    navigate("/signup");
-
-                }}
-
-            >
-
-                Signup
-
-            </span>
-
-        </p>
-
-    ) : (
-
-        <p>
-
-            Already have an account?{" "}
-
-            <span
-
-                onClick={() => {
-
-                    setIsLogin(true);
-
-                }}
-
-            >
-
-                Login
-
-            </span>
-
-        </p>
-
-    )
-}
-        
-
+                <p className="forgot-password">
+                    Forgot Password?
                 </p>
+
+
+                <button
+                    type="button"
+                    className="login-btn"
+                    onClick={() => {
+
+                        /*
+                         For now this is only UI navigation.
+                         Actual login API integration
+                         can be connected here later.
+                        */
+
+                        navigate("/dashboard");
+
+                        closeModal();
+
+                    }}
+                >
+
+                    {isLogin
+                        ? "Login"
+                        : "Create Account"}
+
+                </button>
+
+
+                <div className="auth-switch">
+
+                    {isLogin ? (
+
+                        <p>
+
+                            Don't have an account?{" "}
+
+                            <span
+                                onClick={() => {
+
+                                    closeModal();
+
+                                    navigate("/signup");
+
+                                }}
+                            >
+
+                                Signup
+
+                            </span>
+
+                        </p>
+
+                    ) : (
+
+                        <p>
+
+                            Already have an account?{" "}
+
+                            <span
+                                onClick={() =>
+                                    setIsLogin(true)
+                                }
+                            >
+
+                                Login
+
+                            </span>
+
+                        </p>
+
+                    )}
+
+                </div>
+
 
                 <div className="social-login">
 
-<button type="button">
+                    <button type="button">
+                        🔵 Continue with Google
+                    </button>
 
-🔵 Continue with Google
+                    <button type="button">
+                        ⚫ Continue with GitHub
+                    </button>
 
-</button>
-
-<button type="button">
-
-⚫ Continue with GitHub
-
-</button>
-
-</div>
+                </div>
 
             </div>
 

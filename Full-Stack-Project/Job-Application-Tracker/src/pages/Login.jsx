@@ -161,124 +161,85 @@ function Login() {
 
     };
 
+return (
+    <AuthShell
+        title="Welcome Back 👋"
+        subtitle="Continue your journey toward your dream job."
+        image={career}
+    >
+        <div className="auth-card">
 
-    return (
+            <h2>Welcome Back</h2>
 
-        <AuthShell
+            <p className="auth-subtitle">
+                Login to continue managing your job applications.
+            </p>
 
-            title="Welcome Back 👋"
-
-            subtitle={
-                "Continue your journey toward your dream job."
-            }
-
-            image={career}
-
-        >
-
-            <form
-                onSubmit={handleLogin}
-            >
+            <form onSubmit={handleLogin}>
 
                 {/* EMAIL */}
-
                 <div className="input-group">
 
-                    <span>
-                        📧
-                    </span>
+                    <span>📧</span>
 
                     <input
-
                         type="email"
-
                         placeholder="Email"
-
                         value={email}
-
                         onChange={(e) =>
-                            setEmail(
-                                e.target.value
-                            )
+                            setEmail(e.target.value)
                         }
-
                     />
 
                 </div>
 
 
                 {/* PASSWORD */}
-
                 <div className="input-group">
 
-                    <span>
-                        🔒
-                    </span>
+                    <span>🔒</span>
 
                     <input
-
                         type={
                             showPassword
                                 ? "text"
                                 : "password"
                         }
-
                         placeholder="Password"
-
                         value={password}
-
                         onChange={(e) =>
                             setPassword(
                                 e.target.value
                             )
                         }
-
                     />
 
-
                     <button
-
                         type="button"
-
                         className="show-password-btn"
-
                         onClick={() =>
                             setShowPassword(
                                 !showPassword
                             )
                         }
-
                     >
-
-                        {
-                            showPassword
-                                ? "Hide"
-                                : "Show"
-                        }
-
+                        {showPassword
+                            ? "Hide"
+                            : "Show"}
                     </button>
 
                 </div>
 
 
                 {/* LOGIN */}
-
                 <button
-
                     type="submit"
-
                     className="login-btn"
-
                     disabled={loading}
-
                 >
-
-                    {
-                        loading
-                            ? "Logging in..."
-                            : "Login"
-                    }
-
+                    {loading
+                        ? "Logging in..."
+                        : "Login"}
                 </button>
 
             </form>
@@ -290,38 +251,27 @@ function Login() {
 
 
             <button
-
                 type="button"
-
                 className="google-btn"
-
             >
-
                 Continue with Google
-
             </button>
 
 
-            <p>
+            <p className="switch-auth">
 
                 Don't have an account?
 
                 {" "}
 
                 <Link to="/signup">
-
                     Signup
-
                 </Link>
 
             </p>
 
-
-        </AuthShell>
-
-    );
-
+        </div>
+    </AuthShell>
+);
 }
-
-
 export default Login;
