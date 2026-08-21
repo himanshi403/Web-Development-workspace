@@ -2,11 +2,13 @@ import express from "express";
 
 import {
 
-    testAuth,
+    
     register,
     login,
+    googleAuth,
     getMe,
-    updateProfile
+    updateProfile,
+    testAuth
 
 } from "../controllers/authController.js";
 
@@ -61,6 +63,10 @@ router.post(
     validateLogin,
     validationMiddleware,
     login
+);
+router.post(
+    "/google",
+    googleAuth
 );
 
 

@@ -709,3 +709,66 @@
         opacity: 0.75;
     }
 }
+
+.google-signup-wrapper {
+    width: 100%;
+
+    display: flex;
+    justify-content: center;
+
+    margin-bottom: 14px;
+}
+
+
+.google-signup-wrapper > div {
+    width: 100% !important;
+}
+
+
+.google-signup-wrapper iframe {
+    width: 100% !important;
+}
+
+
+.social-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 10px;
+
+    width: 100%;
+
+    padding: 14px;
+
+    border: 1px solid #dbe3ee;
+
+    border-radius: 12px;
+
+    background: white;
+
+    color: #334155;
+
+    font-size: 15px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: all 0.2s ease;
+
+    margin-bottom: 12px;
+}
+
+
+.social-btn:hover {
+    background: #f8fafc;
+
+    border-color: #94a3b8;
+
+    transform: translateY(-2px);
+}
+
+
+.github-btn svg {
+    font-size: 20px;
+}

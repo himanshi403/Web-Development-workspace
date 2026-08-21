@@ -30,11 +30,16 @@ const userSchema = new mongoose.Schema({
 
         type: String,
 
-        required: true,
-
-        minlength: 6
+        required: false
 
     },
+     googleId: {
+            type: String,
+            default: null
+        
+    },
+       
+    
 
      role: {
             type: String,
@@ -64,7 +69,8 @@ const userSchema = new mongoose.Schema({
 
     timestamps: true
 
-});
+}
+);
 
 const User = mongoose.model("User", userSchema);
 

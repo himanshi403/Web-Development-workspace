@@ -4,7 +4,17 @@ import { useState } from "react";
 import AuthShell from "../components/AuthShell";
 import career from "../assets/career.svg";
 
-import { register } from "../services/authService";
+import { register,googleLogin } from "../services/authService";
+
+import {
+    GoogleLogin
+} from "@react-oauth/google";
+
+import {
+    FaGithub
+} from "react-icons/fa";
+
+
 
 function SignUp() {
     const navigate = useNavigate();
@@ -15,6 +25,87 @@ function SignUp() {
 
     const [showPassword, setShowPassword] = useState(false);
     const [loading, setLoading] = useState(false);
+
+    const handleGoogleSignup =
+    async (
+        credentialResponse
+    ) => {
+
+        try {
+
+            setLoading(true);
+
+
+            const response =
+                await googleLogin(
+                    credentialResponse
+                        .credential
+                );
+
+
+            const token =
+                response.data.token;
+
+
+            localStorage.setItem(
+                "token",
+                token
+            );
+
+
+            if (
+                response.data.user
+            ) {
+
+                localStorage.setItem(
+                    "user",
+
+                    JSON.stringify(
+                        response.data.user
+                    )
+
+                );
+
+            }
+
+
+            window.dispatchEvent(
+                new Event(
+                    "authChange"
+                )
+            );
+
+
+            navigate(
+                "/dashboard"
+            );
+
+
+        } catch (error) {
+
+            console.error(
+                "Google signup error:",
+                error
+            );
+
+
+            alert(
+
+                error.response?.data
+                    ?.message ||
+
+                "Google signup failed"
+
+            );
+
+
+        } finally {
+
+            setLoading(false);
+
+        }
+
+    };
 
     const handleSignup = async (e) => {
         e.preventDefault();
@@ -153,19 +244,42 @@ function SignUp() {
                     <span>OR</span>
                 </div>
 
-                <button
-                    type="button"
-                    className="social-btn"
-                >
-                    Continue with Google
-                </button>
+               <div className="google-signup-wrapper">
 
-                <button
-                    type="button"
-                    className="social-btn"
-                >
-                    Continue with GitHub
-                </button>
+    <GoogleLogin
+
+        onSuccess={
+            handleGoogleSignup
+        }
+
+        onError={() => {
+
+            alert(
+                "Google signup failed"
+            );
+
+        }}
+
+        theme="outline"
+
+        size="large"
+
+        width="400"
+
+    />
+
+</div>
+
+               <button
+    type="button"
+    className="social-btn github-btn"
+>
+
+    <FaGithub />
+
+    Continue with GitHub
+
+</button>
 
                 <p className="switch-auth">
 
