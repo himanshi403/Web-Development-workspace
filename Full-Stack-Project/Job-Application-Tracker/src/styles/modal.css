@@ -411,3 +411,29 @@
 .google-login-wrapper iframe {
     width: 100% !important;
 }
+
+/* =========================================
+   DARK MODE - MODALS
+========================================= */
+
+body.dark .modal-overlay {
+    background: rgba(0, 0, 0, 0.75);
+}
+
+body.dark .modal,
+body.dark .job-modal,
+body.dark .delete-modal {
+    background: #1f2937;
+    color: #f9fafb;
+}
+
+body.dark .modal h2,
+body.dark .job-modal h2,
+body.dark .delete-modal h2 {
+    color: #ffffff;
+}
+
+body.dark .modal p,
+body.dark .delete-modal p {
+    color: #d1d5db;
+}

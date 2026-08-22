@@ -56,10 +56,15 @@ Settings
 
 </p>
 
-<p onClick={() => navigate("/")}>
+<p
+    onClick={() => {
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
 
-Logout
-
+        navigate("/");
+    }}
+>
+    Logout
 </p>
 
 </div>

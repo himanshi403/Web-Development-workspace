@@ -6,28 +6,26 @@ function Sidebar() {
     const navigate = useNavigate();
     const [loggingOut, setLoggingOut] = useState(false);
 
-    function handleLogout() {
+   function handleLogout() {
 
-        setLoggingOut(true);
+    setLoggingOut(true);
 
-        // Remove authentication data
-        localStorage.removeItem("token");
-        localStorage.removeItem("user");
+    // Remove authentication data
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    localStorage.removeItem("jobs");
 
-        // Optional: remove old frontend-only job data
-        localStorage.removeItem("jobs");
-
-          // Tell App.jsx that the user has logged out.
+    // Notify App.jsx that authentication changed
     window.dispatchEvent(
         new Event("authChange")
     );
 
-        setTimeout(() => {
+    // Go directly to Landing page
+    navigate("/", {
+        replace: true
+    });
 
-            navigate("/login");
-
-        }, 500);
-    }
+}
 
     return (
         <aside className="sidebar">

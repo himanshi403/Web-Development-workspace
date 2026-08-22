@@ -147,3 +147,21 @@ img {
     border-radius: 12px;
     cursor: pointer;
 }
+
+/* =========================================
+   DARK MODE - GLOBAL
+========================================= */
+
+body.dark {
+    background: #111827;
+    color: #f3f4f6;
+}
+
+body.dark * {
+    scrollbar-color: #4b5563 #111827;
+}
+
+body.dark #root {
+    background: #111827;
+    min-height: 100vh;
+}

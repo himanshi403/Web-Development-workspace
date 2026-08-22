@@ -318,3 +318,47 @@
     padding: 50px;
     opacity: 0.7;
 }
+
+/* =========================================
+   DARK MODE - RESUME
+========================================= */
+
+body.dark .resume-page {
+    background: #111827;
+    color: #f9fafb;
+}
+
+body.dark .resume-header h1,
+body.dark .resume-header h2,
+body.dark .resume-page h1,
+body.dark .resume-page h2 {
+    color: #f9fafb;
+}
+
+body.dark .resume-header p {
+    color: #9ca3af;
+}
+
+body.dark .resume-upload-card,
+body.dark .resume-library,
+body.dark .resume-card {
+    background: #1f2937;
+    color: #f9fafb;
+    border-color: #374151;
+}
+
+body.dark .resume-card h3 {
+    color: #f9fafb;
+}
+
+body.dark .resume-card p {
+    color: #9ca3af;
+}
+
+body.dark .selected-file {
+    color: #d1d5db;
+}
+
+body.dark input[type="file"] {
+    color: #d1d5db;
+}

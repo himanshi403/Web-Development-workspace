@@ -182,3 +182,38 @@
     border-radius: 12px;
     text-align: center;
 }
+
+/* =========================================
+   DARK MODE - PROFILE
+========================================= */
+
+body.dark .profile-page {
+    background: #111827;
+    color: #f9fafb;
+}
+
+body.dark .profile-card,
+body.dark .profile-section {
+    background: #1f2937;
+    color: #f9fafb;
+    border-color: #374151;
+}
+
+body.dark .profile-page h1,
+body.dark .profile-page h2,
+body.dark .profile-page h3 {
+    color: #f9fafb;
+}
+
+body.dark .profile-page p,
+body.dark .profile-page label {
+    color: #000308;
+}
+
+body.dark .profile-page input,
+body.dark .profile-page textarea,
+body.dark .profile-page select {
+    background: #111827;
+    color: #f9fafb;
+    border-color: #4b5563;
+}

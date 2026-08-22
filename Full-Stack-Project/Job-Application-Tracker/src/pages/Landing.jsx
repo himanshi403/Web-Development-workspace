@@ -479,66 +479,6 @@ function Landing() {
             </section>
 
 
-            {/* ================= STATS ================= */}
-
-            <section className="stats-section">
-
-                <div className="stat-card">
-
-                    <h2>
-                        10K+
-                    </h2>
-
-                    <p>
-                        Applications Organized
-                    </p>
-
-                </div>
-
-
-                <div className="stat-card">
-
-                    <h2>
-                        500+
-                    </h2>
-
-                    <p>
-                        Career Builders
-                    </p>
-
-                </div>
-
-
-                <div className="stat-card">
-
-                    <h2>
-                        95%
-                    </h2>
-
-                    <p>
-                        Stay More Organized
-                    </p>
-
-                </div>
-
-
-                <div className="stat-card">
-
-                    <h2>
-                        24/7
-                    </h2>
-
-                    <p>
-                        Available Anytime
-                    </p>
-
-                </div>
-
-            </section>
-
-
-            {/* ================= TESTIMONIALS ================= */}
-
             <section
                 id="testimonials"
                 className="testimonials-section"
@@ -553,6 +493,7 @@ function Landing() {
                     <h2>
 
                         Built for people chasing
+                        <br></br>
                         <span>
                             big opportunities.
                         </span>

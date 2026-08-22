@@ -56,6 +56,41 @@ function App() {
         localStorage.getItem("user")
     );
 
+    useEffect(() => {
+
+    function handleAuthChange() {
+
+        const user =
+            localStorage.getItem("user");
+
+        setCurrentUser(user);
+
+        if (!user) {
+
+            setJobs([]);
+
+            setActivities([]);
+
+        }
+
+    }
+
+    window.addEventListener(
+        "authChange",
+        handleAuthChange
+    );
+
+    return () => {
+
+        window.removeEventListener(
+            "authChange",
+            handleAuthChange
+        );
+
+    };
+
+}, []);
+
 
     
     // FETCH JOBS FOR CURRENT USER
@@ -89,12 +124,15 @@ function App() {
 
         };
 
+const response = await getJobs(params);
 
-        const response = await getJobs(params);
+console.log("Jobs API response:", response.data);
 
-        setJobs(
-            response.data.jobs || []
-        );
+setJobs(
+    response.data.jobs ||
+    response.data.data?.jobs ||
+    []
+);
 
     } catch (error) {
 
@@ -172,6 +210,23 @@ useEffect(() => {
         }
 
     }, []);
+
+    useEffect(() => {
+
+    const savedTheme =
+        localStorage.getItem("theme");
+
+    if (savedTheme === "dark") {
+
+        document.body.classList.add("dark");
+
+    } else {
+
+        document.body.classList.remove("dark");
+
+    }
+
+}, []);
 
 
    

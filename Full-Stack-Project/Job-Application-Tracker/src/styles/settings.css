@@ -87,3 +87,35 @@
     justify-content: center;
     margin-top: 30px;
 }
+
+/* =========================================
+   DARK MODE - SETTINGS
+========================================= */
+
+body.dark .settings-page {
+    background: #111827;
+    color: #f9fafb;
+}
+
+body.dark .settings-page h1 {
+    color: #f9fafb;
+}
+
+body.dark .setting-card {
+    background: #1f2937;
+    color: #f9fafb;
+    border-color: #374151;
+}
+
+body.dark .setting-card h3,
+body.dark .setting-card h2 {
+    color: #f9fafb;
+}
+
+body.dark .setting-card p {
+    color: #9ca3af;
+}
+
+body.dark .setting-card button {
+    border-color: #4b5563;
+}

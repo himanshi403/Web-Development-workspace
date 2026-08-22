@@ -235,3 +235,153 @@
 .rejected {
     background: #e74c3c;
 }
+
+.delete-modal {
+    width: min(90%, 420px);
+    background: #ffffff;
+    border-radius: 24px;
+    padding: 32px;
+    text-align: center;
+    box-shadow:
+        0 25px 60px rgba(0, 0, 0, 0.2);
+    animation: modalPop 0.25s ease;
+}
+
+.delete-icon {
+    font-size: 8px;
+    margin-bottom: 12px;
+}
+
+.delete-modal h2 {
+    margin: 0 0 12px;
+    font-size: 26px;
+    color: #1f2937;
+}
+
+.delete-modal p {
+    color: #6b7280;
+    line-height: 1.6;
+    margin-bottom: 24px;
+}
+
+.delete-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+}
+
+.cancel-btn,
+.delete-btn {
+    border: none;
+    border-radius: 12px;
+    padding: 12px 24px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.cancel-btn {
+    background: #f3f4f6;
+    color: #374151;
+}
+
+.delete-btn {
+    background: #ef4444;
+    color: white;
+}
+
+.cancel-btn:hover {
+    background: #e5e7eb;
+}
+
+.delete-btn:hover {
+    background: #dc2626;
+    transform: translateY(-1px);
+}
+
+@keyframes modalPop {
+    from {
+        opacity: 0;
+        transform: scale(0.95) translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+/* =========================================
+   DARK MODE - DASHBOARD
+========================================= */
+
+body.dark .dashboard-layout {
+    background: #111827;
+}
+
+body.dark .dashboard-content {
+    background: #111827;
+}
+
+body.dark .dashboard-hero {
+    background: linear-gradient(
+        135deg,
+        #172554,
+        #1e3a8a,
+        #1e40af
+    );
+}
+
+body.dark .hero-stat-card {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+body.dark .toolbar {
+    background: transparent;
+}
+
+body.dark .results-info {
+    color: #9ca3af;
+}
+
+body.dark .stat-card {
+    background: #1f2937;
+    color: #f9fafb;
+    box-shadow:
+        0 8px 18px rgba(0, 0, 0, 0.3);
+}
+
+body.dark .stat-card h3 {
+    color: #60a5fa;
+}
+
+body.dark .stat-card small {
+    color: #9ca3af;
+}
+
+body.dark .chart-card {
+    background: #1f2937;
+    color: #f9fafb;
+}
+
+body.dark .activity-card {
+    background: #1f2937;
+    color: #f9fafb;
+}
+
+body.dark .activity-item {
+    border-bottom: 1px solid #374151;
+}
+
+body.dark .activity-item small {
+    color: #9ca3af;
+}
+
+body.dark .recent-job-card,
+body.dark .recent-card {
+    background: #1f2937;
+    color: #f9fafb;
+    box-shadow:
+        0 3px 10px rgba(0, 0, 0, 0.3);
+}

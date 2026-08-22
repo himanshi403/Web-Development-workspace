@@ -641,7 +641,7 @@
 
     margin: 0 auto;
 
-    padding: 110px 0;
+    padding: 60px 0;
 }
 
 
@@ -889,62 +889,6 @@
         );
 }
 
-
-/* =========================================
-   STATS
-========================================= */
-
-.stats-section {
-    width: min(1180px, calc(100% - 40px));
-
-    margin: 20px auto 80px;
-
-    padding: 42px;
-
-    display: grid;
-
-    grid-template-columns:
-        repeat(4, 1fr);
-
-    gap: 20px;
-
-    border-radius: 30px;
-
-    background:
-        linear-gradient(
-            135deg,
-            #4338ca,
-            #6366f1,
-            #7c3aed
-        );
-
-    box-shadow:
-        0 25px 55px rgba(79, 70, 229, 0.25);
-}
-
-
-.stat-card {
-    text-align: center;
-
-    color: white;
-}
-
-
-.stat-card h2 {
-    margin: 0;
-
-    font-size: 34px;
-}
-
-
-.stat-card p {
-    margin: 8px 0 0;
-
-    font-size: 13px;
-
-    color:
-        rgba(255, 255, 255, 0.75);
-}
 
 
 /* =========================================

@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Layout from "../components/Layout";
 
 import {getSingleJob,updateJob} from "../services/jobService";
+import CompanyLogo from "../components/CompanyLogo";
 
 function JobDetails() {
 

@@ -1,6 +1,6 @@
 .toolbar {
     display: flex;
-    justify-content: space-between;
+   
     align-items: center;
     margin: 25px 0;
     gap: 20px;
@@ -369,4 +369,71 @@
 
     width: 100%;
     height: 100%;
+}
+
+/* =========================================
+   DARK MODE - JOB LIST
+========================================= */
+
+body.dark .job-card {
+    background: #1f2937;
+    color: #f9fafb;
+    border-color: #374151;
+}
+
+body.dark .job-card h2 {
+    color: #f9fafb;
+}
+
+body.dark .job-card p {
+    color: #d1d5db;
+}
+
+body.dark .job-date {
+    color: #9ca3af;
+}
+
+body.dark .job-top {
+    border-color: #374151;
+}
+
+body.dark .empty-state {
+    background: #1f2937;
+    color: #f9fafb;
+}
+
+body.dark .empty-state p {
+    color: #9ca3af;
+}
+
+body.dark .view-btn,
+body.dark .edit-btn {
+    border-color: #4b5563;
+}
+
+/* =========================================
+   DARK MODE - JOB DETAILS
+========================================= */
+
+body.dark .job-details-page {
+    background: #111827;
+    color: #f9fafb;
+}
+
+body.dark .job-details-card,
+body.dark .job-detail-card {
+    background: #1f2937;
+    color: #f9fafb;
+    border-color: #374151;
+}
+
+body.dark .job-details-page h1,
+body.dark .job-details-page h2,
+body.dark .job-details-page h3 {
+    color: #f9fafb;
+}
+
+body.dark .job-details-page p,
+body.dark .job-details-page span {
+    color: #07090b;
 }

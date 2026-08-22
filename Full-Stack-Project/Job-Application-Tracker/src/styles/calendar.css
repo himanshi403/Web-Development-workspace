@@ -41,3 +41,29 @@
     border-radius: 18px;
     box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
 }
+
+/* =========================================
+   DARK MODE - CALENDAR
+========================================= */
+
+body.dark .calendar-page {
+    background: #111827;
+    color: #f9fafb;
+}
+
+body.dark .calendar-container,
+body.dark .calendar-card {
+    background: #1f2937;
+    color: #f9fafb;
+    border-color: #374151;
+}
+
+body.dark .calendar-page h1,
+body.dark .calendar-page h2,
+body.dark .calendar-page h3 {
+    color: #f9fafb;
+}
+
+body.dark .calendar-page p {
+    color: #9ca3af;
+}

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 
 import Layout from "../components/Layout";
 
@@ -14,6 +14,7 @@ import {
 
 
 function Resume() {
+    
 
     const [resumes, setResumes] =
         useState([]);
@@ -29,6 +30,7 @@ function Resume() {
 
     const [error, setError] =
         useState("");
+        const fileInputRef = useRef(null);
 
 
     // ==============================
@@ -174,9 +176,9 @@ function Resume() {
             setSelectedFile(null);
 
 
-            document.getElementById(
-                "resume-upload"
-            ).value = "";
+           if (fileInputRef.current) {
+    fileInputRef.current.value = "";
+}
 
         }
 
@@ -323,19 +325,12 @@ function Resume() {
                     </p>
 
 
-                    <input
-
-                        
-
-                        type="file"
-
-                        accept=".pdf"
-
-                        onChange={
-                            handleFileChange
-                        }
-
-                    />
+                   <input
+    ref={fileInputRef}
+    type="file"
+    accept=".pdf"
+    onChange={handleFileChange}
+/>
 
 
                     {

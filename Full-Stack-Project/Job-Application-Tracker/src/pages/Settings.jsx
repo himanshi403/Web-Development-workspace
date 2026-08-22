@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState , useEffect} from "react";
 import Layout from "../components/Layout";
 
 import {
@@ -18,6 +18,27 @@ function Settings({
     const [clearingJobs, setClearingJobs] =
         useState(false);
 
+    useEffect(() => {
+
+    const savedTheme =
+        localStorage.getItem("theme");
+
+    if (savedTheme === "dark") {
+
+        document.body.classList.add("dark");
+
+        setDarkMode(true);
+
+    } else {
+
+        document.body.classList.remove("dark");
+
+        setDarkMode(false);
+
+    }
+
+}, []);
+
 
     // =========================================================
     // THEME
@@ -25,19 +46,28 @@ function Settings({
 
     function toggleTheme() {
 
-        document.body.classList.toggle("dark");
+    const newTheme =
+        darkMode ? "light" : "dark";
 
-        const isDark =
-            document.body.classList.contains("dark");
+    document.body.classList.remove(
+        "light",
+        "dark"
+    );
 
-        setDarkMode(isDark);
+    document.body.classList.add(
+        newTheme
+    );
 
-        localStorage.setItem(
-            "theme",
-            isDark ? "dark" : "light"
-        );
+    localStorage.setItem(
+        "theme",
+        newTheme
+    );
 
-    }
+    setDarkMode(
+        newTheme === "dark"
+    );
+
+}
 
 
     // =========================================================

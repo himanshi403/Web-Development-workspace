@@ -13,6 +13,7 @@ import RecentActivity from "../components/RecentActivity";
 import NotificationBell from "../components/NotificationBell";
 import ProfileMenu from "../components/ProfileMenu";
 import DashboardSkeleton from "../components/DashboardSkeleton";
+import DeleteModal from "../components/DeleteModal";
 
 
 
@@ -74,11 +75,11 @@ useEffect(() => {
 
 
 const words = [
-  "Track",
-  "Apply",
-  "Achieve",
-  "Grow",
-  "Succeed"
+  "Progress",
+  "Applications",
+  "Interviews & Offers",
+  "Your Future",
+  
 ];
 
 const [currentWord, setCurrentWord] = useState(0);
@@ -127,9 +128,7 @@ if(loading){
 <span className="hero-static">Track&nbsp;</span>
 
 <span className="hero-word">
-
-{["Dreams", "Jobs", "Success", "Offers", "Future"][Math.floor(Date.now()/2500)%5]}
-
+    {words[currentWord]}
 </span>
 
 </h1>
@@ -239,61 +238,15 @@ onClick={(e)=>e.stopPropagation()}
 
 <RecentJobs jobs={jobs} />
   {
-jobToDelete && (
-
-<div className="modal-overlay">
-
-<div className="modal">
-
-<h2>🗑 Delete Application</h2>
-
-<p>
-
-Are you sure you want to delete
-
-<strong> {jobToDelete.company} </strong>
-
-?
-
-</p>
-
-<p>
-
-Role :
-
-{jobToDelete.role}
-
-</p>
-
-<div className="modal-buttons">
-
-<button
-
-onClick={()=>setJobToDelete(null)}
-
->
-
-Cancel
-
-</button>
-
-<button
-
-onClick={confirmDelete}
-
->
-
-Delete
-
-</button>
-
-</div>
-
-</div>
-
-</div>
-
-)
+    jobToDelete && (
+        <DeleteModal
+            company={jobToDelete.company}
+            onCancel={() =>
+                setJobToDelete(null)
+            }
+            onDelete={confirmDelete}
+        />
+    )
 }
 
 

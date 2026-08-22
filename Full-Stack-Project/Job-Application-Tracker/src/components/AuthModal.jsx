@@ -454,8 +454,10 @@ function AuthModal({
                     <div
                         className="google-login-wrapper"
                     >
+                        
 
                         <GoogleLogin
+                        
 
                             onSuccess={
                                 handleGoogleSuccess

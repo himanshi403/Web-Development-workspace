@@ -1,27 +1,24 @@
-function RecentJobs({ jobs }) {
+function RecentJobs({ jobs = [] }) {
 
     const recentJobs = [...jobs]
-
-        .sort((a, b) => b.id - a.id)
-
+        .sort(
+            (a, b) =>
+                new Date(b.createdAt) -
+                new Date(a.createdAt)
+        )
         .slice(0, 3);
 
     return (
-
         <div className="recent-jobs">
 
             <h2>Recent Applications</h2>
 
             {
-
-                recentJobs.map(job => (
+                recentJobs.map((job) => (
 
                     <div
-
-                        key={job.id}
-
+                        key={job._id || job.id}
                         className="recent-job-card"
-
                     >
 
                         <h3>{job.company}</h3>
@@ -33,13 +30,10 @@ function RecentJobs({ jobs }) {
                     </div>
 
                 ))
-
             }
 
         </div>
-
     );
-
 }
 
 export default RecentJobs;
