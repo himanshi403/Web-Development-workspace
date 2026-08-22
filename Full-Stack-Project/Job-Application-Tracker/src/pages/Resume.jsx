@@ -266,23 +266,18 @@ function Resume() {
         };
 
 
-    // ==============================
-    // GET FILE URL
-    // ==============================
+  function getResumeUrl(resume) {
 
-    function getResumeUrl(resume) {
+    const fileName =
+        resume.filePath
+            .split("\\")
+            .pop()
+            .split("/")
+            .pop();
 
-        const fileName =
-            resume.filePath
-                .split("\\")
-                .pop()
-                .split("/")
-                .pop();
+    return `${import.meta.env.VITE_BACKEND_URL}/uploads/${fileName}`;
 
-
-        return `http://localhost:5000/uploads/${fileName}`;
-
-    }
+}
 
 
     return (
