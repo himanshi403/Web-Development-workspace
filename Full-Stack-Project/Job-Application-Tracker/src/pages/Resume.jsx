@@ -275,7 +275,7 @@ function Resume() {
             .split("/")
             .pop();
 
-    return `${import.meta.env.VITE_BACKEND_URL}/uploads/${fileName}`;
+   return `${import.meta.env.VITE_API_URL.replace("/api", "")}/uploads/${fileName}`;
 
 }
 
