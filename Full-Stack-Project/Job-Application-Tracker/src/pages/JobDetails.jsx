@@ -1,10 +1,23 @@
-import { useParams, useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+
+import {
+    useParams,
+    useNavigate
+} from "react-router-dom";
+
+import {
+    useEffect,
+    useState
+} from "react";
 
 import Layout from "../components/Layout";
 
-import {getSingleJob,updateJob} from "../services/jobService";
+import {
+    getSingleJob,
+    updateJob
+} from "../services/jobService";
+
 import CompanyLogo from "../components/CompanyLogo";
+
 
 function JobDetails() {
 
@@ -12,29 +25,90 @@ function JobDetails() {
 
     const navigate = useNavigate();
 
-    const [job, setJob] = useState(null);
 
-    const [loading, setLoading] = useState(true);
+    /* =========================
+       JOB STATES
+    ========================= */
 
-    const [error, setError] = useState("");
+    const [
+        job,
+        setJob
+    ] = useState(null);
 
-    const [editing, setEditing] = useState(false);
+    const [
+        loading,
+        setLoading
+    ] = useState(true);
 
-    const [company, setCompany] = useState("");
-
-    const [role, setRole] = useState("");
-
-    const [status, setStatus] = useState("Applied");
-
-    const [interviewDate, setInterviewDate] =
-        useState("");
-
-    const [notes, setNotes] = useState("");
-
-    const [saving, setSaving] = useState(false);
+    const [
+        error,
+        setError
+    ] = useState("");
 
 
-    // FETCH JOB
+    /* =========================
+       EDIT STATES
+    ========================= */
+
+    const [
+        editing,
+        setEditing
+    ] = useState(false);
+
+    const [
+        company,
+        setCompany
+    ] = useState("");
+
+    const [
+        role,
+        setRole
+    ] = useState("");
+
+    const [
+        status,
+        setStatus
+    ] = useState("Applied");
+
+    const [
+        interviewDate,
+        setInterviewDate
+    ] = useState("");
+
+    const [
+        notes,
+        setNotes
+    ] = useState("");
+
+
+    /* =========================
+       SAVE STATE
+    ========================= */
+
+    const [
+        saving,
+        setSaving
+    ] = useState(false);
+
+
+    /* =========================
+       NOTES MODAL STATES
+    ========================= */
+
+    const [
+        notesModalOpen,
+        setNotesModalOpen
+    ] = useState(false);
+
+    const [
+        notesDraft,
+        setNotesDraft
+    ] = useState("");
+
+
+    /* =========================
+       FETCH JOB
+    ========================= */
 
     useEffect(() => {
 
@@ -46,36 +120,49 @@ function JobDetails() {
 
                 setError("");
 
+
                 const response =
                     await getSingleJob(id);
+
 
                 const fetchedJob =
                     response.data.job;
 
+
                 setJob(fetchedJob);
+
 
                 setCompany(
                     fetchedJob.company || ""
                 );
 
+
                 setRole(
                     fetchedJob.role || ""
                 );
+
 
                 setStatus(
                     fetchedJob.status || "Applied"
                 );
 
+
                 setInterviewDate(
+
                     fetchedJob.interviewDate
+
                         ? fetchedJob.interviewDate
                             .split("T")[0]
+
                         : ""
+
                 );
+
 
                 setNotes(
                     fetchedJob.notes || ""
                 );
+
 
             } catch (error) {
 
@@ -84,10 +171,15 @@ function JobDetails() {
                     error
                 );
 
+
                 setError(
+
                     error.response?.data?.message ||
+
                     "Unable to load job"
+
                 );
+
 
             } finally {
 
@@ -97,12 +189,56 @@ function JobDetails() {
 
         };
 
+
         fetchJob();
 
     }, [id]);
 
 
-    // SAVE JOB 
+    /* =========================
+       OPEN NOTES MODAL
+    ========================= */
+
+    const openNotesModal = () => {
+
+        setNotesDraft(
+            notes || ""
+        );
+
+        setNotesModalOpen(true);
+
+    };
+
+
+    /* =========================
+       CLOSE NOTES MODAL
+    ========================= */
+
+    const closeNotesModal = () => {
+
+        setNotesModalOpen(false);
+
+    };
+
+
+    /* =========================
+       SAVE NOTES DRAFT
+    ========================= */
+
+    const saveNotesDraft = () => {
+
+        setNotes(
+            notesDraft
+        );
+
+        setNotesModalOpen(false);
+
+    };
+
+
+    /* =========================
+       SAVE JOB
+    ========================= */
 
     const handleSave = async () => {
 
@@ -110,32 +246,70 @@ function JobDetails() {
 
             setSaving(true);
 
+
             const response =
-                await updateJob(id, {
+                await updateJob(
+                    id,
+                    {
 
-                    company,
+                        company,
 
-                    role,
+                        role,
 
-                    status,
+                        status,
 
-                    interviewDate:
-                    interviewDate || null,
+                        interviewDate:
+                            interviewDate || null,
 
-                    notes
+                        notes
 
-                });
+                    }
+                );
 
-           const updatedJob = response.data.job;
 
-            setJob(updatedJob);
+            const updatedJob =
+                response.data.job;
 
-            setCompany(updatedJob.company);
-            setRole(updatedJob.role);
-            setStatus(updatedJob.status);
-            setNotes(updatedJob.notes || "");
+
+            setJob(
+                updatedJob
+            );
+
+
+            setCompany(
+                updatedJob.company || ""
+            );
+
+
+            setRole(
+                updatedJob.role || ""
+            );
+
+
+            setStatus(
+                updatedJob.status || "Applied"
+            );
+
+
+            setInterviewDate(
+
+                updatedJob.interviewDate
+
+                    ? updatedJob.interviewDate
+                        .split("T")[0]
+
+                    : ""
+
+            );
+
+
+            setNotes(
+                updatedJob.notes || ""
+            );
+
 
             setEditing(false);
+
 
         } catch (error) {
 
@@ -144,10 +318,15 @@ function JobDetails() {
                 error
             );
 
+
             alert(
+
                 error.response?.data?.message ||
+
                 "Failed to update job"
+
             );
+
 
         } finally {
 
@@ -158,7 +337,9 @@ function JobDetails() {
     };
 
 
-    // LOADING
+    /* =========================
+       LOADING
+    ========================= */
 
     if (loading) {
 
@@ -181,7 +362,9 @@ function JobDetails() {
     }
 
 
-    //ERROR
+    /* =========================
+       ERROR
+    ========================= */
 
     if (error || !job) {
 
@@ -190,9 +373,11 @@ function JobDetails() {
             <Layout>
 
                 <div className="job-details-page">
-                 <h2>
+
+                    <h2>
                         {error || "Job Not Found"}
                     </h2>
+
 
                     <button
                         className="back-btn"
@@ -203,8 +388,6 @@ function JobDetails() {
                         ← Back to Dashboard
                     </button>
 
-                   
-
                 </div>
 
             </Layout>
@@ -214,11 +397,20 @@ function JobDetails() {
     }
 
 
+    /* =========================
+       MAIN PAGE
+    ========================= */
+
     return (
 
         <Layout>
 
             <div className="job-details-page">
+
+
+                {/* =========================
+                   BACK BUTTON
+                ========================== */}
 
                 <button
                     className="back-btn"
@@ -230,17 +422,24 @@ function JobDetails() {
                 </button>
 
 
+                {/* =========================
+                   DETAILS CARD
+                ========================== */}
+
                 <div className="details-card">
 
 
-                    {/* HEADER */}
+                    {/* =====================
+                       HEADER
+                    ====================== */}
 
                     <div className="details-header">
 
+
                         <CompanyLogo
-    company={job.company}
-    size="large"
-/>
+                            company={job.company}
+                            size="large"
+                        />
 
 
                         <div>
@@ -257,6 +456,7 @@ function JobDetails() {
                                             )
                                         }
                                     />
+
 
                                     <input
                                         value={role}
@@ -277,6 +477,7 @@ function JobDetails() {
                                         {job.company}
                                     </h1>
 
+
                                     <h2>
                                         {job.role}
                                     </h2>
@@ -290,16 +491,23 @@ function JobDetails() {
                     </div>
 
 
-                    {/* DETAILS */}
+                    {/* =========================
+                       DETAILS GRID
+                    ========================== */}
 
                     <div className="details-grid">
 
 
-                        {/* STATUS */}
+                        {/* =====================
+                           STATUS
+                        ====================== */}
 
                         <div className="detail-item">
 
-                            <h4>Status</h4>
+                            <h4>
+                                Status
+                            </h4>
+
 
                             {editing ? (
 
@@ -341,7 +549,9 @@ function JobDetails() {
                         </div>
 
 
-                        {/* APPLICATION DATE */}
+                        {/* =====================
+                           APPLICATION DATE
+                        ====================== */}
 
                         <div className="detail-item">
 
@@ -349,12 +559,15 @@ function JobDetails() {
                                 Applied On
                             </h4>
 
+
                             <p>
 
                                 {job.createdAt
+
                                     ? new Date(
                                         job.createdAt
                                     ).toLocaleDateString()
+
                                     : "Not Available"}
 
                             </p>
@@ -362,13 +575,16 @@ function JobDetails() {
                         </div>
 
 
-                        {/* INTERVIEW DATE */}
+                        {/* =====================
+                           INTERVIEW DATE
+                        ====================== */}
 
                         <div className="detail-item">
 
                             <h4>
                                 Interview Date
                             </h4>
+
 
                             {editing ? (
 
@@ -389,9 +605,11 @@ function JobDetails() {
                                 <p>
 
                                     {job.interviewDate
+
                                         ? new Date(
                                             job.interviewDate
                                         ).toLocaleDateString()
+
                                         : "Not Scheduled"}
 
                                 </p>
@@ -401,13 +619,16 @@ function JobDetails() {
                         </div>
 
 
-                        {/* JOB ID */}
+                        {/* =====================
+                           JOB ID
+                        ====================== */}
 
                         <div className="detail-item">
 
                             <h4>
                                 Job ID
                             </h4>
+
 
                             <p>
                                 {job._id}
@@ -416,93 +637,289 @@ function JobDetails() {
                         </div>
 
 
-                        {/* NOTES */}
+                        {/* =====================
+                           NOTES
+                        ====================== */}
 
-                        <div className="detail-item">
-<label className="notes-label">
+                        <div className="detail-item notes-card">
 
-    Notes
+                            <h4>
+                                Notes
+                            </h4>
 
-</label>
 
-                            {editing ? (
+                            <p className="notes-preview-text">
 
-                                <textarea
-                                 className="job-notes-input"
-                                    value={notes}
-                                    onChange={(e) =>
-                                        setNotes(
-                                            e.target.value
-                                        )
-                                    }
-                                    placeholder="Add notes about this application..."
-                                />
+                                {notes
 
-                            ) : (
+                                    ? "Your application notes are available."
 
-                                <p>
+                                    : "No notes added yet."}
 
-                                    {job.notes ||
-                                        "No notes added yet."}
+                            </p>
 
-                                </p>
 
-                            )}
+                            <button
+                                type="button"
+                                className="check-notes-btn"
+                                onClick={
+                                    openNotesModal
+                                }
+                            >
+
+                                {editing
+
+                                    ? notes
+                                        ? "✏ Edit Notes"
+                                        : "✏ Add Notes"
+
+                                    : "📖 Check Notes"}
+
+                            </button>
 
                         </div>
 
+
                     </div>
 
 
-                    {/* BUTTONS */}
+                    {/* =========================
+                       NOTEBOOK MODAL
+                    ========================== */}
 
-                    <div className="details-buttons">
+                    {notesModalOpen && (
 
-                        {editing ? (
+                        <div
+                            className="notes-modal-overlay"
+                            onClick={
+                                closeNotesModal
+                            }
+                        >
 
-                            <>
-
-                                <button
-                                    className="save-btn"
-                                    onClick={handleSave}
-                                    disabled={saving}
-                                >
-
-                                    {saving
-                                        ? "Saving..."
-                                        : "Save"}
-
-                                </button>
-
-
-                                <button
-                                    className="cancel-btn"
-                                    onClick={() =>
-                                        setEditing(false)
-                                    }
-                                    disabled={saving}
-                                >
-                                    Cancel
-                                </button>
-
-                            </>
-
-                        ) : (
-
-                            <button
-                                className="edit-btn"
-                                onClick={() =>
-                                    setEditing(true)
+                            <div
+                                className="notes-modal"
+                                onClick={(e) =>
+                                    e.stopPropagation()
                                 }
                             >
-                                Edit Job
-                            </button>
 
-                        )}
 
-                    </div>
+                                {/* =====================
+                                   NOTEBOOK HEADER
+                                ====================== */}
+
+                                <div
+                                    className="notes-modal-header"
+                                >
+
+                                    <div>
+
+                                        <span className="notes-modal-label">
+                                            APPLICATION NOTEBOOK
+                                        </span>
+
+
+                                        <h2>
+
+                                            {editing
+
+                                                ? "Write your notes"
+
+                                                : "Your Notes"}
+
+                                        </h2>
+
+
+                                        <p>
+                                            {job.company}
+                                            {" • "}
+                                            {job.role}
+                                        </p>
+
+                                    </div>
+
+
+                                    <button
+                                        type="button"
+                                        className="notes-close-btn"
+                                        onClick={
+                                            closeNotesModal
+                                        }
+                                        aria-label="Close notes"
+                                    >
+                                        ✕
+                                    </button>
+
+                                </div>
+
+
+                                {/* =====================
+                                   NOTEBOOK PAPER
+                                ====================== */}
+
+                                <div
+                                    className="notebook-paper"
+                                >
+
+                                    {editing ? (
+
+                                        <textarea
+                                            value={
+                                                notesDraft
+                                            }
+                                            onChange={(e) =>
+                                                setNotesDraft(
+                                                    e.target.value
+                                                )
+                                            }
+                                            placeholder="Write anything you want to remember about this application..."
+                                        />
+
+                                    ) : (
+
+                                        <div
+                                            className="saved-notes-content"
+                                        >
+
+                                            {notes ? (
+
+                                                notes
+                                                    .split("\n")
+                                                    .map(
+                                                        (
+                                                            line,
+                                                            index
+                                                        ) => (
+
+                                                            <p
+                                                                key={
+                                                                    index
+                                                                }
+                                                            >
+
+                                                                {line ||
+                                                                    "\u00A0"}
+
+                                                            </p>
+
+                                                        )
+                                                    )
+
+                                            ) : (
+
+                                                <p
+                                                    className="empty-notes"
+                                                >
+                                                    No notes have been
+                                                    added yet.
+                                                </p>
+
+                                            )}
+
+                                        </div>
+
+                                    )}
+
+                                </div>
+
+
+                                {/* =====================
+                                   NOTEBOOK ACTIONS
+                                ====================== */}
+
+                                <div
+                                    className="notes-modal-actions"
+                                >
+
+                                    {editing ? (
+
+                                        <>
+
+                                            <button
+                                                type="button"
+                                                className="notes-cancel-btn"
+                                                onClick={
+                                                    closeNotesModal
+                                                }
+                                            >
+                                                Cancel
+                                            </button>
+
+
+                                            <button
+                                                type="button"
+                                                className="notes-save-btn"
+                                                onClick={
+                                                    saveNotesDraft
+                                                }
+                                            >
+                                                Done
+                                            </button>
+
+                                        </>
+
+                                    ) : (
+
+                                        <button
+                                            type="button"
+                                            className="notes-save-btn"
+                                            onClick={
+                                                closeNotesModal
+                                            }
+                                        >
+                                            Close Notebook
+                                        </button>
+
+                                    )}
+
+                                </div>
+
+
+                            </div>
+
+                        </div>
+
+                    )}
+
 
                 </div>
+
+
+                {/* =========================
+                   EDIT / SAVE JOB
+                ========================== */}
+
+                {editing ? (
+
+                    <button
+                        className="edit-job-btn"
+                        onClick={
+                            handleSave
+                        }
+                        disabled={
+                            saving
+                        }
+                    >
+
+                        {saving
+                            ? "Saving..."
+                            : "Save Job"}
+
+                    </button>
+
+                ) : (
+
+                    <button
+                        className="edit-job-btn"
+                        onClick={() =>
+                            setEditing(true)
+                        }
+                    >
+                        Edit Job
+                    </button>
+
+                )}
+
 
             </div>
 
@@ -512,4 +929,6 @@ function JobDetails() {
 
 }
 
+
 export default JobDetails;
+

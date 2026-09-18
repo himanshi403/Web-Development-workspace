@@ -11,6 +11,7 @@ import SignUp from "./pages/SignUp";
 import Dashboard from "./pages/Dashboard";
 import Profile from "./pages/Profile";
 import Settings from "./pages/Settings";
+import ResetPassword from "./pages/ResetPassword";
 
 import {
     BrowserRouter,
@@ -643,6 +644,11 @@ useEffect(() => {
                     path="/job/:id"
                     element={<JobDetails />}
                 />
+
+                <Route
+    path="/reset-password/:token"
+    element={<ResetPassword />}
+/>
 
 
                 {/* 404 */}

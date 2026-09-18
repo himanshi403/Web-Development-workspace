@@ -8,7 +8,9 @@ import {
     googleAuth,
     getMe,
     updateProfile,
-    testAuth
+    testAuth,
+    forgotPassword,
+    resetPassword
 
 } from "../controllers/authController.js";
 
@@ -25,6 +27,8 @@ import {
 
 
 const router = express.Router();
+
+
 
 
 router.get("/test", testAuth);
@@ -67,6 +71,17 @@ router.post(
 router.post(
     "/google",
     googleAuth
+);
+
+router.post(
+    "/forgot-password",
+    forgotPassword
+);
+
+
+router.post(
+    "/reset-password/:token",
+    resetPassword
 );
 
 

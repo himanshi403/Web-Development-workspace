@@ -1,4 +1,4 @@
-import React, {useState,useEffect} from 'react';
+import React, {useState,useEffect} from "react";
 
 
 import Navbar from "../components/Navbar";
@@ -62,6 +62,39 @@ exportJobs
     const [loading, setLoading] = useState(true);
 
     const filteredJobs = jobs;
+
+    const [user, setUser] = useState(() => {
+    try {
+        const storedUser = localStorage.getItem("user");
+        return storedUser ? JSON.parse(storedUser) : null;
+    } catch {
+        return null;
+    }
+});
+
+useEffect(() => {
+    const updateUser = () => {
+        try {
+            const storedUser = localStorage.getItem("user");
+            setUser(
+                storedUser
+                    ? JSON.parse(storedUser)
+                    : null
+            );
+        } catch {
+            setUser(null);
+        }
+    };
+
+    window.addEventListener("authChange", updateUser);
+
+    return () => {
+        window.removeEventListener(
+            "authChange",
+            updateUser
+        );
+    };
+}, []);
   
   
 useEffect(() => {
@@ -135,7 +168,11 @@ if(loading){
 
 <p className="hero-subtitle">
 
-Welcome back, <strong>Himanshi</strong> 👋
+Welcome back,{" "}
+<strong>
+    {user?.name || "there"}
+</strong>{" "}
+👋
 
 <br />
 
