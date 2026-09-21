@@ -22,7 +22,7 @@ const app = express();
 app.use(cors({
     origin:[
          "http://localhost:5173",
-         "https://job-application-tracker-ae3b.onrender.com"
+         "https://job-tracker-frontend-k8is.onrender.com"
     ],
     credentials: true
 }));

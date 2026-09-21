@@ -12,7 +12,7 @@
   "dependencies": {
     "@react-oauth/google": "^0.13.5",
     "axios": "^1.19.0",
-    "nodemailer": "^10.0.9",
+    "nodemailer": "^10.0.10",
     "react": "^19.2.7",
     "react-calendar": "^6.0.1",
     "react-dom": "^19.2.7",
