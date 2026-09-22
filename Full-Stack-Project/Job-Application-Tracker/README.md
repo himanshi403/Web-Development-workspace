@@ -1,16 +1,75 @@
-# React + Vite
+# Job Application Tracker
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A full-stack web application designed to help users manage and track their job applications in one place.
 
-Currently, two official plugins are available:
+## Live Demo
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+[Job Application Tracker](https://job-tracker-frontend-k8is.onrender.com)
 
-## React Compiler
+## Features
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- User registration and login
+- Google authentication
+- Add and manage job applications
+- Track application status
+- View and organize saved applications
+- Protected user-specific application data
 
-## Expanding the ESLint configuration
+## Tech Stack
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### Frontend
+
+- React.js
+- Vite
+- CSS
+
+### Backend
+
+- Node.js
+- Express.js
+- MongoDB
+
+### Authentication
+
+- JWT
+- Google Authentication
+
+### Deployment
+
+- Render
+
+## Project Structure
+
+```text
+Job-Application-Tracker/
+├── public/
+├── src/
+│   ├── api/
+│   ├── assets/
+│   ├── components/
+│   ├── pages/
+│   ├── services/
+│   └── styles/
+├── server/
+│   ├── controllers/
+│   ├── middleware/
+│   ├── models/
+│   ├── routes/
+│   ├── uploads/
+│   ├── utils/
+│   └── validators/
+└── app.js
+
+## Deployment
+
+The application is deployed using Render.
+
+- **Frontend:** React/Vite static site
+- **Backend:** Node.js/Express web service
+- **Database:** MongoDB
+
+## Author
+
+**Himanshi Prashar**
+
+Computer Science Engineering | Full Stack Development
